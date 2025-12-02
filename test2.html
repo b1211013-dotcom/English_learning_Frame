@@ -1,0 +1,81 @@
+<h2>文法測驗</h2>
+<form id="grammarQuiz">
+  <ol>
+    <li>She _____ to the store yesterday.<br>
+      <input type="radio" name="q1" value="0"> A. go<br>
+      <input type="radio" name="q1" value="1"> B. went<br>
+      <input type="radio" name="q1" value="2"> C. goes<br>
+      <input type="radio" name="q1" value="3"> D. going<br>
+    </li>
+    <li>He _____ coffee every morning.<br>
+      <input type="radio" name="q2" value="0"> A. drink<br>
+      <input type="radio" name="q2" value="1"> B. drinks<br>
+      <input type="radio" name="q2" value="2"> C. drank<br>
+      <input type="radio" name="q2" value="3"> D. drinking<br>
+    </li>
+    <li>They _____ working on the project now.<br>
+      <input type="radio" name="q3" value="0"> A. is<br>
+      <input type="radio" name="q3" value="1"> B. are<br>
+      <input type="radio" name="q3" value="2"> C. was<br>
+      <input type="radio" name="q3" value="3"> D. be<br>
+    </li>
+    <li>We will meet _____ Monday.<br>
+      <input type="radio" name="q4" value="0"> A. in<br>
+      <input type="radio" name="q4" value="1"> B. at<br>
+      <input type="radio" name="q4" value="2"> C. on<br>
+      <input type="radio" name="q4" value="3"> D. by<br>
+    </li>
+    <li>He _____ a new car last week.<br>
+      <input type="radio" name="q5" value="0"> A. buys<br>
+      <input type="radio" name="q5" value="1"> B. buy<br>
+      <input type="radio" name="q5" value="2"> C. bought<br>
+      <input type="radio" name="q5" value="3"> D. buying<br>
+    </li>
+    <li>There _____ many people at the party.<br>
+      <input type="radio" name="q6" value="0"> A. is<br>
+      <input type="radio" name="q6" value="1"> B. are<br>
+      <input type="radio" name="q6" value="2"> C. was<br>
+      <input type="radio" name="q6" value="3"> D. be<br>
+    </li>
+    <li>She _____ English very well.<br>
+      <input type="radio" name="q7" value="0"> A. speak<br>
+      <input type="radio" name="q7" value="1"> B. speaks<br>
+      <input type="radio" name="q7" value="2"> C. spoke<br>
+      <input type="radio" name="q7" value="3"> D. speaking<br>
+    </li>
+    <li>I _____ to music when I study.<br>
+      <input type="radio" name="q8" value="0"> A. listen<br>
+      <input type="radio" name="q8" value="1"> B. listens<br>
+      <input type="radio" name="q8" value="2"> C. listening<br>
+      <input type="radio" name="q8" value="3"> D. listened<br>
+    </li>
+    <li>My brother _____ tall and strong.<br>
+      <input type="radio" name="q9" value="0"> A. are<br>
+      <input type="radio" name="q9" value="1"> B. is<br>
+      <input type="radio" name="q9" value="2"> C. be<br>
+      <input type="radio" name="q9" value="3"> D. am<br>
+    </li>
+    <li>She _____ her homework before dinner.<br>
+      <input type="radio" name="q10" value="0"> A. finish<br>
+      <input type="radio" name="q10" value="1"> B. finishes<br>
+      <input type="radio" name="q10" value="2"> C. finished<br>
+      <input type="radio" name="q10" value="3"> D. finishing<br>
+    </li>
+  </ol>
+  <button type="button" onclick="checkGrammar()">提交答案</button>
+</form>
+<div id="grammarResult"></div>
+
+<script>
+  const grammarAnswers = [1, 1, 1, 2, 2, 1, 1, 0, 1, 2];
+  function checkGrammar() {
+    let score = 0;
+    for (let i = 1; i <= 10; i++) {
+      const selected = document.querySelector(`input[name="q${i}"]:checked`);
+      if (selected && parseInt(selected.value) === grammarAnswers[i - 1]) {
+        score++;
+      }
+    }
+    document.getElementById("grammarResult").innerHTML = `<p>你答對了 ${score} 題，共 10 題。</p>`;
+  }
+</script>

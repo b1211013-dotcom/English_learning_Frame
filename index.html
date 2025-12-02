@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>TOEIC 550 數位學習網站</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+    nav {
+      background-color: #34495e;
+      display: flex;
+      justify-content: center;
+    }
+    nav a {
+      color: white;
+      padding: 14px 20px;
+      text-decoration: none;
+      display: block;
+    }
+    nav a:hover {
+      background-color: #1abc9c;
+    }
+    #content {
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TOEIC 550 數位學習網站</h1>
+  </header>
+  <nav>
+    <a href="test1.html" onclick="loadPage(event, 'test1.html')">字彙測驗</a>
+    <a href="test2.html" onclick="loadPage(event, 'test2.html')">文法測驗</a>
+    <a href="about.html" onclick="loadPage(event, 'about.html')">製作團隊</a>
+  </nav>
+  <div id="content">
+    <h2>歡迎來到 TOEIC 550 數位學習網站！</h2>
+    <p>請選擇上方選單開始學習。</p>
+  </div>
+
+  <script>
+    function loadPage(event, page) {
+      event.preventDefault();
+      fetch(page)
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('content').innerHTML = data;
+        })
+        .catch(error => {
+          document.getElementById('content').innerHTML = "<p>無法載入內容。</p>";
+        });
+    }
+  </script>
+</body>
+</html>
+
