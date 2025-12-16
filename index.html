@@ -2,139 +2,59 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<title>TOEIC 550 數位學習系統</title>
+<title>TOEIC 550 學習系統</title>
 
 <style>
-/* ===== 全域設定 ===== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", Arial, sans-serif;
-}
-
 body {
-  height: 100vh;
-  background: radial-gradient(circle at top, #0f2027, #020b14);
-  color: #e0f7ff;
-  overflow: hidden;
+  margin: 0;
+  font-family: Arial;
+  background: #0f2027;
 }
 
-/* ===== 科幻背景動畫 ===== */
-.background {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(transparent 95%, rgba(0,255,255,0.15) 96%),
-    linear-gradient(90deg, transparent 95%, rgba(0,255,255,0.15) 96%);
-  background-size: 40px 40px;
-  animation: gridMove 12s linear infinite;
-  opacity: 0.3;
-}
-
-@keyframes gridMove {
-  from { background-position: 0 0; }
-  to { background-position: 40px 40px; }
-}
-
-/* ===== 中央封面內容 ===== */
-.cover {
-  position: relative;
-  z-index: 2;
-  height: 100%;
+/* 上方選單 */
+nav {
   display: flex;
-  align-items: center;
   justify-content: center;
-  text-align: center;
+  background: linear-gradient(90deg, #00f2fe, #4facfe);
+  padding: 15px;
 }
-
-.card {
-  padding: 60px 80px;
-  border-radius: 16px;
-  background: rgba(0, 20, 30, 0.65);
-  box-shadow: 0 0 40px rgba(0, 255, 255, 0.3);
-  backdrop-filter: blur(6px);
-}
-
-/* ===== 標題 ===== */
-h1 {
-  font-size: 3rem;
-  letter-spacing: 4px;
-  color: #00f5ff;
-  text-shadow: 0 0 12px rgba(0,255,255,0.8);
-}
-
-.subtitle {
-  margin-top: 15px;
-  font-size: 1.2rem;
-  color: #b5f3ff;
-  letter-spacing: 2px;
-}
-
-/* ===== 分隔線 ===== */
-.line {
-  width: 120px;
-  height: 3px;
-  background: linear-gradient(to right, transparent, #00f5ff, transparent);
-  margin: 25px auto;
-}
-
-/* ===== 按鈕 ===== */
-.btn {
-  margin-top: 30px;
-  padding: 14px 36px;
-  font-size: 1.1rem;
-  border: 2px solid #00f5ff;
-  border-radius: 30px;
+nav button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  border: 2px solid #fff;
   background: transparent;
-  color: #00f5ff;
+  color: #fff;
+  border-radius: 30px;
   cursor: pointer;
-  letter-spacing: 2px;
-  transition: all 0.3s ease;
+}
+nav button:hover {
+  background: #fff;
+  color: #000;
 }
 
-.btn:hover {
-  background: #00f5ff;
-  color: #001a22;
-  box-shadow: 0 0 20px rgba(0,255,255,0.8);
-}
-
-/* ===== 底部科技文字 ===== */
-.footer {
-  position: absolute;
-  bottom: 20px;
+/* 框架 */
+iframe {
   width: 100%;
-  text-align: center;
-  font-size: 0.85rem;
-  color: #7ddfff;
-  opacity: 0.7;
+  height: calc(100vh - 80px);
+  border: none;
 }
 </style>
 </head>
 
 <body>
 
-<div class="background"></div>
+<nav>
+  <button onclick="load('test1.html')">字彙測驗</button>
+  <button onclick="load('test2.html')">文法測驗</button>
+  <button onclick="load('material1.html')">單字學習</button>
+  <button onclick="load('about.html')">製作團隊</button>
+</nav>
 
-<div class="cover">
-  <div class="card">
-    <h1>TOEIC 550</h1>
-    <div class="subtitle">DIGITAL LEARNING SYSTEM</div>
-    <div class="line"></div>
-    <p>字彙 · 文法 · 單字 · 測驗</p>
-
-    <button class="btn" onclick="enterSite()">START LEARNING</button>
-  </div>
-</div>
-
-<div class="footer">
-  © 2025 TOEIC E-Learning Platform
-</div>
+<iframe id="frame" src="material.html"></iframe>
 
 <script>
-function enterSite() {
-  // 之後可導向主框架頁
-  window.location.href = "home.html";
+function load(page) {
+  document.getElementById("frame").src = page;
 }
 </script>
 
