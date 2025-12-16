@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOEIC 550 核心單字測驗 (更新版)</title>
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --light-bg: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--light-bg);
+            color: #343a40;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        .question-block {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-label {
+            display: block;
+            padding: 12px 15px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .option-label:hover {
+            background-color: #e9ecef;
+            border-color: var(--primary-color);
+        }
+        
+        /* 隱藏原生 radio 按鈕 */
+        .option-input {
+            display: none;
+        }
+
+        /* 選中狀態 */
+        .option-input:checked + .option-label {
+            background-color: var(--primary-color);
+            color: #fff;
+            border-color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .controls {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        #submit-btn {
+            padding: 12px 30px;
+            font-size: 1.1em;
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #submit-btn:hover {
+            background-color: #218838;
+        }
+
+        #result {
+            margin-top: 40px;
+            padding: 20px;
+            border: 2px dashed var(--primary-color);
+            border-radius: 8px;
+            background-color: #f1f7fe;
+        }
+
+        #result h2 {
+            text-align: center;
+            color: var(--success-color);
+            margin-bottom: 20px;
+        }
+
+        .feedback-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .correct {
+            background-color: #d4edda; /* 淺綠 */
+            border: 1px solid var(--success-color);
+        }
+
+        .incorrect {
+            background-color: #f8d7da; /* 淺紅 */
+            border: 1px solid var(--danger-color);
+        }
+
+        .feedback-info {
+            font-size: 0.95em;
+            margin-top: 5px;
+        }
+
+        .correct-answer {
+            color: var(--success-color);
+            font-weight: bold;
+        }
+        
+        .meaning-explanation {
+            margin-top: 8px;
+            padding: 5px;
+            background-color: #fff;
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        /* 響應式調整 */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            #submit-btn {
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>TOEIC 550 核心單字測驗</h1>
+
+    <div id="quiz-container">
+        </div>
+
+    <div class="controls">
+        <button id="submit-btn">提交並查看分數 (15題)</button>
+    </div>
+
+    <div id="result" style="display: none;">
+        <h2>測驗結果</h2>
+        <div id="score-summary"></div>
+        <div id="feedback-list"></div>
+    </div>
+</div>
+
+<script>
+    // 根據使用者提供的新題目更新 quizData，並包含中文解釋 (meaning)
+    const quizData = [
+        {
+            id: 1,
+            word: "launch",
+            meaning: "發起；推出",
+            question: "The company plans to **____** a new marketing strategy next month.",
+            options: ["delay", "launch", "complain", "refuse"],
+            answer: "launch"
+        },
+        {
+            id: 2,
+            word: "complete",
+            meaning: "完成；填寫",
+            question: "Please **____** the form and return it by Friday.",
+            options: ["expect", "avoid", "complete", "remind"],
+            answer: "complete"
+        },
+        {
+            id: 3,
+            word: "guests",
+            meaning: "賓客；住客",
+            question: "The hotel offers free breakfast to all **____**.",
+            options: ["managers", "employees", "guests", "partners"],
+            answer: "guests"
+        },
+        {
+            id: 4,
+            word: "increased",
+            meaning: "增加；增長",
+            question: "Sales have **____** significantly since the new product was released.",
+            options: ["protected", "avoided", "described", "increased"],
+            answer: "increased"
+        },
+        {
+            id: 5,
+            word: "postponed",
+            meaning: "延期；推遲",
+            question: "The meeting was **____** because several members were absent.",
+            options: ["postponed", "confused", "damaged", "promised"],
+            answer: "postponed"
+        },
+        {
+            id: 6,
+            word: "opinions",
+            meaning: "意見；看法",
+            question: "Employees are encouraged to share their **____** during the discussion.",
+            options: ["profits", "schedules", "salaries", "opinions"],
+            answer: "opinions"
+        },
+        {
+            id: 7,
+            word: "central",
+            meaning: "中央的；主要的",
+            question: "The office is located in a very **____** area with convenient transportation.",
+            options: ["usual", "simple", "private", "central"],
+            answer: "central"
+        },
+        {
+            id: 8,
+            word: "confidential",
+            meaning: "機密的；秘密的",
+            question: "Please keep all customer information **____** and secure.",
+            options: ["available", "formal", "confidential", "temporary"],
+            answer: "confidential"
+        },
+        {
+            id: 9,
+            word: "efficient",
+            meaning: "有效率的",
+            question: "The manager praised the team for their **____** work.",
+            options: ["nervous", "careless", "ordinary", "efficient"],
+            answer: "efficient"
+        },
+        {
+            id: 10,
+            word: "basic",
+            meaning: "基礎的；基本的",
+            question: "The company provides **____** training for new staff members.",
+            options: ["rare", "personal", "equal", "basic"],
+            answer: "basic"
+        },
+        {
+            id: 11,
+            word: "detailed",
+            meaning: "詳細的；仔細的",
+            question: "The report contains **____** information about last year’s sales.",
+            options: ["silent", "flexible", "empty", "detailed"],
+            answer: "detailed"
+        },
+        {
+            id: 12,
+            word: "purchase",
+            meaning: "購買",
+            question: "Customers can **____** the product online or in the store.",
+            options: ["imagine", "repair", "publish", "purchase"],
+            answer: "purchase"
+        },
+        {
+            id: 13,
+            word: "increase",
+            meaning: "增加；增長 (名詞)",
+            question: "The airline announced a **____** in ticket prices.",
+            options: ["direction", "distance", "pressure", "increase"],
+            answer: "increase"
+        },
+        {
+            id: 14,
+            word: "carefully",
+            meaning: "小心地；謹慎地",
+            question: "Please read the instructions **____** before using the machine.",
+            options: ["suddenly", "widely", "closely", "carefully"],
+            answer: "carefully"
+        },
+        {
+            id: 15,
+            word: "affect",
+            meaning: "影響",
+            question: "The new policy will **____** all departments in the company.",
+            options: ["prevent", "depend", "affect", "reduce"],
+            answer: "affect"
+        }
+    ];
+
+    const quizContainer = document.getElementById('quiz-container');
+    const submitBtn = document.getElementById('submit-btn');
+    const resultDiv = document.getElementById('result');
+    const scoreSummary = document.getElementById('score-summary');
+    const feedbackList = document.getElementById('feedback-list');
+
+    // 渲染所有題目
+    function renderQuiz() {
+        quizData.forEach((question, index) => {
+            const block = document.createElement('div');
+            block.className = 'question-block';
+            // 使用 question.question 呈現題目
+            block.innerHTML = `
+                <div class="question-text">${question.id}. ${question.question.replace('____', '<strong>____</strong>')}</div>
+                <div class="options-group" id="q${question.id}">
+                    ${question.options.map(option => `
+                        <div>
+                            <input type="radio" id="q${question.id}-${option}" name="q${question.id}" class="option-input" value="${option}">
+                            <label for="q${question.id}-${option}" class="option-label">${option}</label>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            quizContainer.appendChild(block);
+        });
+    }
+
+    // 提交測驗並計算分數
+    function submitQuiz() {
+        let score = 0;
+        let unansweredCount = 0;
+        feedbackList.innerHTML = '';
+
+        const userAnswers = {};
+
+        quizData.forEach(question => {
+            const selectedOption = document.querySelector(`input[name="q${question.id}"]:checked`);
+            
+            if (!selectedOption) {
+                unansweredCount++;
+                userAnswers[question.id] = null;
+            } else {
+                const userAnswer = selectedOption.value;
+                userAnswers[question.id] = userAnswer;
+
+                if (userAnswer === question.answer) {
+                    score++;
+                }
+            }
+        });
+
+        // 檢查是否有未作答的題目
+        if (unansweredCount > 0) {
+            alert(`您還有 ${unansweredCount} 題未作答，請完成所有題目後再提交！`);
+            return;
+        }
+
+        // 隱藏測驗，顯示結果
+        quizContainer.style.display = 'none';
+        submitBtn.style.display = 'none';
+        resultDiv.style.display = 'block';
+        
+        // 顯示總結分數
+        scoreSummary.innerHTML = `
+            <h3>總分: ${score} / 15 題</h3>
+            <p style="font-size: 1.2em; color: ${score >= 10 ? 'var(--success-color)' : 'var(--danger-color)'};">
+                ${score >= 10 ? '表現優秀！請繼續保持！' : '請再加強核心單字，並仔細查看以下解析。'}
+            </p>
+        `;
+
+        // 顯示每題的詳細反饋 (包含中文解釋)
+        quizData.forEach(question => {
+            const userAnswer = userAnswers[question.id];
+            const isCorrect = (userAnswer === question.answer);
+            const feedbackClass = isCorrect ? 'correct' : 'incorrect';
+
+            const feedbackItem = document.createElement('div');
+            feedbackItem.className = `feedback-item ${feedbackClass}`;
+            feedbackItem.innerHTML = `
+                <p><strong>Q${question.id}. 題目:</strong> ${question.question.replace('____', '<strong>____</strong>')}</p>
+                <div class="feedback-info">
+                    <p>您的選擇: <strong>${userAnswer || '未作答'}</strong></p>
+                    <p class="correct-answer">正確答案: <strong>${question.answer}</strong></p>
+                    <div class="meaning-explanation">
+                        <strong>核心單字 & 中文解釋:</strong> ${question.answer} - **${question.meaning}**
+                    </div>
+                </div>
+            `;
+            feedbackList.appendChild(feedbackItem);
+        });
+    }
+
+    // 初始化
+    document.addEventListener('DOMContentLoaded', () => {
+        renderQuiz();
+        submitBtn.addEventListener('click', submitQuiz);
+    });
+
+</script>
+
+</body>
+</html>
