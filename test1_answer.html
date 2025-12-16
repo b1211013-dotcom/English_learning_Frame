@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>字彙測驗</title>
+  <style>
+    /* --- 樣式美化 (CSS) --- */
+    body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; background-color: #f4f7f6; }
+    h2 { color: #2C3E50; border-bottom: 2px solid #3498DB; padding-bottom: 10px; }
+    ol { counter-reset: item; padding-left: 0; }
+    li { 
+      margin-bottom: 25px; 
+      border: 1px solid #ddd; 
+      padding: 15px; 
+      border-radius: 8px; 
+      background-color: #ffffff;
+      list-style: none; /* 移除瀏覽器預設編號 */
+    }
+    li::before { 
+      content: counter(item) ". "; 
+      counter-increment: item; 
+      font-weight: bold; 
+      margin-right: 8px; 
+      color: #3498DB;
+    }
+    input[type="radio"] { margin-right: 5px; }
+    label { cursor: pointer; display: inline-block; margin-right: 20px; }
+    button { 
+      padding: 12px 25px; 
+      background-color: #2ECC71; /* 綠色按鈕 */
+      color: white; 
+      border: none; 
+      border-radius: 6px; 
+      cursor: pointer; 
+      font-size: 17px; 
+      margin-top: 15px;
+      transition: background-color 0.3s;
+    }
+    button:hover { background-color: #27AE60; }
+    #result { 
+      margin-top: 30px; 
+      padding: 20px; 
+      border: 2px solid #E74C3C; 
+      border-radius: 8px; 
+      font-size: 18px; 
+      background-color: #FFFDEE;
+      display: none; /* 預設隱藏 */
+    }
+    #result h3 { color: #E74C3C; margin-top: 0; }
+    .correct { background-color: #D4EDDA; color: #155724; padding: 3px 6px; border-radius: 4px; font-weight: bold; }
+    .incorrect { background-color: #F8D7DA; color: #721C24; padding: 3px 6px; border-radius: 4px; font-weight: bold; }
+  </style>
+</head>
+<body>
+<h2>字彙測驗 (Vocabulary Quiz)</h2>
+<form id="vocabQuiz">
+  <ol>
+    <li>The company plans to ____ a new marketing strategy next month.<br>
+      <label><input type="radio" name="q1" value="0"> A. delay</label>
+      <label><input type="radio" name="q1" value="1"> B. launch</label>
+      <label><input type="radio" name="q1" value="2"> C. complain</label>
+      <label><input type="radio" name="q1" value="3"> D. refuse</label>
+    </li>
+    <li>Please ____ the form and return it by Friday.<br>
+      <label><input type="radio" name="q2" value="0"> A. expect</label>
+      <label><input type="radio" name="q2" value="1"> B. avoid</label>
+      <label><input type="radio" name="q2" value="2"> C. complete</label>
+      <label><input type="radio" name="q2" value="3"> D. remind</label>
+    </li>
+    <li>The hotel offers free breakfast to all ____.<br>
+      <label><input type="radio" name="q3" value="0"> A. managers</label>
+      <label><input type="radio" name="q3" value="1"> B. employees</label>
+      <label><input type="radio" name="q3" value="2"> C. guests</label>
+      <label><input type="radio" name="q3" value="3"> D. partners</label>
+    </li>
+    <li>Sales have ____ significantly since the new product was released.<br>
+      <label><input type="radio" name="q4" value="0"> A. protected</label>
+      <label><input type="radio" name="q4" value="1"> B. avoided</label>
+      <label><input type="radio" name="q4" value="2"> C. described</label>
+      <label><input type="radio" name="q4" value="3"> D. increased</label>
+    </li>
+    <li>The meeting was ____ because several members were absent.<br>
+      <label><input type="radio" name="q5" value="0"> A. postponed</label>
+      <label><input type="radio" name="q5" value="1"> B. confused</label>
+      <label><input type="radio" name="q5" value="2"> C. damaged</label>
+      <label><input type="radio" name="q5" value="3"> D. promised</label>
+    </li>
+    <li>Employees are encouraged to share their ____ during the discussion.<br>
+      <label><input type="radio" name="q6" value="0"> A. profits</label>
+      <label><input type="radio" name="q6" value="1"> B. schedules</label>
+      <label><input type="radio" name="q6" value="2"> C. salaries</label>
+      <label><input type="radio" name="q6" value="3"> D. opinions</label>
+    </li>
+    <li>The office is located in a very ____ area with convenient transportation.<br>
+      <label><input type="radio" name="q7" value="0"> A. usual</label>
+      <label><input type="radio" name="q7" value="1"> B. simple</label>
+      <label><input type="radio" name="q7" value="2"> C. private</label>
+      <label><input type="radio" name="q7" value="3"> D. central</label>
+    </li>
+    <li>Please keep all customer information ____ and secure.<br>
+      <label><input type="radio" name="q8" value="0"> A. available</label>
+      <label><input type="radio" name="q8" value="1"> B. formal</label>
+      <label><input type="radio" name="q8" value="2"> C. confidential</label>
+      <label><input type="radio" name="q8" value="3"> D. temporary</label>
+    </li>
+    <li>The manager praised the team for their ____ work.<br>
+      <label><input type="radio" name="q9" value="0"> A. nervous</label>
+      <label><input type="radio" name="q9" value="1"> B. careless</label>
+      <label><input type="radio" name="q9" value="2"> C. ordinary</label>
+      <label><input type="radio" name="q9" value="3"> D. efficient</label>
+    </li>
+    <li>The company provides ____ training for new staff members.<br>
+      <label><input type="radio" name="q10" value="0"> A. rare</label>
+      <label><input type="radio" name="q10" value="1"> B. personal</label>
+      <label><input type="radio" name="q10" value="2"> C. equal</label>
+      <label><input type="radio" name="q10" value="3"> D. basic</label>
+    </li>
+    <li>The report contains ____ information about last year’s sales.<br>
+      <label><input type="radio" name="q11" value="0"> A. silent</label>
+      <label><input type="radio" name="q11" value="1"> B. flexible</label>
+      <label><input type="radio" name="q11" value="2"> C. empty</label>
+      <label><input type="radio" name="q11" value="3"> D. detailed</label>
+    </li>
+    <li>Customers can ____ the product online or in the store.<br>
+      <label><input type="radio" name="q12" value="0"> A. imagine</label>
+      <label><input type="radio" name="q12" value="1"> B. repair</label>
+      <label><input type="radio" name="q12" value="2"> C. publish</label>
+      <label><input type="radio" name="q12" value="3"> D. purchase</label>
+    </li>
+    <li>The airline announced a ____ in ticket prices.<br>
+      <label><input type="radio" name="q13" value="0"> A. direction</label>
+      <label><input type="radio" name="q13" value="1"> B. distance</label>
+      <label><input type="radio" name="q13" value="2"> C. pressure</label>
+      <label><input type="radio" name="q13" value="3"> D. increase</label>
+    </li>
+    <li>Please read the instructions ____ before using the machine.<br>
+      <label><input type="radio" name="q14" value="0"> A. suddenly</label>
+      <label><input type="radio" name="q14" value="1"> B. widely</label>
+      <label><input type="radio" name="q14" value="2"> C. closely</label>
+      <label><input type="radio" name="q14" value="3"> D. carefully</label>
+    </li>
+    <li>The new policy will ____ all departments in the company.<br>
+      <label><input type="radio" name="q15" value="0"> A. prevent</label>
+      <label><input type="radio" name="q15" value="1"> B. depend</label>
+      <label><input type="radio" name="q15" value="2"> C. affect</label>
+      <label><input type="radio" name="q15" value="3"> D. reduce</label>
+    </li>
+  </ol>
+    <button type="button" onclick="checkAnswers()">提交答案並查看結果</button>
+</form>
+<div id="result"></div>
+
+<script>
+  /* --- JavaScript 答案邏輯 (確保這段程式碼被載入) --- */
+
+  // 1. 正確答案索引 (0=A, 1=B, 2=C, 3=D)
+  const answers = [
+    1, // q1: launch
+    2, // q2: complete
+    2, // q3: guests
+    3, // q4: increased
+    0, // q5: postponed
+    3, // q6: opinions
+    3, // q7: central
+    2, // q8: confidential
+    3, // q9: efficient
+    3, // q10: basic
+    3, // q11: detailed
+    3, // q12: purchase
+    3, // q13: increase
+    3, // q14: carefully
+    2  // q15: affect
+  ];
+
+  // 2. 所有選項的文字內容 (用於在提交後顯示)
+  const options = [
+    ["delay","launch","complain","refuse"],
+    ["expect","avoid","complete","remind"],
+    ["managers","employees","guests","partners"],
+    ["protected","avoided","described","increased"],
+    ["postponed","confused","damaged","promised"],
+    ["profits","schedules","salaries","opinions"],
+    ["usual","simple","private","central"],
+    ["available","formal","confidential","temporary"],
+    ["nervous","careless","ordinary","efficient"],
+    ["rare","personal","equal","basic"],
+    ["silent", "flexible", "empty", "detailed"],
+    ["imagine","repair","publish","purchase"],
+    ["direction","distance","pressure","increase"],
+    ["suddenly","widely","closely","carefully"],
+    ["prevent","depend","affect","reduce"]
+  ];
+
+  /** 這是定義 checkAnswers 函式的區塊 **/
+  function checkAnswers() {
+    const form = document.getElementById('vocabQuiz');
+    const resultDiv = document.getElementById('result');
+    let score = 0;
+    const totalQuestions = answers.length;
+    let resultHTML = '<h3>測驗結果</h3><ul>';
+
+    for (let i = 1; i <= totalQuestions; i++) {
+      const questionName = 'q' + i;
+      
+      // 獲取使用者選擇的選項值
+      const selectedElement = form.elements[questionName];
+      let selectedOption = "";
+      
+      if (selectedElement && selectedElement.length > 0) {
+        for (let j = 0; j < selectedElement.length; j++) {
+          if (selectedElement[j].checked) {
+            selectedOption = selectedElement[j].value;
+            break;
+          }
+        }
+      }
+      
+      const correctAnswerIndex = answers[i - 1];
+      const correctAnswerText = options[i - 1][correctAnswerIndex];
+      let isCorrect = false;
+      
+      // 檢查答案是否正確
+      if (selectedOption !== "" && parseInt(selectedOption) === correctAnswerIndex) {
+        score++;
+        isCorrect = true;
+      }
+
+      // 產生結果文字
+      const statusClass = isCorrect ? 'correct' : 'incorrect';
+      let statusText = isCorrect ? '✅ 正確' : '❌ 錯誤';
+      
+      if (selectedOption === "") {
+        statusText = '⚠️ 未作答';
+      } else if (!isCorrect) {
+        const userSelectedText = options[i - 1][parseInt(selectedOption)];
+        statusText += ` (您選了: ${userSelectedText})`;
+      }
+
+      resultHTML += `<li>第 ${i} 題: <span class="${statusClass}">${statusText}</span>。 正確答案是: **${correctAnswerText}**</li>`;
+    }
+
+    resultHTML += '</ul>';
+    resultHTML += `<p style="font-size: 24px;">🎉 總分: **${score} / ${totalQuestions}**</p>`;
+
+    resultDiv.innerHTML = resultHTML;
+    resultDiv.style.display = 'block'; // 讓結果區塊顯示出來
+    resultDiv.style.borderColor = score === totalQuestions ? '#2ECC71' : '#E74C3C';
+    
+    // 捲動到結果區 (確保用戶看到結果)
+    resultDiv.scrollIntoView({ behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
