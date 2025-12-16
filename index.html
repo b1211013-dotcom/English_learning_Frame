@@ -1,45 +1,113 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <title>TOEIC 550 數位學習網站</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    header { background-color: #2c3e50; color: white; padding: 15px; text-align: center; }
-    nav { background-color: #34495e; display: flex; justify-content: center; flex-wrap: wrap; }
-    nav a { color: white; padding: 14px 20px; text-decoration: none; display: block; }
-    nav a:hover { background-color: #1abc9c; }
-    #content { padding: 20px; }
-  </style>
+  <meta charset="UTF-8">
+  <title>TOEIC 550 // 數據學習終端</title>
+  <style>
+    /* 核心：深色背景, 霓虹色 */
+    body {
+      font-family: 'Arial', sans-serif; /* 實際應用中可使用科幻字體如 'Orbitron' */
+      background-color: #0d1a26; /* 極深的藍黑色 */
+      color: #c4f1f9; /* 淺青色文本 */
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    /* 標頭：數據矩陣 */
+    header {
+      background-color: #08121a;
+      padding: 30px 15px;
+      text-align: center;
+      border-bottom: 3px solid #00fff2; /* 霓虹光邊 */
+      box-shadow: 0 0 15px #00fff2;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+      color: #00fff2;
+      text-shadow: 0 0 8px #00fff2, 0 0 15px #00aaff; /* 霓虹發光效果 */
+      letter-spacing: 5px;
+    }
+
+    /* 導覽列：命令列介面 */
+    nav {
+      background-color: #1a3249; /* 比背景稍亮的深藍色 */
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 5px 0;
+    }
+    nav a {
+      color: #80c4e7; /* 略微柔和的藍色 */
+      padding: 12px 25px;
+      text-decoration: none;
+      display: block;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+      transition: all 0.3s ease;
+    }
+    nav a:hover {
+      background-color: #0d1a26;
+      color: #00fff2; /* 強烈的霓虹亮光 */
+      border: 1px solid #00fff2;
+      box-shadow: 0 0 10px #00fff2;
+      transform: scale(1.05);
+    }
+
+    /* 內容區塊：資料視窗 */
+    #content {
+      padding: 30px;
+      margin: 20px auto;
+      max-width: 900px;
+      background-color: #162a3f; /* 內容區塊底色 */
+      border: 2px solid #00aaff;
+      box-shadow: 0 0 20px rgba(0, 170, 255, 0.5); /* 邊緣發光 */
+      border-radius: 8px;
+      text-align: center;
+    }
+    #content h2 {
+      color: #00fff2;
+      border-bottom: 2px dashed #00aaff;
+      padding-bottom: 10px;
+      margin-top: 0;
+      text-shadow: 0 0 5px #00fff2;
+    }
+    #content p {
+      line-height: 1.8;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>TOEIC 550 數位學習網站</h1>
-  </header>
-  <nav>
-    <a href="test1.html" onclick="loadPage(event, 'test1.html')">字彙測驗</a>
-    <a href="test2.html" onclick="loadPage(event, 'test2.html')">文法測驗</a>
-    <a href="material1.html" onclick="loadPage(event, 'material1.html')">單字</a>
-    <a href="about.html" onclick="loadPage(event, 'about.html')">製作團隊</a>
-  </nav>
-  <div id="content">
-    <h2>歡迎來到 TOEIC 550 數位學習網站！</h2>
-    <p>請選擇上方選單開始學習。</p>
-  </div>
+  <header>
+    <h1>TOEIC 550 // 數據學習終端</h1>
+  </header>
+  <nav>
+    <a href="test1.html" onclick="loadPage(event, 'test1.html')">:: 語彙矩陣測驗</a>
+    <a href="test2.html" onclick="loadPage(event, 'test2.html')">:: 邏輯結構分析</a>
+    <a href="material1.html" onclick="loadPage(event, 'material1.html')">:: 核心數據單字</a>
+    <a href="about.html" onclick="loadPage(event, 'about.html')">:: 終端維護資訊</a>
+  </nav>
+  <div id="content">
+    <h2><< 系統啟動 >></h2>
+    <p>歡迎來到數據學習終端。請選擇上方命令列選項，開始你的知識整合任務。</p>
+  </div>
 
-  <script>
-    function loadPage(event, page) {
-      event.preventDefault();
-      fetch(page)
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById('content').innerHTML = data;
-        })
-        .catch(error => {
-          document.getElementById('content').innerHTML = "<p>無法載入內容。</p>";
-        });
-    }
-  </script>
+  <script>
+    // JavaScript 保持不變，因為功能與風格無關
+    function loadPage(event, page) {
+      event.preventDefault();
+      document.getElementById('content').innerHTML = "<h2><< 載入中...請稍候 >></h2><p>數據流正在匯集至終端機...</p>"; // 增加載入提示
+
+      fetch(page)
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('content').innerHTML = data;
+        })
+        .catch(error => {
+          document.getElementById('content').innerHTML = "<h2><< 錯誤：數據流中斷 >></h2><p>無法連線至指定的學習模組 ('" + page + "')。</p>";
+        });
+    }
+  </script>
 </body>
 </html>
-
