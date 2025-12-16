@@ -1,69 +1,102 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8">
-<title>TOEIC 550 數位學習網站</title>
-<style>
-body {
-  margin: 0;
-  font-family: "Segoe UI", Arial;
-  background: radial-gradient(circle at top, #0f2027, #203a43, #000);
-  color: #e0f7fa;
-}
-
-/* 上方選單 */
-nav {
-  display: flex;
-  justify-content: center;
-  background: linear-gradient(90deg, #00f2fe, #4facfe);
-  padding: 15px;
-  box-shadow: 0 0 15px #00f2fe;
-}
-
-nav button {
-  background: transparent;
-  border: 2px solid #fff;
-  color: #fff;
-  padding: 10px 20px;
-  margin: 0 10px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 30px;
-  transition: 0.3s;
-}
-
-nav button:hover {
-  background: #fff;
-  color: #000;
-}
-
-/* 框架 */
-iframe {
-  width: 100%;
-  height: calc(100vh - 80px);
-  border: none;
-  background: #000;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>TOEIC 學習框架 // 數位進化版</title>
+  <style>
+    :root {
+      --color-primary: #1e3a8a;
+      --color-secondary: #059669;
+      --color-background: #f0f4f8;
+      --color-card: #ffffff;
+      --color-text-dark: #334155;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0; padding: 0;
+      background-color: var(--color-background);
+      color: var(--color-text-dark);
+      line-height: 1.6;
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+    header {
+      background-color: var(--color-primary);
+      color: white; padding: 25px 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    header h1 { margin: 0; font-size: 1.75em; font-weight: 600; letter-spacing: 1px; }
+    nav {
+      background-color: #3b82f6;
+      display: flex; justify-content: center; flex-wrap: wrap;
+      position: sticky; top: 0; z-index: 1000;
+    }
+    nav a {
+      color: white; padding: 14px 25px; text-decoration: none;
+      font-weight: 500; transition: background-color 0.3s ease, transform 0.2s ease;
+      border-left: 1px solid rgba(255,255,255,0.1);
+    }
+    nav a:first-child { border-left: none; }
+    nav a:hover { background-color: var(--color-secondary); transform: scale(1.02); }
+    #content {
+      padding: 40px; margin: 30px auto; max-width: 900px;
+      background-color: var(--color-card);
+      border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border-top: 5px solid var(--color-secondary);
+    }
+    #content h2 {
+      color: var(--color-primary); font-size: 1.8em;
+      border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;
+      margin-top: 0; margin-bottom: 25px;
+    }
+    .cta-button {
+      display: inline-block; background-color: var(--color-secondary); color: white;
+      padding: 12px 25px; text-decoration: none; border-radius: 6px;
+      font-weight: bold; margin-top: 20px; transition: background-color 0.3s;
+    }
+    .cta-button:hover { background-color: #047857; }
+  </style>
 </head>
-
 <body>
+  <header>
+    <div class="container" style="text-align: center;">
+      <h1>TOEIC 550 數位學習框架</h1>
+    </div>
+  </header>
+  
+  <nav>
+    <a href="test1.html" onclick="loadPage(event, 'test1.html')">詞彙訓練模組</a>
+    <a href="test2.html" onclick="loadPage(event, 'test2.html')">文法核心數據</a>
+    <a href="material1.html" onclick="loadPage(event, 'material1.html')">單字</a>
+    <a href="about.html" onclick="loadPage(event, 'about.html')">系統維護資訊</a>
+  </nav>
+  
+  <div id="content" class="container">
+    <h2>🎉 歡迎登入學習介面</h2>
+    <p>本系統專為提升您的 TOEIC 550 分數而設計，提供結構化、高效的學習路徑。</p>
+    <p>請選擇上方的任一模組，開始您的知識同步任務！</p>
+    <a href="test1.html" onclick="loadPage(event, 'test1.html')" class="cta-button">啟動學習模式</a>
+  </div>
 
-<nav>
-  <button onclick="loadPage('test1.html')">📝 字彙測驗</button>
-  <button onclick="loadPage('test2.html')">📐 文法測驗</button>
-  <button onclick="loadPage('material1.html')">📘 單字</button>
-  <button onclick="loadPage('about.html')">👥 製作團隊</button>
-</nav>
-
-<!-- 預設顯示科幻風格封面 -->
-<iframe id="contentFrame" src="home.html"></iframe>
-
-<script>
-function loadPage(page) {
-  document.getElementById("contentFrame").src = page;
-}
-</script>
-
+  <script>
+    function loadPage(event, page) {
+      event.preventDefault();
+      document.getElementById('content').innerHTML =
+        "<h2>系統正在載入中...</h2><p>請稍候，正在同步學習資料。</p>"; 
+      fetch(page)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('無法找到檔案或連線失敗 (Status: ' + response.status + ')');
+          }
+          return response.text();
+        })
+        .then(data => {
+          document.getElementById('content').innerHTML = data;
+        })
+        .catch(error => {
+          document.getElementById('content').innerHTML =
+            "<h2>⚠️ 資料載入錯誤</h2><p>錯誤訊息: " + error.message + "</p><p>請確認伺服器上的檔案路徑是否正確。</p>";
+        });
+    }
+  </script>
 </body>
 </html>
