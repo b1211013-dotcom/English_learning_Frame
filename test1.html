@@ -50,88 +50,6 @@
     .correct { background-color: #D4EDDA; color: #155724; padding: 3px 6px; border-radius: 4px; font-weight: bold; }
     .incorrect { background-color: #F8D7DA; color: #721C24; padding: 3px 6px; border-radius: 4px; font-weight: bold; }
   </style>
-
-    <script>
-    // 1. 正確答案索引 (0=A, 1=B, 2=C, 3=D)
-    const answers = [
-      1, 2, 2, 3, 0, 3, 3, 2, 3, 3, 3, 3, 3, 3, 2
-    ];
-
-    // 2. 所有選項的文字內容 (用於在提交後顯示)
-    const options = [
-      ["delay","launch","complain","refuse"],
-      ["expect","avoid","complete","remind"],
-      ["managers","employees","guests","partners"],
-      ["protected","avoided","described","increased"],
-      ["postponed","confused","damaged","promised"],
-      ["profits","schedules","salaries","opinions"],
-      ["usual","simple","private","central"],
-      ["available","formal","confidential","temporary"],
-      ["nervous","careless","ordinary","efficient"],
-      ["rare","personal","equal","basic"],
-      ["silent", "flexible", "empty", "detailed"],
-      ["imagine","repair","publish","purchase"],
-      ["direction","distance","pressure","increase"],
-      ["suddenly","widely","closely","carefully"],
-      ["prevent","depend","affect","reduce"]
-    ];
-
-    /** 這是計算答案的函式 **/
-    function checkAnswers() {
-      const form = document.getElementById('vocabQuiz');
-      const resultDiv = document.getElementById('result');
-      let score = 0;
-      const totalQuestions = answers.length;
-      let resultHTML = '<h3>測驗結果</h3><ul>';
-
-      for (let i = 1; i <= totalQuestions; i++) {
-        const questionName = 'q' + i;
-        
-        const selectedElement = form.elements[questionName];
-        let selectedOption = "";
-        
-        if (selectedElement && selectedElement.length > 0) {
-          for (let j = 0; j < selectedElement.length; j++) {
-            if (selectedElement[j].checked) {
-              selectedOption = selectedElement[j].value;
-              break;
-            }
-          }
-        }
-        
-        const correctAnswerIndex = answers[i - 1];
-        const correctAnswerText = options[i - 1][correctAnswerIndex];
-        let isCorrect = false;
-        
-        if (selectedOption !== "" && parseInt(selectedOption) === correctAnswerIndex) {
-          score++;
-          isCorrect = true;
-        }
-
-        const statusClass = isCorrect ? 'correct' : 'incorrect';
-        let statusText = isCorrect ? '✅ 正確' : '❌ 錯誤';
-        
-        if (selectedOption === "") {
-          statusText = '⚠️ 未作答';
-        } else if (!isCorrect) {
-          const userSelectedText = options[i - 1][parseInt(selectedOption)];
-          statusText += ` (您選了: ${userSelectedText})`;
-        }
-
-        resultHTML += `<li>第 ${i} 題: <span class="${statusClass}">${statusText}</span>。 正確答案是: **${correctAnswerText}**</li>`;
-      }
-
-      resultHTML += '</ul>';
-      resultHTML += `<p style="font-size: 24px;">🎉 總分: **${score} / ${totalQuestions}**</p>`;
-
-      resultDiv.innerHTML = resultHTML;
-      resultDiv.style.display = 'block';
-      resultDiv.style.borderColor = score === totalQuestions ? '#2ECC71' : '#E74C3C';
-      
-      // 捲動到結果區
-      resultDiv.scrollIntoView({ behavior: 'smooth' });
-    }
-  </script>
 </head>
 <body>
 <h2>字彙測驗</h2>
@@ -228,8 +146,99 @@
       <label><input type="radio" name="q15" value="3"> D. reduce</label>
     </li>
   </ol>
-    <button type="button" onclick="checkAnswers()">提交答案並查看結果</button> 
+        <button type="button">提交答案並查看結果</button> 
 </form>
 <div id="result"></div>
+
+<script>
+    // 1. 正確答案索引 (0=A, 1=B, 2=C, 3=D)
+    const answers = [
+      1, 2, 2, 3, 0, 3, 3, 2, 3, 3, 3, 3, 3, 3, 2
+    ];
+
+    // 2. 所有選項的文字內容 (用於在提交後顯示)
+    const options = [
+      ["delay","launch","complain","refuse"],
+      ["expect","avoid","complete","remind"],
+      ["managers","employees","guests","partners"],
+      ["protected","avoided","described","increased"],
+      ["postponed","confused","damaged","promised"],
+      ["profits","schedules","salaries","opinions"],
+      ["usual","simple","private","central"],
+      ["available","formal","confidential","temporary"],
+      ["nervous","careless","ordinary","efficient"],
+      ["rare","personal","equal","basic"],
+      ["silent", "flexible", "empty", "detailed"],
+      ["imagine","repair","publish","purchase"],
+      ["direction","distance","pressure","increase"],
+      ["suddenly","widely","closely","carefully"],
+      ["prevent","depend","affect","reduce"]
+    ];
+
+    /** 這是計算答案的函式 **/
+    function checkAnswers() {
+      const form = document.getElementById('vocabQuiz');
+      const resultDiv = document.getElementById('result');
+      let score = 0;
+      const totalQuestions = answers.length;
+      let resultHTML = '<h3>測驗結果</h3><ul>';
+
+      for (let i = 1; i <= totalQuestions; i++) {
+        const questionName = 'q' + i;
+        
+        const selectedElement = form.elements[questionName];
+        let selectedOption = "";
+        
+        if (selectedElement && selectedElement.length > 0) {
+          for (let j = 0; j < selectedElement.length; j++) {
+            if (selectedElement[j].checked) {
+              selectedOption = selectedElement[j].value;
+              break;
+            }
+          }
+        }
+        
+        const correctAnswerIndex = answers[i - 1];
+        const correctAnswerText = options[i - 1][correctAnswerIndex];
+        let isCorrect = false;
+        
+        if (selectedOption !== "" && parseInt(selectedOption) === correctAnswerIndex) {
+          score++;
+          isCorrect = true;
+        }
+
+        const statusClass = isCorrect ? 'correct' : 'incorrect';
+        let statusText = isCorrect ? '✅ 正確' : '❌ 錯誤';
+        
+        if (selectedOption === "") {
+          statusText = '⚠️ 未作答';
+        } else if (!isCorrect) {
+          const userSelectedText = options[i - 1][parseInt(selectedOption)];
+          statusText += ` (您選了: ${userSelectedText})`;
+        }
+
+        resultHTML += `<li>第 ${i} 題: <span class="${statusClass}">${statusText}</span>。 正確答案是: **${correctAnswerText}**</li>`;
+      }
+
+      resultHTML += '</ul>';
+      resultHTML += `<p style="font-size: 24px;">🎉 總分: **${score} / ${totalQuestions}**</p>`;
+
+      resultDiv.innerHTML = resultHTML;
+      resultDiv.style.display = 'block';
+      resultDiv.style.borderColor = score === totalQuestions ? '#2ECC71' : '#E74C3C';
+      
+      // 捲動到結果區
+      resultDiv.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // 關鍵修正 4：使用事件監聽器將 checkAnswers 函式綁定到按鈕上
+    // 這可以保證只有在整個 HTML 結構載入完成後，函式才會被賦予到按鈕事件上。
+    document.addEventListener('DOMContentLoaded', () => {
+      const submitButton = document.querySelector('button[type="button"]');
+      if (submitButton) {
+        submitButton.addEventListener('click', checkAnswers);
+      }
+    });
+</script>
 </body>
 </html>
