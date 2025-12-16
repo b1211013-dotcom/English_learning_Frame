@@ -50,6 +50,7 @@
     .correct { background-color: #D4EDDA; color: #155724; padding: 3px 6px; border-radius: 4px; font-weight: bold; }
     .incorrect { background-color: #F8D7DA; color: #721C24; padding: 3px 6px; border-radius: 4px; font-weight: bold; }
   </style>
+
     <script>
     // 1. 正確答案索引 (0=A, 1=B, 2=C, 3=D)
     const answers = [
@@ -85,6 +86,7 @@
 
       for (let i = 1; i <= totalQuestions; i++) {
         const questionName = 'q' + i;
+        
         const selectedElement = form.elements[questionName];
         let selectedOption = "";
         
@@ -132,7 +134,7 @@
   </script>
 </head>
 <body>
-<h2>字彙測驗 (穩定版)</h2>
+<h2>字彙測驗</h2>
 <form id="vocabQuiz">
   <ol>
     <li>The company plans to ____ a new marketing strategy next month.<br>
@@ -147,7 +149,7 @@
       <label><input type="radio" name="q2" value="2"> C. complete</label>
       <label><input type="radio" name="q2" value="3"> D. remind</label>
     </li>
-        <li>The hotel offers free breakfast to all ____.<br>
+    <li>The hotel offers free breakfast to all ____.<br>
       <label><input type="radio" name="q3" value="0"> A. managers</label>
       <label><input type="radio" name="q3" value="1"> B. employees</label>
       <label><input type="radio" name="q3" value="2"> C. guests</label>
@@ -226,9 +228,8 @@
       <label><input type="radio" name="q15" value="3"> D. reduce</label>
     </li>
   </ol>
-    <button type="button" onclick="checkAnswers()">提交答案並查看結果</button> 
+        <button type="button" onclick="checkAnswers()">提交答案並查看結果</button> 
 </form>
 <div id="result"></div>
 </body>
 </html>
-
