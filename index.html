@@ -2,13 +2,14 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<title>TOEIC 550 學習系統</title>
+<title>TOEIC 550 數位學習網站</title>
 
 <style>
 body {
   margin: 0;
-  font-family: Arial;
-  background: #0f2027;
+  font-family: "Segoe UI", Arial;
+  background: radial-gradient(circle at top, #0f2027, #203a43, #000);
+  color: #e0f7fa;
 }
 
 /* 上方選單 */
@@ -17,16 +18,21 @@ nav {
   justify-content: center;
   background: linear-gradient(90deg, #00f2fe, #4facfe);
   padding: 15px;
+  box-shadow: 0 0 15px #00f2fe;
 }
+
 nav button {
-  margin: 0 10px;
-  padding: 10px 20px;
-  border: 2px solid #fff;
   background: transparent;
+  border: 2px solid #fff;
   color: #fff;
-  border-radius: 30px;
+  padding: 10px 20px;
+  margin: 0 10px;
+  font-size: 16px;
   cursor: pointer;
+  border-radius: 30px;
+  transition: 0.3s;
 }
+
 nav button:hover {
   background: #fff;
   color: #000;
@@ -37,6 +43,7 @@ iframe {
   width: 100%;
   height: calc(100vh - 80px);
   border: none;
+  background: #f4f7f6;
 }
 </style>
 </head>
@@ -44,17 +51,17 @@ iframe {
 <body>
 
 <nav>
-  <button onclick="load('test1.html')">字彙測驗</button>
-  <button onclick="load('test2.html')">文法測驗</button>
-  <button onclick="load('material1.html')">單字學習</button>
-  <button onclick="load('about.html')">製作團隊</button>
+  <button onclick="loadPage('material.html')">📘 單字學習</button>
+  <button onclick="loadPage('test1.html')">📝 字彙測驗</button>
+  <button onclick="loadPage('test2.html')">📐 文法測驗</button>
+  <button onclick="loadPage('about.html')">👥 製作團隊</button>
 </nav>
 
-<iframe id="frame" src="material.html"></iframe>
+<iframe id="contentFrame" src="material.html"></iframe>
 
 <script>
-function load(page) {
-  document.getElementById("frame").src = page;
+function loadPage(page) {
+  document.getElementById("contentFrame").src = page;
 }
 </script>
 
