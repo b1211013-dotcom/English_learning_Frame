@@ -7,48 +7,31 @@
 body {
   margin: 0;
   font-family: "Segoe UI", Arial;
-  background: radial-gradient(circle at top, #0f2027, #203a43, #000);
-  color: #e0f7fa;
+  background: #f0f4f8; /* 淺灰藍背景 */
+  color: #333;
 }
 
 /* 上方選單 */
 nav {
   display: flex;
   justify-content: center;
-  background: linear-gradient(90deg, #00f2fe, #4facfe);
+  background: #3b82f6; /* 藍色選單 */
   padding: 15px;
-  box-shadow: 0 0 15px #00f2fe;
 }
-
 nav button {
   background: transparent;
-  border: 2px solid #00f2fe;
+  border: 2px solid #fff;
   color: #fff;
   padding: 10px 20px;
   margin: 0 10px;
   font-size: 16px;
   cursor: pointer;
   border-radius: 30px;
-  position: relative;
   transition: 0.3s;
-  text-shadow: 0 0 5px #00f2fe, 0 0 10px #4facfe;
-  animation: neonGlow 1.5s ease-in-out infinite alternate;
 }
-
 nav button:hover {
-  background: #00f2fe;
+  background: #fff;
   color: #000;
-  box-shadow: 0 0 20px #00f2fe, 0 0 40px #4facfe;
-}
-
-/* 霓虹閃爍動畫 */
-@keyframes neonGlow {
-  from {
-    box-shadow: 0 0 5px #00f2fe, 0 0 10px #4facfe;
-  }
-  to {
-    box-shadow: 0 0 20px #00f2fe, 0 0 40px #4facfe, 0 0 60px #1e90ff;
-  }
 }
 
 /* 框架 */
@@ -56,21 +39,20 @@ iframe {
   width: 100%;
   height: calc(100vh - 80px);
   border: none;
-  background: #000;
+  background: #fff;
 }
 </style>
 </head>
-
 <body>
 
 <nav>
   <button onclick="loadPage('test1.html')">📝 字彙測驗</button>
   <button onclick="loadPage('test2.html')">📐 文法測驗</button>
-  <button onclick="loadPage('material1.html')">📘 常見單字</button>
+  <button onclick="loadPage('material1.html')">📘 單字教學</button>
   <button onclick="loadPage('about.html')">👥 製作團隊</button>
 </nav>
 
-<!-- 預設顯示科幻風格封面 -->
+<!-- 預設顯示科幻封面 -->
 <iframe id="contentFrame" src="home.html"></iframe>
 
 <script>
