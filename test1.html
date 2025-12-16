@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <title>Vocabulary Quiz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOEIC 核心詞彙測驗</title>
   <style>
     /* --- Style Enhancements (CSS) --- */
     body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; background-color: #f4f7f6; }
@@ -49,6 +50,7 @@
     #result h3 { color: #2C3E50; margin-top: 0; }
     .correct { background-color: #D4EDDA; color: #155724; padding: 3px 6px; border-radius: 4px; font-weight: bold; }
     .incorrect { background-color: #F8D7DA; color: #721C24; padding: 3px 6px; border-radius: 4px; font-weight: bold; }
+    .unanswered { background-color: #f7f7f7; color: #808080; padding: 3px 6px; border-radius: 4px; font-weight: bold; }
     .explanation { 
       margin-top: 10px; 
       padding: 10px; 
@@ -59,7 +61,7 @@
   </style>
 </head>
 <body>
-<h2>Vocabulary Quiz</h2>
+<h2>TOEIC 核心詞彙測驗 (15 題)</h2>
 <form id="vocabQuiz">
   <ol>
     <li>The company plans to ____ a new marketing strategy next month.<br>
@@ -153,7 +155,7 @@
       <label><input type="radio" name="q15" value="3"> D. reduce</label>
     </li>
   </ol>
-                <button type="button" onclick="checkAnswers()">Submit Answers and Check Results</button> 
+                <button type="button" onclick="checkAnswers()">提交答案並查看結果</button> 
 </form>
 <div id="result"></div>
 
@@ -182,80 +184,92 @@
       ["prevent","depend","affect","reduce"]
     ];
 
-    // 3. Vocabulary Explanations (Now in English)
+    // 3. Vocabulary Explanations (中文解釋)
     const explanations = [
-      "Launch (v.) means to start or introduce something new, which correctly precedes 'a new marketing strategy'.",
-      "Complete (v.) means to fill out or finish, which is the necessary action for a 'form'.",
-      "Guests (n.) are people staying at a hotel, and offering a free breakfast is a common service for them.",
-      "Increased (v.) means to become greater in size or amount. Sales are expected to 'increase significantly' after a product launch.",
-      "Postponed (v.) means to put off to a later time. A meeting is often 'postponed' if key members are absent.",
-      "Opinions (n.) are beliefs or judgments. Employees are encouraged to share their 'opinions' during a discussion.",
-      "Central (adj.) describes a main or easily accessible location, often related to 'convenient transportation'.",
-      "Confidential (adj.) means secret or private. Customer information must be kept 'confidential' and secure.",
-      "Efficient (adj.) means achieving maximum productivity with minimum wasted effort. A manager would praise 'efficient' work.",
-      "Basic (adj.) describes fundamental or entry-level training, typically provided to 'new staff members'.",
-      "Detailed (adj.) means having many facts or pieces of information. A report should contain 'detailed' information about sales.",
-      "Purchase (v.) means to buy. Customers can 'purchase' the product either online or in the store.",
-      "Increase (n.) refers to a rise in amount or level, such as 'an increase' in ticket prices.",
-      "Carefully (adv.) means with great attention or caution. Instructions should be read 'carefully' before using machinery.",
-      "Affect (v.) means to have an influence on. A new policy will 'affect' all departments in the company."
+      "Launch (v. 推出/發起): 'Launch a strategy' (推出策略) 是常見搭配。",
+      "Complete (v. 完成/填寫): 'Complete the form' (填寫表格) 符合語意。",
+      "Guests (n. 賓客/住客): 飯店通常為所有 'guests' (住客) 提供早餐。",
+      "Increased (v. 增加): 銷售額發布後顯著 'increased' (增加)。",
+      "Postponed (v. 延期): 會議因成員缺席而被 'postponed' (延期)。",
+      "Opinions (n. 意見): 鼓勵員工分享他們的 'opinions' (意見)。",
+      "Central (adj. 中央的/主要的): 'Central area' (中心區域) 意指交通便利的位置。",
+      "Confidential (adj. 機密的): 客戶資訊必須保持 'confidential' (機密)。",
+      "Efficient (adj. 有效率的): 經理稱讚團隊工作 'efficient' (有效率)。",
+      "Basic (adj. 基礎的): 為新員工提供 'basic' (基礎) 培訓。",
+      "Detailed (adj. 詳細的): 報告應包含 'detailed' (詳細) 資訊。",
+      "Purchase (v. 購買): 顧客可以線上或實體店 'purchase' (購買) 產品。",
+      "Increase (n. 增加): 'An increase in prices' (價格上漲)。",
+      "Carefully (adv. 小心地): 使用機器前需 'carefully' (仔細地) 閱讀說明。",
+      "Affect (v. 影響): 新政策將 'affect' (影響) 所有部門。"
     ];
 
 
-    /** This is the function to calculate and display the results **/
+    /** 核心函數：檢查答案並顯示結果 **/
     function checkAnswers() {
       const form = document.getElementById('vocabQuiz');
       const resultDiv = document.getElementById('result');
-      let score = 0;
       const totalQuestions = answers.length;
-      let resultHTML = '<h3>📊 Quiz Results and Detailed Explanations</h3><ol>';
+      let score = 0;
+      let unansweredCount = 0;
+      let resultHTML = '<h3>📊 測驗結果與詳細解析</h3><ol>';
 
+      // 第一階段：檢查是否有未作答的題目
       for (let i = 1; i <= totalQuestions; i++) {
         const questionName = 'q' + i;
-        const questionIndex = i - 1;
-
         const selectedElement = form.elements[questionName];
-        let selectedOptionValue = "";
-        
+        let isAnswered = false;
         if (selectedElement && selectedElement.length > 0) {
           for (let j = 0; j < selectedElement.length; j++) {
             if (selectedElement[j].checked) {
-              selectedOptionValue = selectedElement[j].value;
+              isAnswered = true;
               break;
             }
           }
         }
+        if (!isAnswered) {
+          unansweredCount++;
+        }
+      }
+
+      if (unansweredCount > 0) {
+        alert(`⚠️ 您還有 ${unansweredCount} 題未作答，請完成所有題目後再提交！`);
+        return; // 阻止繼續執行後面的計算和結果顯示
+      }
+      
+      // 第二階段：計算分數並生成結果 HTML
+      for (let i = 1; i <= totalQuestions; i++) {
+        const questionName = 'q' + i;
+        const questionIndex = i - 1;
+        const selectedElement = form.elements[questionName];
+        
+        let selectedOptionValue = selectedElement ? Array.from(selectedElement).find(radio => radio.checked)?.value : null;
         
         const correctAnswerIndex = answers[questionIndex];
         const correctAnswerText = options[questionIndex][correctAnswerIndex];
         let isCorrect = false;
-        
-        if (selectedOptionValue !== "" && parseInt(selectedOptionValue) === correctAnswerIndex) {
-          score++;
-          isCorrect = true;
-        }
+        let userSelectedText = '未作答';
+        let statusClass = 'unanswered';
+        let statusText = '⚠️ 未作答';
 
-        const statusClass = isCorrect ? 'correct' : 'incorrect';
-        let statusText = isCorrect ? '✅ Correct' : '❌ Incorrect';
-        let userSelectedText = 'Unanswered';
-        
-        if (selectedOptionValue !== "") {
+
+        if (selectedOptionValue !== null) {
+          isCorrect = (parseInt(selectedOptionValue) === correctAnswerIndex);
           userSelectedText = options[questionIndex][parseInt(selectedOptionValue)];
+          statusClass = isCorrect ? 'correct' : 'incorrect';
+          statusText = isCorrect ? '✅ 正確' : '❌ 錯誤';
         }
         
-        if (selectedOptionValue === "") {
-          statusText = '⚠️ Unanswered';
-        } else if (!isCorrect) {
-          statusText += ` (You selected: ${userSelectedText})`;
+        if (isCorrect) {
+          score++;
         }
-
 
         resultHTML += `
           <li>
-            <span style="font-weight: bold;">Question ${i} Result:</span> <span class="${statusClass}">${statusText}</span><br>
-            <strong>Correct Answer:</strong> <span class="correct">${correctAnswerText.toUpperCase()}</span>
+            <span style="font-weight: bold;">第 ${i} 題結果:</span> <span class="${statusClass}">${statusText}</span><br>
+            <strong>您的選擇:</strong> ${userSelectedText}<br>
+            <strong>正確答案:</strong> <span class="correct">${correctAnswerText.toUpperCase()}</span>
             <div class="explanation">
-              ${explanations[questionIndex]}
+              <strong>解析:</strong> ${explanations[questionIndex]}
             </div>
           </li>
         `;
@@ -267,23 +281,24 @@
 
       let scoreSummary = '';
       if (finalScore >= 80) {
-        scoreSummary = `<span style="color: green;">Excellent performance!</span>`;
+        scoreSummary = `<span style="color: green;">表現優秀！</span>`;
       } else if (finalScore >= 60) {
-        scoreSummary = `<span style="color: orange;">Good performance!</span>`;
+        scoreSummary = `<span style="color: orange;">表現良好，請再加強！</span>`;
       } else {
-        scoreSummary = `<span style="color: red;">Needs improvement.</span>`;
+        scoreSummary = `<span style="color: red;">需要加強。</span>`;
       }
       
-      resultHTML = `<p style="font-size: 24px;">${scoreSummary} Total Score: **${score} / ${totalQuestions}** (${finalScore.toFixed(0)}%)</p><hr>` + resultHTML;
+      resultHTML = `<p style="font-size: 24px;">${scoreSummary} 總分: **${score} / ${totalQuestions}** (${finalScore.toFixed(0)}%)</p><hr>` + resultHTML;
 
 
       resultDiv.innerHTML = resultHTML;
       resultDiv.style.display = 'block';
+      // 根據分數改變結果框邊框顏色
       resultDiv.style.borderColor = finalScore >= 80 ? '#2ECC71' : '#E74C3C';
       
-      // Scroll to the result section
+      // 滾動到結果區
       resultDiv.scrollIntoView({ behavior: 'smooth' });
     }
 </script>
 </body>
-</html> 可以正常顯示嗎
+</html>
