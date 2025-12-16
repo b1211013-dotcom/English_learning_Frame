@@ -97,7 +97,6 @@
 <div id="result"></div>
 
 <script>
-  // 正確答案索引 (依序對應每題的正確選項)
   const answers = [
     0, // launch
     0, // complete
@@ -115,15 +114,28 @@
     0, // carefully
     0  // affect
   ];
-  
+
+  const options = [
+    ["launch","delay","refuse","complain"],
+    ["complete","avoid","expect","remind"],
+    ["guests","partners","managers","employees"],
+    ["increased","described","protected","avoided"],
+    ["postponed","confused","damaged","promised"],
+    ["opinions","profits","salaries","schedules"],
+    ["central","usual","simple","private"],
+    ["confidential","available","formal","temporary"],
+    ["efficient","nervous","careless","ordinary"],
+    ["basic","rare","personal","equal"],
+    ["detailed","silent","flexible","empty"],
+    ["purchase","imagine","repair","publish"],
+    ["increase","direction","distance","pressure"],
+    ["carefully","suddenly","widely","closely"],
+    ["affect","prevent","depend","reduce"]
+  ];
+
   function checkAnswers() {
     let score = 0;
+    let feedback = "<p>答題結果：</p><ul>";
     for (let i = 1; i <= 15; i++) {
       const selected = document.querySelector(`input[name="q${i}"]:checked`);
-      if (selected && parseInt(selected.value) === answers[i - 1]) {
-        score++;
-      }
-    }
-    document.getElementById("result").innerHTML = `<p>你答對了 ${score} 題，共 15 題。</p>`;
-  }
-</script>
+      const correctIndex = answers[i - 
