@@ -1,201 +1,53 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TOEIC 核心詞彙測驗</title>
-  <style>
-    /* --- 基礎樣式 --- */
-    body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; background-color: #f4f7f6; }
-    h2 { color: #2C3E50; border-bottom: 2px solid #3498DB; padding-bottom: 10px; text-align: center; margin-top: 30px;}
-    ol { counter-reset: item; padding-left: 0; }
-    
-    /* --- 題目樣式 --- */
-    li { 
-      margin-bottom: 25px; 
-      border: 1px solid #ddd; 
-      padding: 15px; 
-      border-radius: 8px; 
-      background-color: #ffffff;
-      list-style: none;
-    }
-    li::before { 
-      content: counter(item) ". "; 
-      counter-increment: item; 
-      font-weight: bold; 
-      margin-right: 8px; 
-      color: #3498DB;
-    }
-    label { cursor: pointer; display: inline-block; margin-right: 20px; }
-    input[type="radio"] { margin-right: 5px; } 
-
-    /* --- 按鈕樣式 --- */
-    button { 
-      display: block; 
-      margin: 15px auto 0; 
-      padding: 12px 25px; 
-      background-color: #2ECC71; 
-      color: white; 
-      border: none; 
-      border-radius: 6px; 
-      cursor: pointer; 
-      font-size: 17px; 
-      transition: background-color 0.3s;
-    }
-    button:hover { background-color: #27AE60; }
-    
-    /* --- 結果區塊樣式 --- */
-    #result { 
-      margin-top: 30px; 
-      padding: 20px; 
-      border: 2px solid #E74C3C; 
-      border-radius: 8px; 
-      font-size: 18px; 
-      background-color: #FFFDEE;
-      display: none; /* 初始隱藏 */
-    }
-    #result h2 { color: #2980b9; margin-top: 0; text-align: center; }
-    
-    /* 答題結果列表樣式 */
-    .result-list { list-style-type: none; padding-left: 0; }
-    .result-list li { margin-bottom: 15px; padding: 5px 0; border: none; background: none; }
-    .correct-word { font-weight: bold; color: #27AE60; }
-  </style>
-</head>
-<body>
-
-<h2>TOEIC 核心詞彙測驗 (15 題)</h2>
-<form id="vocabQuiz">
-  <ol>
-        <li>The company plans to ____ a new marketing strategy next month.<br>
-      <label><input type="radio" name="q1" value="0"> A. launch</label>
-      <label><input type="radio" name="q1" value="1"> B. delay</label>
-      <label><input type="radio" name="q1" value="2"> C. refuse</label>
-      <label><input type="radio" name="q1" value="3"> D. complain</label>
-    </li>
-        <li>Please ____ the form and return it by Friday.<br>
-      <label><input type="radio" name="q2" value="0"> A. complete</label>
-      <label><input type="radio" name="q2" value="1"> B. avoid</label>
-      <label><input type="radio" name="q2" value="2"> C. expect</label>
-      <label><input type="radio" name="q2" value="3"> D. remind</label>
-    </li>
-        <li>The hotel offers free breakfast to all ____.<br>
-      <label><input type="radio" name="q3" value="0"> A. guests</label>
-      <label><input type="radio" name="q3" value="1"> B. partners</label>
-      <label><input type="radio" name="q3" value="2"> C. managers</label>
-      <label><input type="radio" name="q3" value="3"> D. employees</label>
-    </li>
-        <li>Sales have ____ significantly since the new product was released.<br>
-      <label><input type="radio" name="q4" value="0"> A. increased</label>
-      <label><input type="radio" name="q4" value="1"> B. described</label>
-      <label><input type="radio" name="q4" value="2"> C. protected</label>
-      <label><input type="radio" name="q4" value="3"> D. avoided</label>
-    </li>
-        <li>The meeting was ____ because several members were absent.<br>
-      <label><input type="radio" name="q5" value="0"> A. postponed</label>
-      <label><input type="radio" name="q5" value="1"> B. confused</label>
-      <label><input type="radio" name="q5" value="2"> C. damaged</label>
-      <label><input type="radio" name="q5" value="3"> D. promised</label>
-    </li>
-        <li>Employees are encouraged to share their ____ during the discussion.<br>
-      <label><input type="radio" name="q6" value="0"> A. opinions</label>
-      <label><input type="radio" name="q6" value="1"> B. profits</label>
-      <label><input type="radio" name="q6" value="2"> C. salaries</label>
-      <label><input type="radio" name="q6" value="3"> D. schedules</label>
-    </li>
-        <li>The office is located in a very ____ area with convenient transportation.<br>
-      <label><input type="radio" name="q7" value="0"> A. central</label>
-      <label><input type="radio" name="q7" value="1"> B. usual</label>
-      <label><input type="radio" name="q7" value="2"> C. simple</label>
-      <label><input type="radio" name="q7" value="3"> D. private</label>
-    </li>
-        <li>Please keep all customer information ____ and secure.<br>
-      <label><input type="radio" name="q8" value="0"> A. confidential</label>
-      <label><input type="radio" name="q8" value="1"> B. available</label>
-      <label><input type="radio" name="q8" value="2"> C. formal</label>
-      <label><input type="radio" name="q8" value="3"> D. temporary</label>
-    </li>
-        <li>The manager praised the team for their ____ work.<br>
-      <label><input type="radio" name="q9" value="0"> A. efficient</label>
-      <label><input type="radio" name="q9" value="1"> B. nervous</label>
-      <label><input type="radio" name="q9" value="2"> C. careless</label>
-      <label><input type="radio" name="q9" value="3"> D. ordinary</label>
-    </li>
-        <li>The company provides ____ training for new staff members.<br>
-      <label><input type="radio" name="q10" value="0"> A. basic</label>
-      <label><input type="radio" name="q10" value="1"> B. rare</label>
-      <label><input type="radio" name="q10" value="2"> C. personal</label>
-      <label><input type="radio" name="q10" value="3"> D. equal</label>
-    </li>
-        <li>The report contains ____ information about last year’s sales.<br>
-      <label><input type="radio" name="q11" value="0"> A. detailed</label>
-      <label><input type="radio" name="q11" value="1"> B. silent</label>
-      <label><input type="radio" name="q11" value="2"> C. flexible</label>
-      <label><input type="radio" name="q11" value="3"> D. empty</label>
-    </li>
-        <li>Customers can ____ the product online or in the store.<br>
-      <label><input type="radio" name="q12" value="0"> A. purchase</label>
-      <label><input type="radio" name="q12" value="1"> B. imagine</label>
-      <label><input type="radio" name="q12" value="2"> C. repair</label>
-      <label><input type="radio" name="q12" value="3"> D. publish</label>
-    </li>
-        <li>The airline announced a ____ in ticket prices.<br>
-      <label><input type="radio" name="q13" value="0"> A. increase</label>
-      <label><input type="radio" name="q13" value="1"> B. direction</label>
-      <label><input type="radio" name="q13" value="2"> C. distance</label>
-      <label><input type="radio" name="q13" value="3"> D. pressure</label>
-    </li>
-        <li>Please read the instructions ____ before using the machine.<br>
-      <label><input type="radio" name="q14" value="0"> A. carefully</label>
-      <label><input type="radio" name="q14" value="1"> B. suddenly</label>
-      <label><input type="radio" name="q14" value="2"> C. widely</label>
-      <label><input type="radio" name="q14" value="3"> D. closely</label>
-    </li>
-        <li>The new policy will ____ all departments in the company.<br>
-      <label><input type="radio" name="q15" value="0"> A. affect</label>
-      <label><input type="radio" name="q15" value="1"> B. prevent</label>
-      <label><input type="radio" name="q15" value="2"> C. depend</label>
-      <label><input type="radio" name="q15" value="3"> D. reduce</label>
-    </li>
-  </ol>
-                <button type="button" onclick="submitQuiz()">提交詞彙答案並查看結果</button> 
-</form>
-<div id="result"></div>
-
 <script>
   // --- 詞彙測驗數據與邏輯 (q1 - q15) ---
 
   // 1. 詞彙選項陣列
+  // 注意：此處的陣列順序必須與 HTML 中 A, B, C, D 的選項順序一致
   const options = [
-    ["launch", "delay", "refuse", "complain"], 
-    ["complete", "avoid", "expect", "remind"], 
-    ["guests", "partners", "managers", "employees"], 
-    ["increased", "described", "protected", "avoided"], 
-    ["postponed", "confused", "damaged", "promised"], 
-    ["opinions", "profits", "salaries", "schedules"], 
-    ["central", "usual", "simple", "private"], 
-    ["confidential", "available", "formal", "temporary"], 
-    ["efficient", "nervous", "careless", "ordinary"], 
-    ["basic", "rare", "personal", "equal"], 
-    ["detailed", "silent", "flexible", "empty"], 
-    ["purchase", "imagine", "repair", "publish"], 
-    ["increase", "direction", "distance", "pressure"], 
-    ["carefully", "suddenly", "widely", "closely"], 
-    ["affect", "prevent", "depend", "reduce"] 
+    ["delay", "launch", "complain", "refuse"], // q1
+    ["expect", "avoid", "complete", "remind"], // q2
+    ["managers", "employees", "guests", "partners"], // q3
+    ["protected", "avoided", "described", "increased"], // q4
+    ["postponed", "confused", "damaged", "promised"], // q5
+    ["profits", "schedules", "salaries", "opinions"], // q6
+    ["usual", "simple", "private", "central"], // q7
+    ["available", "formal", "confidential", "temporary"], // q8
+    ["nervous", "careless", "ordinary", "efficient"], // q9
+    ["rare", "personal", "equal", "basic"], // q10
+    ["silent", "flexible", "empty", "detailed"], // q11
+    ["imagine", "repair", "publish", "purchase"], // q12
+    ["direction", "distance", "pressure", "increase"], // q13
+    ["suddenly", "widely", "closely", "carefully"], // q14
+    ["prevent", "depend", "affect", "reduce"] // q15
   ];
 
-  // 2. 詞彙正確答案索引 (全為 0)
+  // 2. 詞彙正確答案索引 (0=A, 1=B, 2=C, 3=D)
+  // 根據 HTML 中的選項順序找到正確答案的索引
   const answers = [
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    1, // q1: B. launch
+    2, // q2: C. complete
+    2, // q3: C. guests
+    3, // q4: D. increased
+    0, // q5: A. postponed
+    3, // q6: D. opinions
+    3, // q7: D. central
+    2, // q8: C. confidential
+    3, // q9: D. efficient
+    3, // q10: D. basic
+    3, // q11: D. detailed
+    3, // q12: D. purchase
+    3, // q13: D. increase
+    3, // q14: D. carefully
+    2 // q15: C. affect
   ];
 
   function checkAnswers() {
     const totalQuestions = answers.length;
     let score = 0;
     let unansweredCount = 0;
-    let feedback = "<p>詞彙測驗結果：</p><ul class='result-list'>";
+    let feedback = "<p>詞彙測驗結果：</p><ul style='text-align: left;' class='result-list'>";
     
-    // 檢查未作答題目 (名稱 q1, q2...)
+    // 檢查未作答題目
     for (let i = 1; i <= totalQuestions; i++) {
       const selected = document.querySelector(`input[name="q${i}"]:checked`);
       if (!selected) {
@@ -224,14 +76,14 @@
         score++;
       }
       
-      const color = isCorrect ? 'green' : 'red';
+      const color = isCorrect ? '#27AE60' : '#E74C3C'; // 綠色/紅色
       const resultText = isCorrect ? '✔ 正確' : '✘ 錯誤';
 
       feedback += `
-        <li style="color:${color};">
+        <li style="color:${color}; list-style: none; margin-bottom: 10px; border-bottom: 1px dashed #ccc; padding-bottom: 5px;">
           <strong>第 ${i} 題:</strong> ${resultText}<br>
           &nbsp; &nbsp; 您的答案: ${userChoiceText}<br>
-          &nbsp; &nbsp; 正確答案: <span class='correct-word'>(${correctAnswer})</span>
+          &nbsp; &nbsp; 正確答案: <span style='font-weight: bold; color: #27AE60;'>(${correctAnswer})</span>
         </li>
       `;
     }
@@ -241,13 +93,14 @@
     
     // 更新結果顯示
     const resultDiv = document.getElementById("result");
-    resultDiv.innerHTML = 
-      `<h2 style="color:#2980b9">詞彙總分：${score} / ${totalQuestions} (${finalScorePercentage.toFixed(0)}%)</h2><hr>` + feedback;
-    
     resultDiv.style.display = 'block';
+    resultDiv.style.padding = '20px';
+    resultDiv.style.border = '2px solid #E74C3C';
+    resultDiv.style.borderRadius = '8px';
+    resultDiv.style.backgroundColor = '#FFFDEE';
+    resultDiv.innerHTML = 
+      `<h3 style="color:#0066cc; border-bottom: 1px solid #0066cc; padding-bottom: 10px;">總分：${score} / ${totalQuestions} (${finalScorePercentage.toFixed(0)}%)</h3>` + feedback;
+    
     resultDiv.scrollIntoView({ behavior: 'smooth' });
   }
 </script>
-</body>
-</html>
-
