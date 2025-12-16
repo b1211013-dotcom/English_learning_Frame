@@ -2,132 +2,142 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <title>TOEIC 550 數位學習網站</title>
+  <title>TOEIC 學習框架 // 數位進化版</title>
   <style>
-    /* --- APP-LIKE INTERFACE STYLES --- */
+    /* --- 全域基礎設定 --- */
+    :root {
+      --color-primary: #1e3a8a; /* 深藍 (主色) */
+      --color-secondary: #059669; /* 翠綠 (強調色) */
+      --color-background: #f0f4f8; /* 淺灰藍背景 */
+      --color-card: #ffffff;
+      --color-text-dark: #334155;
+    }
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #eef1f6; /* 淺藍灰背景 */
-      color: #333;
+      background-color: var(--color-background);
+      color: var(--color-text-dark);
+      line-height: 1.6;
     }
-
-    /* 容器設定 */
+    
     .container {
-      max-width: 1200px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 0 15px;
+      padding: 0 20px;
     }
 
-    /* 標頭：LOGO 區塊 */
+    /* 1. 標頭 (Header) - 應用程式頂部欄位 */
     header {
-      background-color: #1a4d8c; /* 深藍色，專業穩定 */
+      background-color: var(--color-primary);
       color: white;
-      padding: 20px 0;
-      text-align: center;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      padding: 25px 0;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
     header h1 {
       margin: 0;
-      font-size: 1.8em;
+      font-size: 1.75em;
+      font-weight: 600;
       letter-spacing: 1px;
     }
 
-    /* 導覽列：主選單 - 獨立於內容區塊 */
+    /* 2. 導覽列 (Navigation) - 任務清單 */
     nav {
-      background-color: #3b82f6; /* 亮一點的藍色，與 header 區分 */
+      background-color: #3b82f6; /* 淺一點的藍色 */
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      padding: 0; /* 移除垂直 padding，讓連結自己撐開 */
-      position: sticky; /* 嘗試固定選單，增強 APP 感 */
+      padding: 0;
+      position: sticky;
       top: 0;
       z-index: 1000;
     }
     nav a {
       color: white;
-      padding: 15px 30px; /* 增加點擊區塊 */
+      padding: 14px 25px;
       text-decoration: none;
       display: block;
+      font-weight: 500;
       transition: background-color 0.3s ease, transform 0.2s ease;
-      font-weight: 600;
-      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
     }
+    nav a:first-child { border-left: none; }
     nav a:hover {
-      background-color: #2563eb; /* 懸停時變深 */
-      transform: scale(1.02); /* 輕微放大 */
+      background-color: var(--color-secondary); /* 翠綠色懸停 */
+      transform: scale(1.02);
     }
-    
-    /* 內容區塊：學習卡片 */
+
+    /* 3. 內容區塊 (Content) - 卡片式設計 */
     #content {
-      padding: 30px;
+      padding: 40px;
       margin: 30px auto;
       max-width: 900px;
-      background-color: #ffffff;
-      border-radius: 10px;
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* 柔和但清晰的陰影 */
+      background-color: var(--color-card);
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* 柔和的深陰影 */
+      border-top: 5px solid var(--color-secondary); /* 頂部強調線 */
     }
     #content h2 {
-      color: #059669; /* 活潑的綠色強調 */
-      border-left: 5px solid #059669; /* 左側強調條 */
-      padding-left: 15px;
+      color: var(--color-primary);
+      font-size: 1.8em;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 10px;
       margin-top: 0;
       margin-bottom: 25px;
     }
-    #content p {
-      color: #555;
-      line-height: 1.6;
-    }
 
-    /* 視覺元件：動作按鈕 (若未來增加) */
+    /* 4. 輔助元件 */
     .cta-button {
       display: inline-block;
-      background-color: #10b981;
+      background-color: var(--color-secondary);
       color: white;
-      padding: 10px 20px;
+      padding: 12px 25px;
       text-decoration: none;
-      border-radius: 5px;
-      margin-top: 15px;
+      border-radius: 6px;
+      font-weight: bold;
+      margin-top: 20px;
       transition: background-color 0.3s;
     }
     .cta-button:hover {
-      background-color: #059669;
+      background-color: #047857;
     }
+
   </style>
 </head>
 <body>
   <header>
-    <div class="container">
-      <h1>TOEIC 550 數位學習中心</h1>
+    <div class="container" style="text-align: center;">
+      <h1>TOEIC 550 數位學習框架</h1>
     </div>
   </header>
   
-    <nav>
-    <a href="test1.html" onclick="loadPage(event, 'test1.html')">📚 字彙測驗</a>
-    <a href="test2.html" onclick="loadPage(event, 'test2.html')">📝 文法測驗</a>
-    <a href="material1.html" onclick="loadPage(event, 'material1.html')">📖 核心單字庫</a>
-    <a href="about.html" onclick="loadPage(event, 'about.html')">💡 關於本站</a>
+  <nav>
+    <a href="test1.html" onclick="loadPage(event, 'test1.html')">詞彙訓練模組</a>
+    <a href="test2.html" onclick="loadPage(event, 'test2.html')">文法核心數據</a>
+    <a href="material1.html" onclick="loadPage(event, 'material1.html')">高頻單字庫</a>
+    <a href="about.html" onclick="loadPage(event, 'about.html')">系統維護資訊</a>
   </nav>
   
   <div id="content" class="container">
-    <h2>🎉 歡迎使用智慧學習模組！</h2>
-    <p>本平台旨在提供高效且有結構的學習路徑，助您穩固達成 TOEIC 550 分目標。</p>
-    <p>點擊上方任一選單項目，即可立即開始您的專屬訓練課程。祝您學習順利！</p>
-    <a href="test1.html" onclick="loadPage(event, 'test1.html')" class="cta-button">立即開始字彙訓練</a>
+    <h2>🎉 歡迎登入學習介面</h2>
+    <p>本系統專為提升您的 TOEIC 550 分數而設計，提供結構化、高效的學習路徑。</p>
+    <p>請選擇上方的任一模組，開始您的知識同步任務！</p>
+    <a href="test1.html" onclick="loadPage(event, 'test1.html')" class="cta-button">啟動學習模式</a>
   </div>
 
   <script>
     function loadPage(event, page) {
       event.preventDefault();
       
-      // 載入提示
-      document.getElementById('content').innerHTML = "<h2>載入中...</h2><p>正在從伺服器獲取學習資料。</p>"; 
+      // 載入提示訊息
+      document.getElementById('content').innerHTML = "<h2>系統正在載入中...</h2><p>請稍候，正在同步學習資料。</p>"; 
 
       fetch(page)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                // 處理 404/500 錯誤
+                throw new Error('無法找到檔案或連線失敗 (Status: ' + response.status + ')');
             }
             return response.text();
         })
@@ -135,7 +145,7 @@
           document.getElementById('content').innerHTML = data;
         })
         .catch(error => {
-          document.getElementById('content').innerHTML = "<h2>錯誤 ⚠️</h2><p>無法連線至該模組 ('" + page + "')。請稍後再試。</p>";
+          document.getElementById('content').innerHTML = "<h2>⚠️ 資料載入錯誤</h2><p>錯誤訊息: " + error.message + "</p><p>請確認伺服器上的檔案路徑是否正確。</p>";
         });
     }
   </script>
