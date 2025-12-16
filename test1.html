@@ -2,9 +2,9 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>字彙測驗</title>
+  <title>字彙測驗 (test1.html)</title>
   <style>
-    /* --- 樣式美化 (CSS) --- */
+    /* CSS 樣式 (與前一個版本相同) */
     body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; background-color: #f4f7f6; }
     h2 { color: #2C3E50; border-bottom: 2px solid #3498DB; padding-bottom: 10px; }
     ol { counter-reset: item; padding-left: 0; }
@@ -14,7 +14,7 @@
       padding: 15px; 
       border-radius: 8px; 
       background-color: #ffffff;
-      list-style: none; /* 移除瀏覽器預設編號 */
+      list-style: none;
     }
     li::before { 
       content: counter(item) ". "; 
@@ -27,7 +27,7 @@
     label { cursor: pointer; display: inline-block; margin-right: 20px; }
     button { 
       padding: 12px 25px; 
-      background-color: #2ECC71; /* 綠色按鈕 */
+      background-color: #2ECC71;
       color: white; 
       border: none; 
       border-radius: 6px; 
@@ -37,23 +37,12 @@
       transition: background-color 0.3s;
     }
     button:hover { background-color: #27AE60; }
-    #result { 
-      margin-top: 30px; 
-      padding: 20px; 
-      border: 2px solid #E74C3C; 
-      border-radius: 8px; 
-      font-size: 18px; 
-      background-color: #FFFDEE;
-      display: none; /* 預設隱藏 */
-    }
-    #result h3 { color: #E74C3C; margin-top: 0; }
-    .correct { background-color: #D4EDDA; color: #155724; padding: 3px 6px; border-radius: 4px; font-weight: bold; }
-    .incorrect { background-color: #F8D7DA; color: #721C24; padding: 3px 6px; border-radius: 4px; font-weight: bold; }
   </style>
 </head>
 <body>
-<h2>字彙測驗 (Vocabulary Quiz)</h2>
-<form id="vocabQuiz">
+<h2>字彙測驗 (test1.html)</h2>
+
+<form id="vocabQuiz" action="test1_answer.html" method="GET">
   <ol>
     <li>The company plans to ____ a new marketing strategy next month.<br>
       <label><input type="radio" name="q1" value="0"> A. delay</label>
@@ -67,7 +56,7 @@
       <label><input type="radio" name="q2" value="2"> C. complete</label>
       <label><input type="radio" name="q2" value="3"> D. remind</label>
     </li>
-    <li>The hotel offers free breakfast to all ____.<br>
+        <li>The hotel offers free breakfast to all ____.<br>
       <label><input type="radio" name="q3" value="0"> A. managers</label>
       <label><input type="radio" name="q3" value="1"> B. employees</label>
       <label><input type="radio" name="q3" value="2"> C. guests</label>
@@ -146,109 +135,8 @@
       <label><input type="radio" name="q15" value="3"> D. reduce</label>
     </li>
   </ol>
-    <button type="button" onclick="checkAnswers()">提交答案並查看結果</button>
+    <button type="submit">提交答案並查看結果</button>
 </form>
-<div id="result"></div>
 
-<script>
-  /* --- JavaScript 答案邏輯 (確保這段程式碼被載入) --- */
-
-  // 1. 正確答案索引 (0=A, 1=B, 2=C, 3=D)
-  const answers = [
-    1, // q1: launch
-    2, // q2: complete
-    2, // q3: guests
-    3, // q4: increased
-    0, // q5: postponed
-    3, // q6: opinions
-    3, // q7: central
-    2, // q8: confidential
-    3, // q9: efficient
-    3, // q10: basic
-    3, // q11: detailed
-    3, // q12: purchase
-    3, // q13: increase
-    3, // q14: carefully
-    2  // q15: affect
-  ];
-
-  // 2. 所有選項的文字內容 (用於在提交後顯示)
-  const options = [
-    ["delay","launch","complain","refuse"],
-    ["expect","avoid","complete","remind"],
-    ["managers","employees","guests","partners"],
-    ["protected","avoided","described","increased"],
-    ["postponed","confused","damaged","promised"],
-    ["profits","schedules","salaries","opinions"],
-    ["usual","simple","private","central"],
-    ["available","formal","confidential","temporary"],
-    ["nervous","careless","ordinary","efficient"],
-    ["rare","personal","equal","basic"],
-    ["silent", "flexible", "empty", "detailed"],
-    ["imagine","repair","publish","purchase"],
-    ["direction","distance","pressure","increase"],
-    ["suddenly","widely","closely","carefully"],
-    ["prevent","depend","affect","reduce"]
-  ];
-
-  /** 這是定義 checkAnswers 函式的區塊 **/
-  function checkAnswers() {
-    const form = document.getElementById('vocabQuiz');
-    const resultDiv = document.getElementById('result');
-    let score = 0;
-    const totalQuestions = answers.length;
-    let resultHTML = '<h3>測驗結果</h3><ul>';
-
-    for (let i = 1; i <= totalQuestions; i++) {
-      const questionName = 'q' + i;
-      
-      // 獲取使用者選擇的選項值
-      const selectedElement = form.elements[questionName];
-      let selectedOption = "";
-      
-      if (selectedElement && selectedElement.length > 0) {
-        for (let j = 0; j < selectedElement.length; j++) {
-          if (selectedElement[j].checked) {
-            selectedOption = selectedElement[j].value;
-            break;
-          }
-        }
-      }
-      
-      const correctAnswerIndex = answers[i - 1];
-      const correctAnswerText = options[i - 1][correctAnswerIndex];
-      let isCorrect = false;
-      
-      // 檢查答案是否正確
-      if (selectedOption !== "" && parseInt(selectedOption) === correctAnswerIndex) {
-        score++;
-        isCorrect = true;
-      }
-
-      // 產生結果文字
-      const statusClass = isCorrect ? 'correct' : 'incorrect';
-      let statusText = isCorrect ? '✅ 正確' : '❌ 錯誤';
-      
-      if (selectedOption === "") {
-        statusText = '⚠️ 未作答';
-      } else if (!isCorrect) {
-        const userSelectedText = options[i - 1][parseInt(selectedOption)];
-        statusText += ` (您選了: ${userSelectedText})`;
-      }
-
-      resultHTML += `<li>第 ${i} 題: <span class="${statusClass}">${statusText}</span>。 正確答案是: **${correctAnswerText}**</li>`;
-    }
-
-    resultHTML += '</ul>';
-    resultHTML += `<p style="font-size: 24px;">🎉 總分: **${score} / ${totalQuestions}**</p>`;
-
-    resultDiv.innerHTML = resultHTML;
-    resultDiv.style.display = 'block'; // 讓結果區塊顯示出來
-    resultDiv.style.borderColor = score === totalQuestions ? '#2ECC71' : '#E74C3C';
-    
-    // 捲動到結果區 (確保用戶看到結果)
-    resultDiv.scrollIntoView({ behavior: 'smooth' });
-  }
-</script>
 </body>
 </html>
