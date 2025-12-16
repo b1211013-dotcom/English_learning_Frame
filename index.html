@@ -2,142 +2,78 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<title>TOEIC 550 數位學習系統</title>
-
+<title>TOEIC 550 數位學習網站</title>
 <style>
-/* ===== 基本設定 ===== */
-* {
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-
 body {
   margin: 0;
-  background: #0f2027;
-  overflow: hidden;
-}
-
-/* ===== 封面區 ===== */
-#cover {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle at top, #0f2027, #020b14);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-  transition: opacity 0.8s ease;
-  color: #e0f7ff;
-}
-
-#cover.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.cover-card {
-  padding: 60px 80px;
-  text-align: center;
-  background: rgba(0,20,30,0.65);
-  border-radius: 16px;
-  box-shadow: 0 0 40px rgba(0,255,255,0.3);
-}
-
-.cover-card h1 {
-  font-size: 3rem;
-  letter-spacing: 4px;
-  color: #00f5ff;
-}
-
-.cover-card p {
-  margin: 15px 0;
-  letter-spacing: 2px;
-}
-
-.cover-card button {
-  margin-top: 25px;
-  padding: 14px 36px;
-  font-size: 1.1rem;
-  border: 2px solid #00f5ff;
-  border-radius: 30px;
-  background: transparent;
-  color: #00f5ff;
-  cursor: pointer;
-}
-
-.cover-card button:hover {
-  background: #00f5ff;
-  color: #001a22;
-}
-
-/* ===== 主系統 ===== */
-#app {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
+  font-family: "Segoe UI", Arial;
+  background: radial-gradient(circle at top, #0f2027, #203a43, #000);
+  color: #e0f7fa;
 }
 
 /* 上方選單 */
 nav {
+  display: flex;
+  justify-content: center;
   background: linear-gradient(90deg, #00f2fe, #4facfe);
   padding: 15px;
-  text-align: center;
+  box-shadow: 0 0 15px #00f2fe;
 }
 
 nav button {
-  margin: 0 10px;
-  padding: 10px 20px;
-  border: 2px solid #fff;
   background: transparent;
+  border: 2px solid #00f2fe;
   color: #fff;
-  border-radius: 30px;
+  padding: 10px 20px;
+  margin: 0 10px;
+  font-size: 16px;
   cursor: pointer;
+  border-radius: 30px;
+  position: relative;
+  transition: 0.3s;
+  text-shadow: 0 0 5px #00f2fe, 0 0 10px #4facfe;
+  animation: neonGlow 1.5s ease-in-out infinite alternate;
 }
 
 nav button:hover {
-  background: #fff;
+  background: #00f2fe;
   color: #000;
+  box-shadow: 0 0 20px #00f2fe, 0 0 40px #4facfe;
 }
 
-/* 內容框架 */
+/* 霓虹閃爍動畫 */
+@keyframes neonGlow {
+  from {
+    box-shadow: 0 0 5px #00f2fe, 0 0 10px #4facfe;
+  }
+  to {
+    box-shadow: 0 0 20px #00f2fe, 0 0 40px #4facfe, 0 0 60px #1e90ff;
+  }
+}
+
+/* 框架 */
 iframe {
-  flex: 1;
+  width: 100%;
+  height: calc(100vh - 80px);
   border: none;
-  background: #f4f7f6;
+  background: #000;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ===== 封面 ===== -->
-<div id="cover">
-  <div class="cover-card">
-    <h1>TOEIC 550</h1>
-    <p>DIGITAL LEARNING SYSTEM</p>
-    <p>字彙 ｜ 文法 ｜ 單字 ｜ 測驗</p>
-    <button onclick="enterSite()">START LEARNING</button>
-  </div>
-</div>
+<nav>
+  <button onclick="loadPage('test1.html')">📝 字彙測驗</button>
+  <button onclick="loadPage('test2.html')">📐 文法測驗</button>
+  <button onclick="loadPage('material1.html')">📘 常見單字</button>
+  <button onclick="loadPage('about.html')">👥 製作團隊</button>
+</nav>
 
-<!-- ===== 主內容 ===== -->
-<div id="app">
-  <nav>
-    <button onclick="loadPage('test1.html')">字彙測驗</button>
-    <button onclick="loadPage('test2.html')">文法測驗</button>
-    <button onclick="loadPage('material1.html')">單字學習</button>
-    <button onclick="loadPage('about.html')">製作團隊</button>
-  </nav>
-
-  <iframe id="contentFrame" src="material.html"></iframe>
-</div>
+<!-- 預設顯示科幻風格封面 -->
+<iframe id="contentFrame" src="home.html"></iframe>
 
 <script>
-function enterSite() {
-  document.getElementById("cover").classList.add("hidden");
-  document.body.style.overflow = "auto";
-}
-
 function loadPage(page) {
   document.getElementById("contentFrame").src = page;
 }
