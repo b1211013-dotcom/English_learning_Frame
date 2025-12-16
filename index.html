@@ -52,53 +52,12 @@ iframe {
 <nav>
   <button onclick="loadPage('test1.html')">📝 字彙測驗</button>
   <button onclick="loadPage('test2.html')">📐 文法測驗</button>
-  <button onclick="loadPage('material1.html')">📘 聖誕節單字</button>
+  <button onclick="loadPage('material1.html')">📘 單字</button>
   <button onclick="loadPage('about.html')">👥 製作團隊</button>
 </nav>
 
 <!-- 預設顯示科幻風格封面 -->
-<iframe id="contentFrame" srcdoc="
-<!DOCTYPE html>
-<html lang='zh-Hant'>
-<head>
-<style>
-body {
-  margin:0; height:100vh; display:flex; justify-content:center; align-items:center;
-  background: radial-gradient(circle at center, #0f0f1a, #000000);
-  font-family: 'Segoe UI', Arial, sans-serif; color:#00f2fe; overflow:hidden;
-}
-.stars {
-  position:absolute; width:100%; height:100%;
-  background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
-  animation: moveStars 60s linear infinite;
-}
-@keyframes moveStars {
-  from { transform: translateY(0); }
-  to { transform: translateY(-1000px); }
-}
-h1 {
-  font-size:3em; text-align:center;
-  text-shadow:0 0 20px #4facfe, 0 0 40px #00f2fe;
-  animation: glow 2s ease-in-out infinite alternate;
-}
-@keyframes glow {
-  from { text-shadow:0 0 10px #4facfe; }
-  to { text-shadow:0 0 30px #00f2fe; }
-}
-p {
-  text-align:center; font-size:1.2em; color:#e0f7fa; margin-top:20px;
-}
-</style>
-</head>
-<body>
-  <div class='stars'></div>
-  <div>
-    <h1>🌌 TOEIC 550 數位學習框架</h1>
-    <p>探索知識宇宙，啟動你的學習旅程。</p>
-  </div>
-</body>
-</html>
-"></iframe>
+<iframe id="contentFrame" src="home.html"></iframe>
 
 <script>
 function loadPage(page) {
