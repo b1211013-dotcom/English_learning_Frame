@@ -1,135 +1,286 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8">
-  <title>文法測驗</title>
+  <meta charset="UTF-8">
+  <title>文法測驗</title>
+  <style>
+    /* 簡單的 CSS 樣式讓介面更清晰 */
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+    }
+    ol {
+      counter-reset: item;
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 5px;
+    }
+    li:before {
+      content: counter(item) ". ";
+      counter-increment: item;
+      font-weight: bold;
+      color: #0056b3;
+    }
+    input[type="radio"] {
+      margin-right: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #grammarResult {
+      margin-top: 30px;
+      padding: 20px;
+      border: 2px solid #28a745;
+      border-radius: 5px;
+      font-size: 1.1em;
+    }
+    .correct {
+      color: green;
+      font-weight: bold;
+    }
+    .incorrect {
+      color: red;
+      font-weight: bold;
+    }
+    .explanation {
+      font-size: 0.9em;
+      color: #555;
+      margin-top: 5px;
+      padding: 5px;
+      background-color: #f9f9f9;
+      border-left: 3px solid orange;
+    }
+  </style>
 </head>
 <body>
-<h2>文法測驗</h2>
-<form id="grammarQuiz">
-  <ol>
-    <li>The new policy, _ was announced yesterday, will take effect next month.<br>
-      <input type="radio" name="q1" value="0"> A. which<br>
-      <input type="radio" name="q1" value="1"> B. that<br>
-      <input type="radio" name="q1" value="2"> C. what<br>
-      <input type="radio" name="q1" value="3"> D. where<br>
-    </li>
-    <li>Employees are required to submit the report _ Friday at the latest.<br>
-      <input type="radio" name="q2" value="0"> A. until<br>
-      <input type="radio" name="q2" value="1"> B. by<br>
-      <input type="radio" name="q2" value="2"> C. during<br>
-      <input type="radio" name="q2" value="3"> D. since<br>
-    </li>
-    <li>Not only _ the deadline, but he also failed to inform his manager.<br>
-      <input type="radio" name="q3" value="0"> A. he missed<br>
-      <input type="radio" name="q3" value="1"> B. did he miss<br>
-      <input type="radio" name="q3" value="2"> C. he has missed<br>
-      <input type="radio" name="q3" value="3"> D. has he missed<br>
-    </li>
-    <li>The conference was postponed _ the flight delay caused by the storm.<br>
-      <input type="radio" name="q4" value="0"> A. because<br>
-      <input type="radio" name="q4" value="1"> B. because of<br>
-      <input type="radio" name="q4" value="2"> C. despite<br>
-      <input type="radio" name="q4" value="3"> D. although<br>
-    </li>
-    <li>Ms. Chen is responsible _ negotiating contracts with overseas partners.<br>
-      <input type="radio" name="q5" value="0"> A. to<br>
-      <input type="radio" name="q5" value="1"> B. for<br>
-      <input type="radio" name="q5" value="2"> C. with<br>
-      <input type="radio" name="q5" value="3"> D. on<br>
-    </li>
-    <li>The more carefully the data is analyzed, the _ the final results will be.<br>
-      <input type="radio" name="q6" value="0"> A. accurate<br>
-      <input type="radio" name="q6" value="1"> B. more accurate<br>
-      <input type="radio" name="q6" value="2"> C. most accurate<br>
-      <input type="radio" name="q6" value="3"> D. accuracy<br>
-    </li>
-    <li>The proposal must be approved _ it can be implemented.<br>
-      <input type="radio" name="q7" value="0"> A. until<br>
-      <input type="radio" name="q7" value="1"> B. unless<br>
-      <input type="radio" name="q7" value="2"> C. before<br>
-      <input type="radio" name="q7" value="3"> D. whereas<br>
-    </li>
-    <li>He denied _ the confidential information to the press.<br>
-      <input type="radio" name="q8" value="0"> A. to release<br>
-      <input type="radio" name="q8" value="1"> B. release<br>
-      <input type="radio" name="q8" value="2"> C. releasing<br>
-      <input type="radio" name="q8" value="3"> D. released<br>
-    </li>
-    <li>All candidates _ complete the application form by the end of this week.<br>
-      <input type="radio" name="q9" value="0"> A. would<br>
-      <input type="radio" name="q9" value="1"> B. may<br>
-      <input type="radio" name="q9" value="2"> C. must<br>
-      <input type="radio" name="q9" value="3"> D. might<br>
-    </li>
-    <li>The manager asked whether the shipment _ on schedule.<br>
-      <input type="radio" name="q10" value="0"> A. arrives<br>
-      <input type="radio" name="q10" value="1"> B. has arrived<br>
-      <input type="radio" name="q10" value="2"> C. will arrive<br>
-      <input type="radio" name="q10" value="3"> D. had arrived<br>
-    </li>
-    <li>_ the high cost, the company decided to proceed with the project.<br>
-      <input type="radio" name="q11" value="0"> A. Because<br>
-      <input type="radio" name="q11" value="1"> B. Although<br>
-      <input type="radio" name="q11" value="2"> C. Despite<br>
-      <input type="radio" name="q11" value="3"> D. Due<br>
-    </li>
-    <li>The equipment should be inspected regularly to ensure that it _ properly.<br>
-      <input type="radio" name="q12" value="0"> A. operate<br>
-      <input type="radio" name="q12" value="1"> B. operates<br>
-      <input type="radio" name="q12" value="2"> C. is operated<br>
-      <input type="radio" name="q12" value="3"> D. has operated<br>
-    </li>
-    <li>Mr. Brown, along with his assistants, _ attending the annual meeting.<br>
-      <input type="radio" name="q13" value="0"> A. are<br>
-      <input type="radio" name="q13" value="1"> B. were<br>
-      <input type="radio" name="q13" value="2"> C. is<br>
-      <input type="radio" name="q13" value="3"> D. have been<br>
-    </li>
-    <li>The contract specifies that payment _ within 30 days of delivery.<br>
-      <input type="radio" name="q14" value="0"> A. is made<br>
-      <input type="radio" name="q14" value="1"> B. be made<br>
-      <input type="radio" name="q14" value="2"> C. was made<br>
-      <input type="radio" name="q14" value="3"> D. has made<br>
-    </li>
-    <li>Had the technician followed the instructions, the system _ malfunctioned.<br>
-      <input type="radio" name="q15" value="0"> A. would not have<br>
-      <input type="radio" name="q15" value="1"> B. will not have<br>
-      <input type="radio" name="q15" value="2"> C. did not<br>
-      <input type="radio" name="q15" value="3"> D. has not<br>
-    </li>
-  </ol>
-</form>
+  <h1>📝 英文文法測驗</h1>
+  <p>請選擇您認為正確的答案，然後點擊「提交答案」查看您的分數和解析。</p>
+  <hr>
+  
+  <form id="grammarQuiz">
+    <ol>
+      <li>The new policy, _ was announced yesterday, will take effect next month.<br>
+        <input type="radio" name="q1" value="0" id="q1a"> <label for="q1a">A. which</label><br>
+        <input type="radio" name="q1" value="1" id="q1b"> <label for="q1b">B. that</label><br>
+        <input type="radio" name="q1" value="2" id="q1c"> <label for="q1c">C. what</label><br>
+        <input type="radio" name="q1" value="3" id="q1d"> <label for="q1d">D. where</label><br>
+      </li>
+      <li>Employees are required to submit the report _ Friday at the latest.<br>
+        <input type="radio" name="q2" value="0" id="q2a"> <label for="q2a">A. until</label><br>
+        <input type="radio" name="q2" value="1" id="q2b"> <label for="q2b">B. by</label><br>
+        <input type="radio" name="q2" value="2" id="q2c"> <label for="q2c">C. during</label><br>
+        <input type="radio" name="q2" value="3" id="q2d"> <label for="q2d">D. since</label><br>
+      </li>
+      <li>Not only _ the deadline, but he also failed to inform his manager.<br>
+        <input type="radio" name="q3" value="0" id="q3a"> <label for="q3a">A. he missed</label><br>
+        <input type="radio" name="q3" value="1" id="q3b"> <label for="q3b">B. did he miss</label><br>
+        <input type="radio" name="q3" value="2" id="q3c"> <label for="q3c">C. he has missed</label><br>
+        <input type="radio" name="q3" value="3" id="q3d"> <label for="q3d">D. has he missed</label><br>
+      </li>
+      <li>The conference was postponed _ the flight delay caused by the storm.<br>
+        <input type="radio" name="q4" value="0" id="q4a"> <label for="q4a">A. because</label><br>
+        <input type="radio" name="q4" value="1" id="q4b"> <label for="q4b">B. because of</label><br>
+        <input type="radio" name="q4" value="2" id="q4c"> <label for="q4c">C. despite</label><br>
+        <input type="radio" name="q4" value="3" id="q4d"> <label for="q4d">D. although</label><br>
+      </li>
+      <li>Ms. Chen is responsible _ negotiating contracts with overseas partners.<br>
+        <input type="radio" name="q5" value="0" id="q5a"> <label for="q5a">A. to</label><br>
+        <input type="radio" name="q5" value="1" id="q5b"> <label for="q5b">B. for</label><br>
+        <input type="radio" name="q5" value="2" id="q5c"> <label for="q5c">C. with</label><br>
+        <input type="radio" name="q5" value="3" id="q5d"> <label for="q5d">D. on</label><br>
+      </li>
+      <li>The more carefully the data is analyzed, the _ the final results will be.<br>
+        <input type="radio" name="q6" value="0" id="q6a"> <label for="q6a">A. accurate</label><br>
+        <input type="radio" name="q6" value="1" id="q6b"> <label for="q6b">B. more accurate</label><br>
+        <input type="radio" name="q6" value="2" id="q6c"> <label for="q6c">C. most accurate</label><br>
+        <input type="radio" name="q6" value="3" id="q6d"> <label for="q6d">D. accuracy</label><br>
+      </li>
+      <li>The proposal must be approved _ it can be implemented.<br>
+        <input type="radio" name="q7" value="0" id="q7a"> <label for="q7a">A. until</label><br>
+        <input type="radio" name="q7" value="1" id="q7b"> <label for="q7b">B. unless</label><br>
+        <input type="radio" name="q7" value="2" id="q7c"> <label for="q7c">C. before</label><br>
+        <input type="radio" name="q7" value="3" id="q7d"> <label for="q7d">D. whereas</label><br>
+      </li>
+      <li>He denied _ the confidential information to the press.<br>
+        <input type="radio" name="q8" value="0" id="q8a"> <label for="q8a">A. to release</label><br>
+        <input type="radio" name="q8" value="1" id="q8b"> <label for="q8b">B. release</label><br>
+        <input type="radio" name="q8" value="2" id="q8c"> <label for="q8c">C. releasing</label><br>
+        <input type="radio" name="q8" value="3" id="q8d"> <label for="q8d">D. released</label><br>
+      </li>
+      <li>All candidates _ complete the application form by the end of this week.<br>
+        <input type="radio" name="q9" value="0" id="q9a"> <label for="q9a">A. would</label><br>
+        <input type="radio" name="q9" value="1" id="q9b"> <label for="q9b">B. may</label><br>
+        <input type="radio" name="q9" value="2" id="q9c"> <label for="q9c">C. must</label><br>
+        <input type="radio" name="q9" value="3" id="q9d"> <label for="q9d">D. might</label><br>
+      </li>
+      <li>The manager asked whether the shipment _ on schedule.<br>
+        <input type="radio" name="q10" value="0" id="q10a"> <label for="q10a">A. arrives</label><br>
+        <input type="radio" name="q10" value="1" id="q10b"> <label for="q10b">B. has arrived</label><br>
+        <input type="radio" name="q10" value="2" id="q10c"> <label for="q10c">C. will arrive</label><br>
+        <input type="radio" name="q10" value="3" id="q10d"> <label for="q10d">D. had arrived</label><br>
+      </li>
+      <li>_ the high cost, the company decided to proceed with the project.<br>
+        <input type="radio" name="q11" value="0" id="q11a"> <label for="q11a">A. Because</label><br>
+        <input type="radio" name="q11" value="1" id="q11b"> <label for="q11b">B. Although</label><br>
+        <input type="radio" name="q11" value="2" id="q11c"> <label for="q11c">C. Despite</label><br>
+        <input type="radio" name="q11" value="3" id="q11d"> <label for="q11d">D. Due</label><br>
+      </li>
+      <li>The equipment should be inspected regularly to ensure that it _ properly.<br>
+        <input type="radio" name="q12" value="0" id="q12a"> <label for="q12a">A. operate</label><br>
+        <input type="radio" name="q12" value="1" id="q12b"> <label for="q12b">B. operates</label><br>
+        <input type="radio" name="q12" value="2" id="q12c"> <label for="q12c">C. is operated</label><br>
+        <input type="radio" name="q12" value="3" id="q12d"> <label for="q12d">D. has operated</label><br>
+      </li>
+      <li>Mr. Brown, along with his assistants, _ attending the annual meeting.<br>
+        <input type="radio" name="q13" value="0" id="q13a"> <label for="q13a">A. are</label><br>
+        <input type="radio" name="q13" value="1" id="q13b"> <label for="q13b">B. were</label><br>
+        <input type="radio" name="q13" value="2" id="q13c"> <label for="q13c">C. is</label><br>
+        <input type="radio" name="q13" value="3" id="q13d"> <label for="q13d">D. have been</label><br>
+      </li>
+      <li>The contract specifies that payment _ within 30 days of delivery.<br>
+        <input type="radio" name="q14" value="0" id="q14a"> <label for="q14a">A. is made</label><br>
+        <input type="radio" name="q14" value="1" id="q14b"> <label for="q14b">B. be made</label><br>
+        <input type="radio" name="q14" value="2" id="q14c"> <label for="q14c">C. was made</label><br>
+        <input type="radio" name="q14" value="3" id="q14d"> <label for="q14d">D. has made</label><br>
+      </li>
+      <li>Had the technician followed the instructions, the system _ malfunctioned.<br>
+        <input type="radio" name="q15" value="0" id="q15a"> <label for="q15a">A. would not have</label><br>
+        <input type="radio" name="q15" value="1" id="q15b"> <label for="q15b">B. will not have</label><br>
+        <input type="radio" name="q15" value="2" id="q15c"> <label for="q15c">C. did not</label><br>
+        <input type="radio" name="q15" value="3" id="q15d"> <label for="q15d">D. has not</label><br>
+      </li>
+    </ol>
+  </form>
+  
+  <button type="button" onclick="checkGrammar()">提交答案並查看解析</button>
+  
+    <div id="grammarResult"></div>
+  
+  <script>
+    // 正確答案索引 (0=A, 1=B, 2=C, 3=D)
+    const grammarAnswers = [
+      0, // Q1: which (非限定關係子句)
+      1, // Q2: by (截止期限)
+      1, // Q3: did he miss (否定倒裝)
+      1, // Q4: because of (接名詞片語)
+      1, // Q5: for (be responsible for)
+      1, // Q6: more accurate (The more... the more...)
+      2, // Q7: before (時間順序)
+      2, // Q8: releasing (deny 後接 V-ing)
+      2, // Q9: must (義務)
+      2, // Q10: will arrive (間接問句中的未來)
+      2, // Q11: Despite (接名詞片語，表示儘管)
+      1, // Q12: operates (單數主詞現在式)
+      2, // Q13: is (主詞 Mr. Brown 單數)
+      1, // Q14: be made (虛擬語氣)
+      0  // Q15: would not have (與過去相反的假設語氣倒裝)
+    ];
 
-<button type="button" onclick="checkGrammar()">提交答案</button>
-<div id="grammarResult"></div>
+    // 完整的答案選項文本
+    const optionTexts = [
+      ["A. which", "B. that", "C. what", "D. where"],
+      ["A. until", "B. by", "C. during", "D. since"],
+      ["A. he missed", "B. did he miss", "C. he has missed", "D. has he missed"],
+      ["A. because", "B. because of", "C. despite", "D. although"],
+      ["A. to", "B. for", "C. with", "D. on"],
+      ["A. accurate", "B. more accurate", "C. most accurate", "D. accuracy"],
+      ["A. until", "B. unless", "C. before", "D. whereas"],
+      ["A. to release", "B. release", "C. releasing", "D. released"],
+      ["A. would", "B. may", "C. must", "D. might"],
+      ["A. arrives", "B. has arrived", "C. will arrive", "D. had arrived"],
+      ["A. Because", "B. Although", "C. Despite", "D. Due"],
+      ["A. operate", "B. operates", "C. is operated", "D. has operated"],
+      ["A. are", "B. were", "C. is", "D. have been"],
+      ["A. is made", "B. be made", "C. was made", "D. has made"],
+      ["A. would not have", "B. will not have", "C. did not", "D. has not"]
+    ];
+    
+    // 完整的答案解析
+    const explanations = [
+      "這是非限定性關係子句（non-restrictive relative clause），需用 which 來引導，且用逗號隔開。",
+      "介系詞 by 用來表示截止期限，意指「在...或之前」。",
+      "句子由否定副詞 Not only 開頭時，主句必須使用倒裝語序：助動詞 + 主詞 + 主要動詞。",
+      "橫線後接名詞片語 (the flight delay...)，必須使用介系詞片語 because of。",
+      "固定片語為 be responsible for，後接名詞或動名詞。",
+      "使用「The more... the more...」句型，前後皆需使用比較級。",
+      "before 表示時間上的先後順序：先批准，後實施。",
+      "動詞 deny 後面固定接動名詞 (V-ing) 作為受詞。",
+      "must 表示義務或強烈的要求。",
+      "經理詢問的是貨物「未來」是否會準時到達，故使用未來式 will arrive。",
+      "橫線後接名詞片語 (the high cost)，需用表示讓步的介系詞 Despite。",
+      "it (equipment) 是單數主詞，在一般現在式中動詞加 s (operates)。",
+      "當主詞由 along with 連接時，動詞須與第一個主詞 (Mr. Brown) 保持一致，故用單數 is。",
+      "specify 屬於「要求、建議」動詞，其後的 that 子句動詞需使用虛擬語氣（原形動詞），在此是被動態，故使用 be made。",
+      "Had... 是與過去事實相反的假設語氣倒裝句。主要子句結構為 Subject + would have + Vpp。",
+    ];
 
-<script>
-  // 正確答案索引 (0=A, 1=B, 2=C, 3=D)
-  const grammarAnswers = [
-    0, // which
-    1, // by
-    1, // did he miss
-    1, // because of
-    1, // for
-    1, // more accurate
-    2, // before
-    2, // releasing
-    2, // must
-    2, // will arrive
-    2, // Despite
-    1, // operates
-    2, // is
-    1, // be made
-    0  // would not have
-  ];
+    function checkGrammar() {
+      let score = 0;
+      let resultHTML = `<h2>測驗結果 (總分 ${grammarAnswers.length} 分)</h2>`;
+      
+      for (let i = 1; i <= grammarAnswers.length; i++) {
+        const selectedInput = document.querySelector(`input[name="q${i}"]:checked`);
+        const questionIndex = i - 1;
+        const isCorrect = selectedInput && parseInt(selectedInput.value) === grammarAnswers[questionIndex];
+        const correctOptionIndex = grammarAnswers[questionIndex];
+        
+        let statusClass = 'incorrect';
+        let statusText = '錯誤';
+        let yourAnswerText = '未作答';
+        
+        if (isCorrect) {
+          score++;
+          statusClass = 'correct';
+          statusText = '正確';
+          yourAnswerText = optionTexts[questionIndex][parseInt(selectedInput.value)];
+        } else if (selectedInput) {
+          yourAnswerText = optionTexts[questionIndex][parseInt(selectedInput.value)];
+        }
+        
+        resultHTML += `
+          <div>
+            <h3>問題 ${i}: <span class="${statusClass}">【${statusText}】</span></h3>
+            <ul>
+              <li>您的答案: ${yourAnswerText}</li>
+              <li>正確答案: <span class="correct">${optionTexts[questionIndex][correctOptionIndex]}</span></li>
+            </ul>
+            <div class="explanation">
+              <strong>解析:</strong> ${explanations[questionIndex]}
+            </div>
+            <hr>
+          </div>
+        `;
+      }
+      
+      const finalScore = (score / grammarAnswers.length) * 100;
+      
+      let scoreSummary = '';
+      if (finalScore >= 80) {
+        scoreSummary = `<span style="color: green; font-size: 1.5em;">恭喜！您的分數是 ${score} / ${grammarAnswers.length} (${finalScore.toFixed(0)}%)。文法掌握度很高！</span>`;
+      } else if (finalScore >= 60) {
+        scoreSummary = `<span style="color: orange; font-size: 1.5em;">您的分數是 ${score} / ${grammarAnswers.length} (${finalScore.toFixed(0)}%)。表現不錯，可以再針對錯誤部分加強。</span>`;
+      } else {
+        scoreSummary = `<span style="color: red; font-size: 1.5em;">您的分數是 ${score} / ${grammarAnswers.length} (${finalScore.toFixed(0)}%)。建議仔細閱讀解析並加強基礎文法。</span>`;
+      }
 
-  function checkGrammar() {
-    let score = 0;
-    for (let i = 1; i <= 15; i++) {
-      const selected = document.querySelector(`input[name="q${i}"]:checked`);
-      if (selected && parseInt(selected.value) === grammarAnswers[i - 1]) {
-        score++;
-      }
-    }
-    document.getElementById("grammarResult
+      document.getElementById("grammarResult").innerHTML = `<h3>${scoreSummary}</h3><hr>${resultHTML}`;
+    }
+  </script>
+</body>
+</html>
