@@ -4,12 +4,71 @@
   <meta charset="UTF-8">
   <title>TOEIC 550 數位學習網站</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    header { background-color: #2c3e50; color: white; padding: 15px; text-align: center; }
-    nav { background-color: #34495e; display: flex; justify-content: center; flex-wrap: wrap; }
-    nav a { color: white; padding: 14px 20px; text-decoration: none; display: block; }
-    nav a:hover { background-color: #1abc9c; }
-    #content { padding: 20px; }
+    /* --- 現代化樣式設定 --- */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 使用現代字體 */
+      margin: 0;
+      padding: 0;
+      background-color: #f4f7f9; /* 柔和的淺灰色背景 */
+    }
+
+    /* 標頭：乾淨的藍色主視覺 */
+    header {
+      background-color: #3b82f6; /* 現代藍色 */
+      color: white;
+      padding: 30px 15px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 增加立體陰影 */
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+
+    /* 導覽列：簡潔的懸浮選單 */
+    nav {
+      background-color: #ffffff; /* 白色背景 */
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #e0e7ff;
+      padding: 5px 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    nav a {
+      color: #4b5563; /* 深灰色文字 */
+      padding: 12px 25px;
+      text-decoration: none;
+      display: block;
+      transition: all 0.3s ease; /* 平滑過渡 */
+      border-radius: 4px;
+      margin: 0 5px;
+    }
+    nav a:hover {
+      background-color: #ecfdf5; /* 淺綠色背景 */
+      color: #10b981; /* 亮綠色強調色 */
+      transform: translateY(-2px); /* 輕微上浮效果 */
+    }
+
+    /* 內容區塊：卡片式設計 */
+    #content {
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: 30px auto;
+      background-color: #ffffff;
+      border-radius: 12px; /* 圓角 */
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08); /* 更明顯的卡片陰影 */
+    }
+    #content h2 {
+      color: #10b981; /* 亮綠色標題 */
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    #content p {
+      color: #4b5563;
+      line-height: 1.7;
+    }
   </style>
 </head>
 <body>
@@ -19,24 +78,34 @@
   <nav>
     <a href="test1.html" onclick="loadPage(event, 'test1.html')">字彙測驗</a>
     <a href="test2.html" onclick="loadPage(event, 'test2.html')">文法測驗</a>
-    <a href="material1.html" onclick="loadPage(event, 'material1.html')">單字</a>
-    <a href="about.html" onclick="loadPage(event, 'about.html')">製作團隊</a>
+    <a href="material1.html" onclick="loadPage(event, 'material1.html')">單字庫</a>
+    <a href="about.html" onclick="loadPage(event, 'about.html')">關於我們</a>
   </nav>
   <div id="content">
-    <h2>歡迎來到 TOEIC 550 數位學習網站！</h2>
-    <p>請選擇上方選單開始學習。</p>
+    <h2>🎉 歡迎加入學習！</h2>
+    <p>這個平台是專門為準備 TOEIC 考試，目標達到 550 分的學習者設計。我們提供精選的字彙、文法測驗和學習材料，幫助您系統性地提升英語能力。</p>
+    <p>請點擊上方的選單項目，開始您的學習旅程！</p>
   </div>
 
   <script>
     function loadPage(event, page) {
       event.preventDefault();
+      
+      // 載入提示
+      document.getElementById('content').innerHTML = "<h2>載入中...</h2><p>正在從伺服器獲取學習資料。</p>"; 
+
       fetch(page)
-        .then(response => response.text())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
         .then(data => {
           document.getElementById('content').innerHTML = data;
         })
         .catch(error => {
-          document.getElementById('content').innerHTML = "<p>無法載入內容。</p>";
+          document.getElementById('content').innerHTML = "<h2>錯誤 ⚠️</h2><p>無法載入指定的內容 ('" + page + "')。請確認檔案是否存在。</p>";
         });
     }
   </script>
