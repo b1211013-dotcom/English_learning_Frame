@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Vocabulary Quiz</title>
   <style>
-    /* --- Style Enhancements (CSS) --- */
+    /* --- CSS 樣式: 讓測驗更美觀且易於閱讀 --- */
     body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; background-color: #f4f7f6; }
     h2 { color: #2C3E50; border-bottom: 2px solid #3498DB; padding-bottom: 10px; }
     ol { counter-reset: item; padding-left: 0; }
@@ -44,7 +44,7 @@
       border-radius: 8px; 
       font-size: 18px; 
       background-color: #FFFDEE;
-      display: none;
+      display: none; /* 初始隱藏結果區 */
     }
     #result h3 { color: #2C3E50; margin-top: 0; }
     .correct { background-color: #D4EDDA; color: #155724; padding: 3px 6px; border-radius: 4px; font-weight: bold; }
@@ -160,12 +160,14 @@
 <div id="result"></div>
 
 <script>
-    // 1. Correct answer indices (0=A, 1=B, 2=C, 3=D)
+    // --- JavaScript 邏輯：答案與計分 ---
+
+    // 1. 正確答案索引 (0=A, 1=B, 2=C, 3=D)
     const answers = [
       1, 2, 2, 3, 0, 3, 3, 2, 3, 3, 3, 3, 3, 3, 2
     ];
 
-    // 2. Text content of all options
+    // 2. 所有選項的文字內容
     const options = [
       ["delay","launch","complain","refuse"],
       ["expect","avoid","complete","remind"],
@@ -184,7 +186,7 @@
       ["prevent","depend","affect","reduce"]
     ];
 
-    // 3. Vocabulary Explanations (Now in English)
+    // 3. 詞彙解釋 (英文)
     const explanations = [
       "Launch (v.) means to start or introduce something new, which correctly precedes 'a new marketing strategy'.",
       "Complete (v.) means to fill out or finish, which is the necessary action for a 'form'.",
@@ -204,7 +206,7 @@
     ];
 
 
-    /** This is the function to calculate and display the results **/
+    /** 執行答案檢查、計分並顯示結果的函數 **/
     function checkAnswers() {
       const form = document.getElementById('vocabQuiz');
       const resultDiv = document.getElementById('result');
@@ -283,7 +285,7 @@
       resultDiv.style.display = 'block';
       resultDiv.style.borderColor = finalScore >= 80 ? '#2ECC71' : '#E74C3C';
       
-      // Scroll to the result section
+      // 滾動到結果區
       resultDiv.scrollIntoView({ behavior: 'smooth' });
     }
 </script>
