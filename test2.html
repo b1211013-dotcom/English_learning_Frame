@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>文法測驗</title>
+</head>
+<body>
 <h2>文法測驗</h2>
 <form id="grammarQuiz">
   <ol>
@@ -92,8 +99,9 @@
       <input type="radio" name="q15" value="3"> D. has not<br>
     </li>
   </ol>
-  <button type="button" onclick="checkGrammar()">提交答案</button>
 </form>
+
+<button type="button" onclick="checkGrammar()">提交答案</button>
 <div id="grammarResult"></div>
 
 <script>
@@ -115,6 +123,7 @@
     1, // be made
     0  // would not have
   ];
+
   function checkGrammar() {
     let score = 0;
     for (let i = 1; i <= 15; i++) {
@@ -123,6 +132,4 @@
         score++;
       }
     }
-    document.getElementById("grammarResult").innerHTML = `<p>你答對了 ${score} 題，共 15 題。</p>`;
-  }
-</script>
+    document.getElementById("grammarResult
