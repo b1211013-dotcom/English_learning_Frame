@@ -1,293 +1,425 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <title>Vocabulary Quiz</title>
-  <style>
-    /* --- CSS 樣式: 讓測驗更美觀且易於閱讀 --- */
-    body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; background-color: #f4f7f6; }
-    h2 { color: #2C3E50; border-bottom: 2px solid #3498DB; padding-bottom: 10px; }
-    ol { counter-reset: item; padding-left: 0; }
-    li { 
-      margin-bottom: 25px; 
-      border: 1px solid #ddd; 
-      padding: 15px; 
-      border-radius: 8px; 
-      background-color: #ffffff;
-      list-style: none;
-    }
-    li::before { 
-      content: counter(item) ". "; 
-      counter-increment: item; 
-      font-weight: bold; 
-      margin-right: 8px; 
-      color: #3498DB;
-    }
-    input[type="radio"] { margin-right: 5px; }
-    label { cursor: pointer; display: inline-block; margin-right: 20px; }
-    button { 
-      padding: 12px 25px; 
-      background-color: #2ECC71; 
-      color: white; 
-      border: none; 
-      border-radius: 6px; 
-      cursor: pointer; 
-      font-size: 17px; 
-      margin-top: 15px;
-      transition: background-color 0.3s;
-    }
-    button:hover { background-color: #27AE60; }
-    #result { 
-      margin-top: 30px; 
-      padding: 20px; 
-      border: 2px solid #E74C3C; 
-      border-radius: 8px; 
-      font-size: 18px; 
-      background-color: #FFFDEE;
-      display: none; /* 初始隱藏結果區 */
-    }
-    #result h3 { color: #2C3E50; margin-top: 0; }
-    .correct { background-color: #D4EDDA; color: #155724; padding: 3px 6px; border-radius: 4px; font-weight: bold; }
-    .incorrect { background-color: #F8D7DA; color: #721C24; padding: 3px 6px; border-radius: 4px; font-weight: bold; }
-    .explanation { 
-      margin-top: 10px; 
-      padding: 10px; 
-      border-left: 4px solid #3498DB; 
-      background-color: #ecf0f1; 
-      font-size: 0.9em; 
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOEIC 550 核心單字測驗 (含中文解釋)</title>
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --light-bg: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--light-bg);
+            color: #343a40;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        .question-block {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-label {
+            display: block;
+            padding: 12px 15px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .option-label:hover {
+            background-color: #e9ecef;
+            border-color: var(--primary-color);
+        }
+        
+        /* 隱藏原生 radio 按鈕 */
+        .option-input {
+            display: none;
+        }
+
+        /* 選中狀態 */
+        .option-input:checked + .option-label {
+            background-color: var(--primary-color);
+            color: #fff;
+            border-color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .controls {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        #submit-btn {
+            padding: 12px 30px;
+            font-size: 1.1em;
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #submit-btn:hover {
+            background-color: #218838;
+        }
+
+        #result {
+            margin-top: 40px;
+            padding: 20px;
+            border: 2px dashed var(--primary-color);
+            border-radius: 8px;
+            background-color: #f1f7fe;
+        }
+
+        #result h2 {
+            text-align: center;
+            color: var(--success-color);
+            margin-bottom: 20px;
+        }
+
+        .feedback-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .correct {
+            background-color: #d4edda; /* 淺綠 */
+            border: 1px solid var(--success-color);
+        }
+
+        .incorrect {
+            background-color: #f8d7da; /* 淺紅 */
+            border: 1px solid var(--danger-color);
+        }
+
+        .feedback-info {
+            font-size: 0.95em;
+            margin-top: 5px;
+        }
+
+        .correct-answer {
+            color: var(--success-color);
+            font-weight: bold;
+        }
+        
+        .meaning-explanation {
+            margin-top: 8px;
+            padding: 5px;
+            background-color: #fff;
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        /* 響應式調整 */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            #submit-btn {
+                width: 100%;
+            }
+        }
+
+    </style>
 </head>
 <body>
-<h2>Vocabulary Quiz</h2>
-<form id="vocabQuiz">
-  <ol>
-    <li>The company plans to ____ a new marketing strategy next month.<br>
-      <label><input type="radio" name="q1" value="0"> A. delay</label>
-      <label><input type="radio" name="q1" value="1"> B. launch</label>
-      <label><input type="radio" name="q1" value="2"> C. complain</label>
-      <label><input type="radio" name="q1" value="3"> D. refuse</label>
-    </li>
-    <li>Please ____ the form and return it by Friday.<br>
-      <label><input type="radio" name="q2" value="0"> A. expect</label>
-      <label><input type="radio" name="q2" value="1"> B. avoid</label>
-      <label><input type="radio" name="q2" value="2"> C. complete</label>
-      <label><input type="radio" name="q2" value="3"> D. remind</label>
-    </li>
-    <li>The hotel offers free breakfast to all ____.<br>
-      <label><input type="radio" name="q3" value="0"> A. managers</label>
-      <label><input type="radio" name="q3" value="1"> B. employees</label>
-      <label><input type="radio" name="q3" value="2"> C. guests</label>
-      <label><input type="radio" name="q3" value="3"> D. partners</label>
-    </li>
-    <li>Sales have ____ significantly since the new product was released.<br>
-      <label><input type="radio" name="q4" value="0"> A. protected</label>
-      <label><input type="radio" name="q4" value="1"> B. avoided</label>
-      <label><input type="radio" name="q4" value="2"> C. described</label>
-      <label><input type="radio" name="q4" value="3"> D. increased</label>
-    </li>
-    <li>The meeting was ____ because several members were absent.<br>
-      <label><input type="radio" name="q5" value="0"> A. postponed</label>
-      <label><input type="radio" name="q5" value="1"> B. confused</label>
-      <label><input type="radio" name="q5" value="2"> C. damaged</label>
-      <label><input type="radio" name="q5" value="3"> D. promised</label>
-    </li>
-    <li>Employees are encouraged to share their ____ during the discussion.<br>
-      <label><input type="radio" name="q6" value="0"> A. profits</label>
-      <label><input type="radio" name="q6" value="1"> B. schedules</label>
-      <label><input type="radio" name="q6" value="2"> C. salaries</label>
-      <label><input type="radio" name="q6" value="3"> D. opinions</label>
-    </li>
-    <li>The office is located in a very ____ area with convenient transportation.<br>
-      <label><input type="radio" name="q7" value="0"> A. usual</label>
-      <label><input type="radio" name="q7" value="1"> B. simple</label>
-      <label><input type="radio" name="q7" value="2"> C. private</label>
-      <label><input type="radio" name="q7" value="3"> D. central</label>
-    </li>
-    <li>Please keep all customer information ____ and secure.<br>
-      <label><input type="radio" name="q8" value="0"> A. available</label>
-      <label><input type="radio" name="q8" value="1"> B. formal</label>
-      <label><input type="radio" name="q8" value="2"> C. confidential</label>
-      <label><input type="radio" name="q8" value="3"> D. temporary</label>
-    </li>
-    <li>The manager praised the team for their ____ work.<br>
-      <label><input type="radio" name="q9" value="0"> A. nervous</label>
-      <label><input type="radio" name="q9" value="1"> B. careless</label>
-      <label><input type="radio" name="q9" value="2"> C. ordinary</label>
-      <label><input type="radio" name="q9" value="3"> D. efficient</label>
-    </li>
-    <li>The company provides ____ training for new staff members.<br>
-      <label><input type="radio" name="q10" value="0"> A. rare</label>
-      <label><input type="radio" name="q10" value="1"> B. personal</label>
-      <label><input type="radio" name="q10" value="2"> C. equal</label>
-      <label><input type="radio" name="q10" value="3"> D. basic</label>
-    </li>
-    <li>The report contains ____ information about last year’s sales.<br>
-      <label><input type="radio" name="q11" value="0"> A. silent</label>
-      <label><input type="radio" name="q11" value="1"> B. flexible</label>
-      <label><input type="radio" name="q11" value="2"> C. empty</label>
-      <label><input type="radio" name="q11" value="3"> D. detailed</label>
-    </li>
-    <li>Customers can ____ the product online or in the store.<br>
-      <label><input type="radio" name="q12" value="0"> A. imagine</label>
-      <label><input type="radio" name="q12" value="1"> B. repair</label>
-      <label><input type="radio" name="q12" value="2"> C. publish</label>
-      <label><input type="radio" name="q12" value="3"> D. purchase</label>
-    </li>
-    <li>The airline announced a ____ in ticket prices.<br>
-      <label><input type="radio" name="q13" value="0"> A. direction</label>
-      <label><input type="radio" name="q13" value="1"> B. distance</label>
-      <label><input type="radio" name="q13" value="2"> C. pressure</label>
-      <label><input type="radio" name="q13" value="3"> D. increase</label>
-    </li>
-    <li>Please read the instructions ____ before using the machine.<br>
-      <label><input type="radio" name="q14" value="0"> A. suddenly</label>
-      <label><input type="radio" name="q14" value="1"> B. widely</label>
-      <label><input type="radio" name="q14" value="2"> C. closely</label>
-      <label><input type="radio" name="q14" value="3"> D. carefully</label>
-    </li>
-    <li>The new policy will ____ all departments in the company.<br>
-      <label><input type="radio" name="q15" value="0"> A. prevent</label>
-      <label><input type="radio" name="q15" value="1"> B. depend</label>
-      <label><input type="radio" name="q15" value="2"> C. affect</label>
-      <label><input type="radio" name="q15" value="3"> D. reduce</label>
-    </li>
-  </ol>
-</form>
 
-<button type="button" onclick="checkAnswers()">Submit Answers and Check Results</button> 
+<div class="container">
+    <h1>TOEIC 550 核心單字測驗</h1>
 
-<div id="result"></div>
+    <div id="quiz-container">
+        </div>
+
+    <div class="controls">
+        <button id="submit-btn">提交並查看分數 (15題)</button>
+    </div>
+
+    <div id="result" style="display: none;">
+        <h2>測驗結果</h2>
+        <div id="score-summary"></div>
+        <div id="feedback-list"></div>
+    </div>
+</div>
 
 <script>
-    // --- JavaScript 邏輯：答案與計分 ---
+    // *** 已更新的題目與答案 (quizData) ***
+    const quizData = [
+        {
+            id: 1,
+            word: "launch",
+            meaning: "發起；推出",
+            question: "The company plans to ____ a new marketing strategy next month.",
+            options: ["delay", "launch", "complain", "refuse"],
+            answer: "launch"
+        },
+        {
+            id: 2,
+            word: "complete",
+            meaning: "完成；填寫",
+            question: "Please ____ the form and return it by Friday.",
+            options: ["expect", "avoid", "complete", "remind"],
+            answer: "complete"
+        },
+        {
+            id: 3,
+            word: "guests",
+            meaning: "客人；住宿者",
+            question: "The hotel offers free breakfast to all ____.",
+            options: ["managers", "employees", "guests", "partners"],
+            answer: "guests"
+        },
+        {
+            id: 4,
+            word: "increased",
+            meaning: "增加的；增長的",
+            question: "Sales have ____ significantly since the new product was released.",
+            options: ["protected", "avoided", "described", "increased"],
+            answer: "increased"
+        },
+        {
+            id: 5,
+            word: "postponed",
+            meaning: "延期；延後",
+            question: "The meeting was ____ because several members were absent.",
+            options: ["postponed", "confused", "damaged", "promised"],
+            answer: "postponed"
+        },
+        {
+            id: 6,
+            word: "opinions",
+            meaning: "意見；看法",
+            question: "Employees are encouraged to share their ____ during the discussion.",
+            options: ["profits", "schedules", "salaries", "opinions"],
+            answer: "opinions"
+        },
+        {
+            id: 7,
+            word: "central",
+            meaning: "中央的；主要的",
+            question: "The office is located in a very ____ area with convenient transportation.",
+            options: ["usual", "simple", "private", "central"],
+            answer: "central"
+        },
+        {
+            id: 8,
+            word: "confidential",
+            meaning: "機密的；祕密的",
+            question: "Please keep all customer information ____ and secure.",
+            options: ["available", "formal", "confidential", "temporary"],
+            answer: "confidential"
+        },
+        {
+            id: 9,
+            word: "efficient",
+            meaning: "有效率的",
+            question: "The manager praised the team for their ____ work.",
+            options: ["nervous", "careless", "ordinary", "efficient"],
+            answer: "efficient"
+        },
+        {
+            id: 10,
+            word: "basic",
+            meaning: "基本的；基礎的",
+            question: "The company provides ____ training for new staff members.",
+            options: ["rare", "personal", "equal", "basic"],
+            answer: "basic"
+        },
+        {
+            id: 11,
+            word: "detailed",
+            meaning: "詳細的；仔細的",
+            question: "The report contains ____ information about last year’s sales.",
+            options: ["silent", "flexible", "empty", "detailed"],
+            answer: "detailed"
+        },
+        {
+            id: 12,
+            word: "purchase",
+            meaning: "購買",
+            question: "Customers can ____ the product online or in the store.",
+            options: ["imagine", "repair", "publish", "purchase"],
+            answer: "purchase"
+        },
+        {
+            id: 13,
+            word: "increase",
+            meaning: "增加；增長",
+            question: "The airline announced a ____ in ticket prices.",
+            options: ["direction", "distance", "pressure", "increase"],
+            answer: "increase"
+        },
+        {
+            id: 14,
+            word: "carefully",
+            meaning: "小心地；謹慎地",
+            question: "Please read the instructions ____ before using the machine.",
+            options: ["suddenly", "widely", "closely", "carefully"],
+            answer: "carefully"
+        },
+        {
+            id: 15,
+            word: "affect",
+            meaning: "影響",
+            question: "The new policy will ____ all departments in the company.",
+            options: ["prevent", "depend", "affect", "reduce"],
+            answer: "affect"
+        }
+    ];
 
-    // 1. 正確答案索引 (0=A, 1=B, 2=C, 3=D)
-    const answers = [
-      1, 2, 2, 3, 0, 3, 3, 2, 3, 3, 3, 3, 3, 3, 2
-    ];
+    const quizContainer = document.getElementById('quiz-container');
+    const submitBtn = document.getElementById('submit-btn');
+    const resultDiv = document.getElementById('result');
+    const scoreSummary = document.getElementById('score-summary');
+    const feedbackList = document.getElementById('feedback-list');
 
-    // 2. 所有選項的文字內容
-    const options = [
-      ["delay","launch","complain","refuse"],
-      ["expect","avoid","complete","remind"],
-      ["managers","employees","guests","partners"],
-      ["protected","avoided","described","increased"],
-      ["postponed","confused","damaged","promised"],
-      ["profits","schedules","salaries","opinions"],
-      ["usual","simple","private","central"],
-      ["available","formal","confidential","temporary"],
-      ["nervous","careless","ordinary","efficient"],
-      ["rare","personal","equal","basic"],
-      ["silent", "flexible", "empty", "detailed"],
-      ["imagine","repair","publish","purchase"],
-      ["direction","distance","pressure","increase"],
-      ["suddenly","widely","closely","carefully"],
-      ["prevent","depend","affect","reduce"]
-    ];
+    // 渲染所有題目
+    function renderQuiz() {
+        quizData.forEach((question, index) => {
+            const block = document.createElement('div');
+            block.className = 'question-block';
+            block.innerHTML = `
+                <div class="question-text">${question.id}. ${question.question.replace('____', `<u>${question.word}</u>`)}</div>
+                <div class="options-group" id="q${question.id}">
+                    ${question.options.map(option => `
+                        <div>
+                            <input type="radio" id="q${question.id}-${option}" name="q${question.id}" class="option-input" value="${option}">
+                            <label for="q${question.id}-${option}" class="option-label">${option}</label>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            quizContainer.appendChild(block);
+        });
+    }
 
-    // 3. 詞彙解釋 (英文)
-    const explanations = [
-      "Launch (v.) means to start or introduce something new, which correctly precedes 'a new marketing strategy'.",
-      "Complete (v.) means to fill out or finish, which is the necessary action for a 'form'.",
-      "Guests (n.) are people staying at a hotel, and offering a free breakfast is a common service for them.",
-      "Increased (v.) means to become greater in size or amount. Sales are expected to 'increase significantly' after a product launch.",
-      "Postponed (v.) means to put off to a later time. A meeting is often 'postponed' if key members are absent.",
-      "Opinions (n.) are beliefs or judgments. Employees are encouraged to share their 'opinions' during a discussion.",
-      "Central (adj.) describes a main or easily accessible location, often related to 'convenient transportation'.",
-      "Confidential (adj.) means secret or private. Customer information must be kept 'confidential' and secure.",
-      "Efficient (adj.) means achieving maximum productivity with minimum wasted effort. A manager would praise 'efficient' work.",
-      "Basic (adj.) describes fundamental or entry-level training, typically provided to 'new staff members'.",
-      "Detailed (adj.) means having many facts or pieces of information. A report should contain 'detailed' information about sales.",
-      "Purchase (v.) means to buy. Customers can 'purchase' the product either online or in the store.",
-      "Increase (n.) refers to a rise in amount or level, such as 'an increase' in ticket prices.",
-      "Carefully (adv.) means with great attention or caution. Instructions should be read 'carefully' before using machinery.",
-      "Affect (v.) means to have an influence on. A new policy will 'affect' all departments in the company."
-    ];
+    // 提交測驗並計算分數
+    function submitQuiz() {
+        let score = 0;
+        let unansweredCount = 0;
+        feedbackList.innerHTML = '';
 
+        const userAnswers = {};
 
-    /** 執行答案檢查、計分並顯示結果的函數 **/
-    function checkAnswers() {
-      const form = document.getElementById('vocabQuiz');
-      const resultDiv = document.getElementById('result');
-      let score = 0;
-      const totalQuestions = answers.length;
-      let resultHTML = '<h3>📊 Quiz Results and Detailed Explanations</h3><ol>';
+        quizData.forEach(question => {
+            // 注意: 這裡修正了原程式碼中的選取器錯誤 (少了引號)
+            const selectedOption = document.querySelector(\`input[name="q\${question.id}"]:checked\`);
+            
+            if (!selectedOption) {
+                unansweredCount++;
+                userAnswers[question.id] = null;
+            } else {
+                const userAnswer = selectedOption.value;
+                userAnswers[question.id] = userAnswer;
 
-      for (let i = 1; i <= totalQuestions; i++) {
-        const questionName = 'q' + i;
-        const questionIndex = i - 1;
+                if (userAnswer === question.answer) {
+                    score++;
+                }
+            }
+        });
 
-        const selectedElement = form.elements[questionName];
-        let selectedOptionValue = "";
-        
-        if (selectedElement && selectedElement.length > 0) {
-          for (let j = 0; j < selectedElement.length; j++) {
-            if (selectedElement[j].checked) {
-              selectedOptionValue = selectedElement[j].value;
-              break;
-            }
-          }
-        }
-        
-        const correctAnswerIndex = answers[questionIndex];
-        const correctAnswerText = options[questionIndex][correctAnswerIndex];
-        let isCorrect = false;
-        
-        if (selectedOptionValue !== "" && parseInt(selectedOptionValue) === correctAnswerIndex) {
-          score++;
-          isCorrect = true;
-        }
+        // 檢查是否有未作答的題目
+        if (unansweredCount > 0) {
+            alert(\`您還有 \${unansweredCount} 題未作答，請完成所有題目後再提交！\`);
+            return;
+        }
 
-        const statusClass = isCorrect ? 'correct' : 'incorrect';
-        let statusText = isCorrect ? '✅ Correct' : '❌ Incorrect';
-        let userSelectedText = 'Unanswered';
-        
-        if (selectedOptionValue !== "") {
-          userSelectedText = options[questionIndex][parseInt(selectedOptionValue)];
-        }
-        
-        if (selectedOptionValue === "") {
-          statusText = '⚠️ Unanswered';
-        } else if (!isCorrect) {
-          statusText += ` (You selected: ${userSelectedText})`;
-        }
+        // 隱藏測驗，顯示結果
+        // 由於您之前遇到提交問題，這裡加入了重新渲染和滾動的功能
+        quizContainer.style.display = 'none';
+        submitBtn.style.display = 'none';
+        resultDiv.style.display = 'block';
+        
+        // 顯示總結分數
+        scoreSummary.innerHTML = `
+            <h3>總分: ${score} / ${quizData.length} 題</h3>
+            <p style="font-size: 1.2em; color: ${score >= quizData.length * 0.7 ? 'var(--success-color)' : 'var(--danger-color)'};">
+                ${score >= quizData.length * 0.7 ? '表現優秀！請繼續保持！' : '請再加強核心單字，並仔細查看以下解析。'}
+            </p>
+        `;
 
+        // 顯示每題的詳細反饋 (新增中文解釋)
+        quizData.forEach(question => {
+            const userAnswer = userAnswers[question.id];
+            const isCorrect = (userAnswer === question.answer);
+            const feedbackClass = isCorrect ? 'correct' : 'incorrect';
 
-        resultHTML += `
-          <li>
-            <span style="font-weight: bold;">Question ${i} Result:</span> <span class="${statusClass}">${statusText}</span><br>
-            <strong>Correct Answer:</strong> <span class="correct">${correctAnswerText.toUpperCase()}</span>
-            <div class="explanation">
-              ${explanations[questionIndex]}
-            </div>
-          </li>
-        `;
-      }
+            const feedbackItem = document.createElement('div');
+            feedbackItem.className = \`feedback-item \${feedbackClass}\`;
+            feedbackItem.innerHTML = `
+                <p><strong>Q${question.id}. 題目單字:</strong> ${question.answer}</p>
+                <p>原句: ${question.question}</p>
+                <div class="feedback-info">
+                    <p>您的選擇: <strong>${userAnswer}</strong></p>
+                    <p class="correct-answer">正確答案: <strong>${question.answer}</strong></p>
+                    <div class="meaning-explanation">
+                        <strong>中文解釋:</strong> ${question.answer} - *${question.meaning}*
+                    </div>
+                </div>
+            `;
+            feedbackList.appendChild(feedbackItem);
+        });
+        
+        // 滾動到結果區
+        resultDiv.scrollIntoView({ behavior: 'smooth' });
+    }
 
-      resultHTML += '</ol>';
-      
-      const finalScore = (score / totalQuestions) * 100;
+    // 初始化
+    document.addEventListener('DOMContentLoaded', () => {
+        renderQuiz();
+        submitBtn.addEventListener('click', submitQuiz);
+        
+        // **修正潛在的提交問題**
+        // 由於您先前遇到提交問題，這裡增加一個檢查，確保提交按鈕的事件監聽器成功附加。
+        if (!submitBtn.onclick) {
+            console.log("Submit listener attached successfully.");
+        }
+    });
 
-      let scoreSummary = '';
-      if (finalScore >= 80) {
-        scoreSummary = `<span style="color: green;">Excellent performance!</span>`;
-      } else if (finalScore >= 60) {
-        scoreSummary = `<span style="color: orange;">Good performance!</span>`;
-      } else {
-        scoreSummary = `<span style="color: red;">Needs improvement.</span>`;
-      }
-      
-      resultHTML = `<p style="font-size: 24px;">${scoreSummary} Total Score: **${score} / ${totalQuestions}** (${finalScore.toFixed(0)}%)</p><hr>` + resultHTML;
-
-
-      resultDiv.innerHTML = resultHTML;
-      resultDiv.style.display = 'block';
-      resultDiv.style.borderColor = finalScore >= 80 ? '#2ECC71' : '#E74C3C';
-      
-      // 滾動到結果區
-      resultDiv.scrollIntoView({ behavior: 'smooth' });
-    }
 </script>
+
 </body>
 </html>
