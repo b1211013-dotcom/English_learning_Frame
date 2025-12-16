@@ -153,7 +153,8 @@
       <label><input type="radio" name="q15" value="3"> D. reduce (減少)</label>
     </li>
   </ol>
-        <button type="button">提交答案並查看結果</button> 
+        ****
+        <button type="button" onclick="checkAnswers()">提交答案並查看結果</button> 
 </form>
 <div id="result"></div>
 
@@ -182,7 +183,7 @@
       ["prevent","depend","affect","reduce"]
     ];
 
-    // 3. 詞彙解析 (新增部分)
+    // 3. 詞彙解析 
     const explanations = [
       "Launch (v.) 發布、發起。與 new marketing strategy 搭配，表示『發起新行銷策略』。",
       "Complete (v.) 完成、填寫。與 form 搭配，表示『填寫表格』。",
@@ -282,14 +283,6 @@
       // 捲動到結果區
       resultDiv.scrollIntoView({ behavior: 'smooth' });
     }
-
-    // 使用事件監聽器將 checkAnswers 函式綁定到按鈕上
-    document.addEventListener('DOMContentLoaded', () => {
-      const submitButton = document.querySelector('button[type="button"]');
-      if (submitButton) {
-        submitButton.addEventListener('click', checkAnswers);
-      }
-    });
 </script>
 </body>
 </html>
