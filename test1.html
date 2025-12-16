@@ -105,21 +105,7 @@
 
 <script>
   const answers = [
-    0, // launch
-    0, // complete
-    0, // guests
-    0, // increased
-    0, // postponed
-    0, // opinions
-    0, // central
-    0, // confidential
-    0, // efficient
-    0, // basic
-    0, // detailed
-    0, // purchase
-    0, // increase
-    0, // carefully
-    0  // affect
+    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   ];
 
   const options = [
@@ -140,4 +126,9 @@
     ["affect","prevent","depend","reduce"]
   ];
 
-  function checkAnswers
+  function checkAnswers() {
+    let score = 0;
+    let feedback = "<p>答題結果：</p><ul>";
+    for (let i = 1; i <= 15; i++) {
+      const selected = document.querySelector(`input[name="q${i}"]:checked`);
+      const correctIndex =
