@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>字彙測驗 </title>
+  <title>字彙測驗 (最終穩定版)</title>
   <style>
     /* --- 樣式美化 (CSS) --- */
     body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; background-color: #f4f7f6; }
@@ -14,7 +14,7 @@
       padding: 15px; 
       border-radius: 8px; 
       background-color: #ffffff;
-      list-style: none; /* 移除瀏覽器預設編號 */
+      list-style: none;
     }
     li::before { 
       content: counter(item) ". "; 
@@ -27,7 +27,7 @@
     label { cursor: pointer; display: inline-block; margin-right: 20px; }
     button { 
       padding: 12px 25px; 
-      background-color: #2ECC71; /* 綠色按鈕 */
+      background-color: #2ECC71; 
       color: white; 
       border: none; 
       border-radius: 6px; 
@@ -44,7 +44,7 @@
       border-radius: 8px; 
       font-size: 18px; 
       background-color: #FFFDEE;
-      display: none; /* 預設隱藏 */
+      display: none;
     }
     #result h3 { color: #E74C3C; margin-top: 0; }
     .correct { background-color: #D4EDDA; color: #155724; padding: 3px 6px; border-radius: 4px; font-weight: bold; }
@@ -52,7 +52,7 @@
   </style>
 </head>
 <body>
-<h2>字彙測驗 (單頁版)</h2>
+<h2>字彙測驗 (最終穩定版)</h2>
 <form id="vocabQuiz">
   <ol>
     <li>The company plans to ____ a new marketing strategy next month.<br>
@@ -146,28 +146,14 @@
       <label><input type="radio" name="q15" value="3"> D. reduce</label>
     </li>
   </ol>
-    <button type="submit">提交答案並查看結果</button> 
+    <button type="button" onclick="checkAnswers()">提交答案並查看結果</button> 
 </form>
 <div id="result"></div>
 
 <script>
   // 1. 正確答案索引 (0=A, 1=B, 2=C, 3=D)
   const answers = [
-    1, // q1: launch
-    2, // q2: complete
-    2, // q3: guests
-    3, // q4: increased
-    0, // q5: postponed
-    3, // q6: opinions
-    3, // q7: central
-    2, // q8: confidential
-    3, // q9: efficient
-    3, // q10: basic
-    3, // q11: detailed
-    3, // q12: purchase
-    3, // q13: increase
-    3, // q14: carefully
-    2  // q15: affect
+    1, 2, 2, 3, 0, 3, 3, 2, 3, 3, 3, 3, 3, 3, 2
   ];
 
   // 2. 所有選項的文字內容 (用於在提交後顯示)
@@ -191,6 +177,7 @@
 
   /** 這是計算答案的函式 **/
   function checkAnswers() {
+    // 這裡不再需要 event.preventDefault()，因為按鈕是 type="button"
     const form = document.getElementById('vocabQuiz');
     const resultDiv = document.getElementById('result');
     let score = 0;
@@ -203,7 +190,6 @@
       const selectedElement = form.elements[questionName];
       let selectedOption = "";
       
-      // 找到使用者選取的 radio button 的值
       if (selectedElement && selectedElement.length > 0) {
         for (let j = 0; j < selectedElement.length; j++) {
           if (selectedElement[j].checked) {
@@ -245,19 +231,6 @@
     // 捲動到結果區
     resultDiv.scrollIntoView({ behavior: 'smooth' });
   }
-
-  // --- 關鍵的事件監聽器 ---
-  // 頁面載入後，找到表單並添加提交事件的處理
-  document.addEventListener('DOMContentLoaded', (event) => {
-    const form = document.getElementById('vocabQuiz');
-    form.addEventListener('submit', function(e) {
-      // 阻止表單的預設提交行為
-      e.preventDefault(); 
-      
-      // 呼叫計算答案的函式
-      checkAnswers();
-    });
-  });
 </script>
 </body>
 </html>
