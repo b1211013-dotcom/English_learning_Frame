@@ -46,9 +46,16 @@
       background-color: #FFFDEE;
       display: none;
     }
-    #result h3 { color: #E74C3C; margin-top: 0; }
+    #result h3 { color: #2C3E50; margin-top: 0; }
     .correct { background-color: #D4EDDA; color: #155724; padding: 3px 6px; border-radius: 4px; font-weight: bold; }
     .incorrect { background-color: #F8D7DA; color: #721C24; padding: 3px 6px; border-radius: 4px; font-weight: bold; }
+    .explanation { 
+      margin-top: 10px; 
+      padding: 10px; 
+      border-left: 4px solid #3498DB; 
+      background-color: #ecf0f1; 
+      font-size: 0.9em; 
+    }
   </style>
 </head>
 <body>
@@ -56,94 +63,94 @@
 <form id="vocabQuiz">
   <ol>
     <li>The company plans to ____ a new marketing strategy next month.<br>
-      <label><input type="radio" name="q1" value="0"> A. delay</label>
-      <label><input type="radio" name="q1" value="1"> B. launch</label>
-      <label><input type="radio" name="q1" value="2"> C. complain</label>
-      <label><input type="radio" name="q1" value="3"> D. refuse</label>
+      <label><input type="radio" name="q1" value="0"> A. delay (延遲)</label>
+      <label><input type="radio" name="q1" value="1"> B. launch (發布/發起)</label>
+      <label><input type="radio" name="q1" value="2"> C. complain (抱怨)</label>
+      <label><input type="radio" name="q1" value="3"> D. refuse (拒絕)</label>
     </li>
     <li>Please ____ the form and return it by Friday.<br>
-      <label><input type="radio" name="q2" value="0"> A. expect</label>
-      <label><input type="radio" name="q2" value="1"> B. avoid</label>
-      <label><input type="radio" name="q2" value="2"> C. complete</label>
-      <label><input type="radio" name="q2" value="3"> D. remind</label>
+      <label><input type="radio" name="q2" value="0"> A. expect (期待)</label>
+      <label><input type="radio" name="q2" value="1"> B. avoid (避免)</label>
+      <label><input type="radio" name="q2" value="2"> C. complete (完成/填寫)</label>
+      <label><input type="radio" name="q2" value="3"> D. remind (提醒)</label>
     </li>
     <li>The hotel offers free breakfast to all ____.<br>
-      <label><input type="radio" name="q3" value="0"> A. managers</label>
-      <label><input type="radio" name="q3" value="1"> B. employees</label>
-      <label><input type="radio" name="q3" value="2"> C. guests</label>
-      <label><input type="radio" name="q3" value="3"> D. partners</label>
+      <label><input type="radio" name="q3" value="0"> A. managers (經理)</label>
+      <label><input type="radio" name="q3" value="1"> B. employees (員工)</label>
+      <label><input type="radio" name="q3" value="2"> C. guests (客人)</label>
+      <label><input type="radio" name="q3" value="3"> D. partners (夥伴)</label>
     </li>
     <li>Sales have ____ significantly since the new product was released.<br>
-      <label><input type="radio" name="q4" value="0"> A. protected</label>
-      <label><input type="radio" name="q4" value="1"> B. avoided</label>
-      <label><input type="radio" name="q4" value="2"> C. described</label>
-      <label><input type="radio" name="q4" value="3"> D. increased</label>
+      <label><input type="radio" name="q4" value="0"> A. protected (保護)</label>
+      <label><input type="radio" name="q4" value="1"> B. avoided (避免)</label>
+      <label><input type="radio" name="q4" value="2"> C. described (描述)</label>
+      <label><input type="radio" name="q4" value="3"> D. increased (增加)</label>
     </li>
     <li>The meeting was ____ because several members were absent.<br>
-      <label><input type="radio" name="q5" value="0"> A. postponed</label>
-      <label><input type="radio" name="q5" value="1"> B. confused</label>
-      <label><input type="radio" name="q5" value="2"> C. damaged</label>
-      <label><input type="radio" name="q5" value="3"> D. promised</label>
+      <label><input type="radio" name="q5" value="0"> A. postponed (延期)</label>
+      <label><input type="radio" name="q5" value="1"> B. confused (困惑)</label>
+      <label><input type="radio" name="q5" value="2"> C. damaged (損壞)</label>
+      <label><input type="radio" name="q5" value="3"> D. promised (承諾)</label>
     </li>
     <li>Employees are encouraged to share their ____ during the discussion.<br>
-      <label><input type="radio" name="q6" value="0"> A. profits</label>
-      <label><input type="radio" name="q6" value="1"> B. schedules</label>
-      <label><input type="radio" name="q6" value="2"> C. salaries</label>
-      <label><input type="radio" name="q6" value="3"> D. opinions</label>
+      <label><input type="radio" name="q6" value="0"> A. profits (利潤)</label>
+      <label><input type="radio" name="q6" value="1"> B. schedules (時間表)</label>
+      <label><input type="radio" name="q6" value="2"> C. salaries (薪水)</label>
+      <label><input type="radio" name="q6" value="3"> D. opinions (意見)</label>
     </li>
     <li>The office is located in a very ____ area with convenient transportation.<br>
-      <label><input type="radio" name="q7" value="0"> A. usual</label>
-      <label><input type="radio" name="q7" value="1"> B. simple</label>
-      <label><input type="radio" name="q7" value="2"> C. private</label>
-      <label><input type="radio" name="q7" value="3"> D. central</label>
+      <label><input type="radio" name="q7" value="0"> A. usual (通常的)</label>
+      <label><input type="radio" name="q7" value="1"> B. simple (簡單的)</label>
+      <label><input type="radio" name="q7" value="2"> C. private (私人的)</label>
+      <label><input type="radio" name="q7" value="3"> D. central (中心的/主要的)</label>
     </li>
     <li>Please keep all customer information ____ and secure.<br>
-      <label><input type="radio" name="q8" value="0"> A. available</label>
-      <label><input type="radio" name="q8" value="1"> B. formal</label>
-      <label><input type="radio" name="q8" value="2"> C. confidential</label>
-      <label><input type="radio" name="q8" value="3"> D. temporary</label>
+      <label><input type="radio" name="q8" value="0"> A. available (可取得的)</label>
+      <label><input type="radio" name="q8" value="1"> B. formal (正式的)</label>
+      <label><input type="radio" name="q8" value="2"> C. confidential (機密的)</label>
+      <label><input type="radio" name="q8" value="3"> D. temporary (暫時的)</label>
     </li>
     <li>The manager praised the team for their ____ work.<br>
-      <label><input type="radio" name="q9" value="0"> A. nervous</label>
-      <label><input type="radio" name="q9" value="1"> B. careless</label>
-      <label><input type="radio" name="q9" value="2"> C. ordinary</label>
-      <label><input type="radio" name="q9" value="3"> D. efficient</label>
+      <label><input type="radio" name="q9" value="0"> A. nervous (緊張的)</label>
+      <label><input type="radio" name="q9" value="1"> B. careless (粗心的)</label>
+      <label><input type="radio" name="q9" value="2"> C. ordinary (普通的)</label>
+      <label><input type="radio" name="q9" value="3"> D. efficient (有效率的)</label>
     </li>
     <li>The company provides ____ training for new staff members.<br>
-      <label><input type="radio" name="q10" value="0"> A. rare</label>
-      <label><input type="radio" name="q10" value="1"> B. personal</label>
-      <label><input type="radio" name="q10" value="2"> C. equal</label>
-      <label><input type="radio" name="q10" value="3"> D. basic</label>
+      <label><input type="radio" name="q10" value="0"> A. rare (稀有的)</label>
+      <label><input type="radio" name="q10" value="1"> B. personal (個人的)</label>
+      <label><input type="radio" name="q10" value="2"> C. equal (相等的)</label>
+      <label><input type="radio" name="q10" value="3"> D. basic (基礎的)</label>
     </li>
     <li>The report contains ____ information about last year’s sales.<br>
-      <label><input type="radio" name="q11" value="0"> A. silent</label>
-      <label><input type="radio" name="q11" value="1"> B. flexible</label>
-      <label><input type="radio" name="q11" value="2"> C. empty</label>
-      <label><input type="radio" name="q11" value="3"> D. detailed</label>
+      <label><input type="radio" name="q11" value="0"> A. silent (安靜的)</label>
+      <label><input type="radio" name="q11" value="1"> B. flexible (有彈性的)</label>
+      <label><input type="radio" name="q11" value="2"> C. empty (空的)</label>
+      <label><input type="radio" name="q11" value="3"> D. detailed (詳細的)</label>
     </li>
     <li>Customers can ____ the product online or in the store.<br>
-      <label><input type="radio" name="q12" value="0"> A. imagine</label>
-      <label><input type="radio" name="q12" value="1"> B. repair</label>
-      <label><input type="radio" name="q12" value="2"> C. publish</label>
-      <label><input type="radio" name="q12" value="3"> D. purchase</label>
+      <label><input type="radio" name="q12" value="0"> A. imagine (想像)</label>
+      <label><input type="radio" name="q12" value="1"> B. repair (修理)</label>
+      <label><input type="radio" name="q12" value="2"> C. publish (出版)</label>
+      <label><input type="radio" name="q12" value="3"> D. purchase (購買)</label>
     </li>
     <li>The airline announced a ____ in ticket prices.<br>
-      <label><input type="radio" name="q13" value="0"> A. direction</label>
-      <label><input type="radio" name="q13" value="1"> B. distance</label>
-      <label><input type="radio" name="q13" value="2"> C. pressure</label>
-      <label><input type="radio" name="q13" value="3"> D. increase</label>
+      <label><input type="radio" name="q13" value="0"> A. direction (方向)</label>
+      <label><input type="radio" name="q13" value="1"> B. distance (距離)</label>
+      <label><input type="radio" name="q13" value="2"> C. pressure (壓力)</label>
+      <label><input type="radio" name="q13" value="3"> D. increase (增加/漲價)</label>
     </li>
     <li>Please read the instructions ____ before using the machine.<br>
-      <label><input type="radio" name="q14" value="0"> A. suddenly</label>
-      <label><input type="radio" name="q14" value="1"> B. widely</label>
-      <label><input type="radio" name="q14" value="2"> C. closely</label>
-      <label><input type="radio" name="q14" value="3"> D. carefully</label>
+      <label><input type="radio" name="q14" value="0"> A. suddenly (突然地)</label>
+      <label><input type="radio" name="q14" value="1"> B. widely (廣泛地)</label>
+      <label><input type="radio" name="q14" value="2"> C. closely (近距離地)</label>
+      <label><input type="radio" name="q14" value="3"> D. carefully (小心地/仔細地)</label>
     </li>
     <li>The new policy will ____ all departments in the company.<br>
-      <label><input type="radio" name="q15" value="0"> A. prevent</label>
-      <label><input type="radio" name="q15" value="1"> B. depend</label>
-      <label><input type="radio" name="q15" value="2"> C. affect</label>
-      <label><input type="radio" name="q15" value="3"> D. reduce</label>
+      <label><input type="radio" name="q15" value="0"> A. prevent (預防)</label>
+      <label><input type="radio" name="q15" value="1"> B. depend (依賴)</label>
+      <label><input type="radio" name="q15" value="2"> C. affect (影響)</label>
+      <label><input type="radio" name="q15" value="3"> D. reduce (減少)</label>
     </li>
   </ol>
         <button type="button">提交答案並查看結果</button> 
@@ -175,64 +182,108 @@
       ["prevent","depend","affect","reduce"]
     ];
 
+    // 3. 詞彙解析 (新增部分)
+    const explanations = [
+      "Launch (v.) 發布、發起。與 new marketing strategy 搭配，表示『發起新行銷策略』。",
+      "Complete (v.) 完成、填寫。與 form 搭配，表示『填寫表格』。",
+      "Guests (n.) 客人、房客。飯店是為客人 (guests) 提供服務，與 free breakfast 搭配最合邏輯。",
+      "Increased (v.) 增加。Sales (銷售量) 通常會在新產品發布後『顯著增加』(increase significantly)。",
+      "Postponed (v.) 延期。當多人缺席時，會議通常會被『延期』(postponed)。",
+      "Opinions (n.) 意見、看法。在討論中，員工應被鼓勵分享他們的『意見』。",
+      "Central (adj.) 中心的、主要的。辦公室通常會設在交通便利的『中心地帶』(central area)。",
+      "Confidential (adj.) 機密的。與 secure (安全) 搭配，表示客戶資訊需要保持『機密』。",
+      "Efficient (adj.) 有效率的。經理會稱讚團隊『高效率的』(efficient) 工作。",
+      "Basic (adj.) 基礎的、基本的。公司通常會提供『基礎培訓』(basic training) 給新員工。",
+      "Detailed (adj.) 詳細的。報告應該包含關於銷售量的『詳細資訊』(detailed information)。",
+      "Purchase (v.) 購買。客戶可以在線上或店內『購買』(purchase) 產品。",
+      "Increase (n.) 增加。與 ticket prices 搭配，表示『票價上漲』(an increase in prices)。",
+      "Carefully (adv.) 小心地、仔細地。讀說明書時必須『仔細地』(read carefully)。",
+      "Affect (v.) 影響。新政策將會『影響』(affect) 公司所有部門。"
+    ];
+
+
     /** 這是計算答案的函式 **/
     function checkAnswers() {
       const form = document.getElementById('vocabQuiz');
       const resultDiv = document.getElementById('result');
       let score = 0;
       const totalQuestions = answers.length;
-      let resultHTML = '<h3>測驗結果</h3><ul>';
+      let resultHTML = '<h3>📊 測驗結果與詳細解析</h3><ol>';
 
       for (let i = 1; i <= totalQuestions; i++) {
         const questionName = 'q' + i;
-        
+        const questionIndex = i - 1;
+
         const selectedElement = form.elements[questionName];
-        let selectedOption = "";
+        let selectedOptionValue = "";
         
         if (selectedElement && selectedElement.length > 0) {
           for (let j = 0; j < selectedElement.length; j++) {
             if (selectedElement[j].checked) {
-              selectedOption = selectedElement[j].value;
+              selectedOptionValue = selectedElement[j].value;
               break;
             }
           }
         }
         
-        const correctAnswerIndex = answers[i - 1];
-        const correctAnswerText = options[i - 1][correctAnswerIndex];
+        const correctAnswerIndex = answers[questionIndex];
+        const correctAnswerText = options[questionIndex][correctAnswerIndex];
         let isCorrect = false;
         
-        if (selectedOption !== "" && parseInt(selectedOption) === correctAnswerIndex) {
+        if (selectedOptionValue !== "" && parseInt(selectedOptionValue) === correctAnswerIndex) {
           score++;
           isCorrect = true;
         }
 
         const statusClass = isCorrect ? 'correct' : 'incorrect';
         let statusText = isCorrect ? '✅ 正確' : '❌ 錯誤';
-        
-        if (selectedOption === "") {
-          statusText = '⚠️ 未作答';
-        } else if (!isCorrect) {
-          const userSelectedText = options[i - 1][parseInt(selectedOption)];
+        let userSelectedText = '未作答';
+        
+        if (selectedOptionValue !== "") {
+          userSelectedText = options[questionIndex][parseInt(selectedOptionValue)];
+        }
+        
+        if (!isCorrect && selectedOptionValue !== "") {
           statusText += ` (您選了: ${userSelectedText})`;
         }
 
-        resultHTML += `<li>第 ${i} 題: <span class="${statusClass}">${statusText}</span>。 正確答案是: **${correctAnswerText}**</li>`;
+
+        resultHTML += `
+          <li>
+            <span style="font-weight: bold;">第 ${i} 題結果:</span> <span class="${statusClass}">${statusText}</span><br>
+            <strong>正確答案:</strong> <span class="correct">${correctAnswerText.toUpperCase()}</span>
+            <div class="explanation">
+              ${explanations[questionIndex]}
+            </div>
+          </li>
+        `;
       }
 
-      resultHTML += '</ul>';
-      resultHTML += `<p style="font-size: 24px;">🎉 總分: **${score} / ${totalQuestions}**</p>`;
+      resultHTML += '</ol>';
+      
+      const finalScore = (score / totalQuestions) * 100;
+
+      let scoreSummary = '';
+      if (finalScore >= 80) {
+        scoreSummary = `<span style="color: green;">表現極佳！</span>`;
+      } else if (finalScore >= 60) {
+        scoreSummary = `<span style="color: orange;">表現良好！</span>`;
+      } else {
+        scoreSummary = `<span style="color: red;">需要加強。</span>`;
+      }
+      
+      resultHTML = `<p style="font-size: 24px;">${scoreSummary} 總分: **${score} / ${totalQuestions}** (${finalScore.toFixed(0)}%)</p><hr>` + resultHTML;
+
 
       resultDiv.innerHTML = resultHTML;
       resultDiv.style.display = 'block';
-      resultDiv.style.borderColor = score === totalQuestions ? '#2ECC71' : '#E74C3C';
+      resultDiv.style.borderColor = finalScore >= 80 ? '#2ECC71' : '#E74C3C';
       
       // 捲動到結果區
       resultDiv.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // 關鍵修正 4：使用事件監聽器將 checkAnswers 函式綁定到按鈕上
-    // 這可以保證只有在整個 HTML 結構載入完成後，函式才會被賦予到按鈕事件上。
+    // 使用事件監聽器將 checkAnswers 函式綁定到按鈕上
     document.addEventListener('DOMContentLoaded', () => {
       const submitButton = document.querySelector('button[type="button"]');
       if (submitButton) {
