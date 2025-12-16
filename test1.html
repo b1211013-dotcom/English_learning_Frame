@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>字彙測驗</title>
   <style>
+    /* --- 樣式美化 (CSS) --- */
     body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; background-color: #f4f7f6; }
     h2 { color: #2C3E50; border-bottom: 2px solid #3498DB; padding-bottom: 10px; }
     ol { counter-reset: item; padding-left: 0; }
@@ -43,7 +44,7 @@
       border-radius: 8px; 
       font-size: 18px; 
       background-color: #FFFDEE;
-      display: none; 
+      display: none; /* 預設隱藏 */
     }
     #result h3 { color: #E74C3C; margin-top: 0; }
     .correct { background-color: #D4EDDA; color: #155724; padding: 3px 6px; border-radius: 4px; font-weight: bold; }
@@ -150,7 +151,9 @@
 <div id="result"></div>
 
 <script>
-  // 1. 正確答案索引 (0=A, 1=B, 2=C, 3=D) - 用於檢查答案
+  /* --- JavaScript 答案邏輯 --- */
+
+  // 1. 正確答案索引 (0=A, 1=B, 2=C, 3=D)
   const answers = [
     1, // q1: launch
     2, // q2: complete
@@ -169,7 +172,7 @@
     2  // q15: affect
   ];
 
-  // 2. 所有選項的文字內容 - 用於顯示作答後的結果和正確答案
+  // 2. 所有選項的文字內容 (用於在提交後顯示)
   const options = [
     ["delay","launch","complain","refuse"],
     ["expect","avoid","complete","remind"],
@@ -198,7 +201,7 @@
     for (let i = 1; i <= totalQuestions; i++) {
       const questionName = 'q' + i;
       
-      // 檢查使用者是否選取了答案
+      // 獲取使用者選擇的選項值
       const selectedElement = form.elements[questionName];
       let selectedOption = "";
       
@@ -211,10 +214,8 @@
         }
       }
       
-      // 取得正確答案的索引和文字
       const correctAnswerIndex = answers[i - 1];
       const correctAnswerText = options[i - 1][correctAnswerIndex];
-
       let isCorrect = false;
       
       // 檢查答案是否正確
@@ -230,12 +231,10 @@
       if (selectedOption === "") {
         statusText = '⚠️ 未作答';
       } else if (!isCorrect) {
-        // 只有在選錯時，才顯示使用者選了什麼
         const userSelectedText = options[i - 1][parseInt(selectedOption)];
         statusText += ` (您選了: ${userSelectedText})`;
       }
 
-      // 顯示該題的狀態和正確答案 (在提交後才顯示)
       resultHTML += `<li>第 ${i} 題: <span class="${statusClass}">${statusText}</span>。 正確答案是: **${correctAnswerText}**</li>`;
     }
 
@@ -243,11 +242,10 @@
     resultHTML += `<p style="font-size: 24px;">🎉 總分: **${score} / ${totalQuestions}**</p>`;
 
     resultDiv.innerHTML = resultHTML;
-    resultDiv.style.display = 'block';
-    // 根據分數改變結果區塊邊框顏色
+    resultDiv.style.display = 'block'; // 讓結果區塊顯示出來
     resultDiv.style.borderColor = score === totalQuestions ? '#2ECC71' : '#E74C3C';
     
-    // 捲動到結果區
+    // 捲動到結果區 (確保用戶看到結果)
     resultDiv.scrollIntoView({ behavior: 'smooth' });
   }
 </script>
