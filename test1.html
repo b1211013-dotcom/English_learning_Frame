@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOEIC 核心單字測驗 (精簡版)</title>
+    <title>TOEIC 核心單字測驗 (15題)</title>
     <style>
         :root {
             --primary-color: #007bff;
@@ -169,7 +169,7 @@
 <body>
 
 <div class="container">
-    <h1>TOEIC 核心單字測驗 (精簡版)</h1>
+    <h1>TOEIC 核心單字測驗</h1>
 
     <div id="quiz-container">
         </div>
@@ -186,6 +186,7 @@
 </div>
 
 <script>
+    // 15 題多益詞彙數據 (包含中文解釋)
     const quizData = [
         { id: 1, word: "launch", meaning: "發起；推出", question: "The company plans to ____ a new marketing strategy next month.", options: ["delay", "launch", "complain", "refuse"], answer: "launch" },
         { id: 2, word: "complete", meaning: "完成；填寫", question: "Please ____ the form and return it by Friday.", options: ["expect", "avoid", "complete", "remind"], answer: "complete" },
@@ -216,8 +217,8 @@
             const block = document.createElement('div');
             block.className = 'question-block';
             
-            // 讓使用者在題目中看到句子和空格
-            const questionHtml = question.question.replace('____', '<span style="color:red; font-weight:bold;">____</span>');
+            // 讓題目中的空格以粗體顯示
+            const questionHtml = question.question.replace('____', '<span style="color:#007bff; font-weight:bold;">____</span>');
             
             block.innerHTML = `
                 <div class="question-text">${question.id}. ${questionHtml}</div>
@@ -232,6 +233,7 @@
             `;
             quizContainer.appendChild(block);
         });
+        // 初始隱藏結果區
         resultDiv.style.display = 'none';
     }
 
@@ -281,19 +283,18 @@
             </p>
         `;
 
-        // 顯示每題的詳細反饋 (只顯示單字和解析)
+        // 顯示每題的詳細反饋 (精簡版：只顯示填入正確答案的句子、結果和解釋)
         quizData.forEach(question => {
             const userAnswer = userAnswers[question.id];
             const isCorrect = (userAnswer === question.answer);
             const feedbackClass = isCorrect ? 'correct' : 'incorrect';
             
-            // 替換原句中的空格為正確答案
+            // 替換原句中的空格為正確答案，並根據對錯著色
             const filledQuestion = question.question.replace('____', `<strong style="color: ${isCorrect ? 'var(--success-color)' : 'var(--danger-color)'}">${question.answer}</strong>`);
 
             const feedbackItem = document.createElement('div');
             feedbackItem.className = `feedback-item ${feedbackClass}`;
             
-            // 輸出只包含題目、結果、正確單字和中文解釋的精簡內容
             feedbackItem.innerHTML = `
                 <p><strong>Q${question.id}. 題目:</strong> ${filledQuestion}</p>
                 <div class="feedback-info">
