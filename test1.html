@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>字彙測驗</title>
+</head>
+<body>
 <h2>字彙測驗</h2>
 <form id="vocabQuiz">
   <ol>
@@ -133,9 +140,4 @@
     ["affect","prevent","depend","reduce"]
   ];
 
-  function checkAnswers() {
-    let score = 0;
-    let feedback = "<p>答題結果：</p><ul>";
-    for (let i = 1; i <= 15; i++) {
-      const selected = document.querySelector(`input[name="q${i}"]:checked`);
-      const correctIndex = answers[i - 
+  function checkAnswers
