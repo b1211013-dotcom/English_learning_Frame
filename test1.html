@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOEIC 550 核心單字測驗 (更新版)</title>
+    <title>TOEIC 核心單字測驗 (精簡版)</title>
     <style>
         :root {
             --primary-color: #007bff;
@@ -169,7 +169,7 @@
 <body>
 
 <div class="container">
-    <h1>TOEIC 550 核心單字測驗</h1>
+    <h1>TOEIC 核心單字測驗 (精簡版)</h1>
 
     <div id="quiz-container">
         </div>
@@ -178,136 +178,30 @@
         <button id="submit-btn">提交並查看分數 (15題)</button>
     </div>
 
-    <div id="result" style="display: none;">
-        <h2>測驗結果</h2>
+    <div id="result">
+        <h2>測驗結果與解析</h2>
         <div id="score-summary"></div>
         <div id="feedback-list"></div>
     </div>
 </div>
 
 <script>
-    // 根據使用者提供的新題目更新 quizData，並包含中文解釋 (meaning)
     const quizData = [
-        {
-            id: 1,
-            word: "launch",
-            meaning: "發起；推出",
-            question: "The company plans to **____** a new marketing strategy next month.",
-            options: ["delay", "launch", "complain", "refuse"],
-            answer: "launch"
-        },
-        {
-            id: 2,
-            word: "complete",
-            meaning: "完成；填寫",
-            question: "Please **____** the form and return it by Friday.",
-            options: ["expect", "avoid", "complete", "remind"],
-            answer: "complete"
-        },
-        {
-            id: 3,
-            word: "guests",
-            meaning: "賓客；住客",
-            question: "The hotel offers free breakfast to all **____**.",
-            options: ["managers", "employees", "guests", "partners"],
-            answer: "guests"
-        },
-        {
-            id: 4,
-            word: "increased",
-            meaning: "增加；增長",
-            question: "Sales have **____** significantly since the new product was released.",
-            options: ["protected", "avoided", "described", "increased"],
-            answer: "increased"
-        },
-        {
-            id: 5,
-            word: "postponed",
-            meaning: "延期；推遲",
-            question: "The meeting was **____** because several members were absent.",
-            options: ["postponed", "confused", "damaged", "promised"],
-            answer: "postponed"
-        },
-        {
-            id: 6,
-            word: "opinions",
-            meaning: "意見；看法",
-            question: "Employees are encouraged to share their **____** during the discussion.",
-            options: ["profits", "schedules", "salaries", "opinions"],
-            answer: "opinions"
-        },
-        {
-            id: 7,
-            word: "central",
-            meaning: "中央的；主要的",
-            question: "The office is located in a very **____** area with convenient transportation.",
-            options: ["usual", "simple", "private", "central"],
-            answer: "central"
-        },
-        {
-            id: 8,
-            word: "confidential",
-            meaning: "機密的；秘密的",
-            question: "Please keep all customer information **____** and secure.",
-            options: ["available", "formal", "confidential", "temporary"],
-            answer: "confidential"
-        },
-        {
-            id: 9,
-            word: "efficient",
-            meaning: "有效率的",
-            question: "The manager praised the team for their **____** work.",
-            options: ["nervous", "careless", "ordinary", "efficient"],
-            answer: "efficient"
-        },
-        {
-            id: 10,
-            word: "basic",
-            meaning: "基礎的；基本的",
-            question: "The company provides **____** training for new staff members.",
-            options: ["rare", "personal", "equal", "basic"],
-            answer: "basic"
-        },
-        {
-            id: 11,
-            word: "detailed",
-            meaning: "詳細的；仔細的",
-            question: "The report contains **____** information about last year’s sales.",
-            options: ["silent", "flexible", "empty", "detailed"],
-            answer: "detailed"
-        },
-        {
-            id: 12,
-            word: "purchase",
-            meaning: "購買",
-            question: "Customers can **____** the product online or in the store.",
-            options: ["imagine", "repair", "publish", "purchase"],
-            answer: "purchase"
-        },
-        {
-            id: 13,
-            word: "increase",
-            meaning: "增加；增長 (名詞)",
-            question: "The airline announced a **____** in ticket prices.",
-            options: ["direction", "distance", "pressure", "increase"],
-            answer: "increase"
-        },
-        {
-            id: 14,
-            word: "carefully",
-            meaning: "小心地；謹慎地",
-            question: "Please read the instructions **____** before using the machine.",
-            options: ["suddenly", "widely", "closely", "carefully"],
-            answer: "carefully"
-        },
-        {
-            id: 15,
-            word: "affect",
-            meaning: "影響",
-            question: "The new policy will **____** all departments in the company.",
-            options: ["prevent", "depend", "affect", "reduce"],
-            answer: "affect"
-        }
+        { id: 1, word: "launch", meaning: "發起；推出", question: "The company plans to ____ a new marketing strategy next month.", options: ["delay", "launch", "complain", "refuse"], answer: "launch" },
+        { id: 2, word: "complete", meaning: "完成；填寫", question: "Please ____ the form and return it by Friday.", options: ["expect", "avoid", "complete", "remind"], answer: "complete" },
+        { id: 3, word: "guests", meaning: "賓客；住客", question: "The hotel offers free breakfast to all ____.", options: ["managers", "employees", "guests", "partners"], answer: "guests" },
+        { id: 4, word: "increased", meaning: "增加；增長", question: "Sales have ____ significantly since the new product was released.", options: ["protected", "avoided", "described", "increased"], answer: "increased" },
+        { id: 5, word: "postponed", meaning: "延期；推遲", question: "The meeting was ____ because several members were absent.", options: ["postponed", "confused", "damaged", "promised"], answer: "postponed" },
+        { id: 6, word: "opinions", meaning: "意見；看法", question: "Employees are encouraged to share their ____ during the discussion.", options: ["profits", "schedules", "salaries", "opinions"], answer: "opinions" },
+        { id: 7, word: "central", meaning: "中央的；主要的", question: "The office is located in a very ____ area with convenient transportation.", options: ["usual", "simple", "private", "central"], answer: "central" },
+        { id: 8, word: "confidential", meaning: "機密的；秘密的", question: "Please keep all customer information ____ and secure.", options: ["available", "formal", "confidential", "temporary"], answer: "confidential" },
+        { id: 9, word: "efficient", meaning: "有效率的", question: "The manager praised the team for their ____ work.", options: ["nervous", "careless", "ordinary", "efficient"], answer: "efficient" },
+        { id: 10, word: "basic", meaning: "基礎的；基本的", question: "The company provides ____ training for new staff members.", options: ["rare", "personal", "equal", "basic"], answer: "basic" },
+        { id: 11, word: "detailed", meaning: "詳細的；仔細的", question: "The report contains ____ information about last year’s sales.", options: ["silent", "flexible", "empty", "detailed"], answer: "detailed" },
+        { id: 12, word: "purchase", meaning: "購買", question: "Customers can ____ the product online or in the store.", options: ["imagine", "repair", "publish", "purchase"], answer: "purchase" },
+        { id: 13, word: "increase", meaning: "增加；增長 (名詞)", question: "The airline announced a ____ in ticket prices.", options: ["direction", "distance", "pressure", "increase"], answer: "increase" },
+        { id: 14, word: "carefully", meaning: "小心地；謹慎地", question: "Please read the instructions ____ before using the machine.", options: ["suddenly", "widely", "closely", "carefully"], answer: "carefully" },
+        { id: 15, word: "affect", meaning: "影響", question: "The new policy will ____ all departments in the company.", options: ["prevent", "depend", "affect", "reduce"], answer: "affect" }
     ];
 
     const quizContainer = document.getElementById('quiz-container');
@@ -321,9 +215,12 @@
         quizData.forEach((question, index) => {
             const block = document.createElement('div');
             block.className = 'question-block';
-            // 使用 question.question 呈現題目
+            
+            // 讓使用者在題目中看到句子和空格
+            const questionHtml = question.question.replace('____', '<span style="color:red; font-weight:bold;">____</span>');
+            
             block.innerHTML = `
-                <div class="question-text">${question.id}. ${question.question.replace('____', '<strong>____</strong>')}</div>
+                <div class="question-text">${question.id}. ${questionHtml}</div>
                 <div class="options-group" id="q${question.id}">
                     ${question.options.map(option => `
                         <div>
@@ -335,6 +232,7 @@
             `;
             quizContainer.appendChild(block);
         });
+        resultDiv.style.display = 'none';
     }
 
     // 提交測驗並計算分數
@@ -373,25 +271,33 @@
         resultDiv.style.display = 'block';
         
         // 顯示總結分數
+        const totalQuestions = quizData.length;
+        const finalScore = (score / totalQuestions) * 100;
+        
         scoreSummary.innerHTML = `
-            <h3>總分: ${score} / 15 題</h3>
-            <p style="font-size: 1.2em; color: ${score >= 10 ? 'var(--success-color)' : 'var(--danger-color)'};">
-                ${score >= 10 ? '表現優秀！請繼續保持！' : '請再加強核心單字，並仔細查看以下解析。'}
+            <h3>總分: ${score} / ${totalQuestions} 題 (${finalScore.toFixed(0)}%)</h3>
+            <p style="font-size: 1.2em; color: ${finalScore >= 70 ? 'var(--success-color)' : 'var(--danger-color)'};">
+                ${finalScore >= 70 ? '表現優秀！' : '請加強單字。'}
             </p>
         `;
 
-        // 顯示每題的詳細反饋 (包含中文解釋)
+        // 顯示每題的詳細反饋 (只顯示單字和解析)
         quizData.forEach(question => {
             const userAnswer = userAnswers[question.id];
             const isCorrect = (userAnswer === question.answer);
             const feedbackClass = isCorrect ? 'correct' : 'incorrect';
+            
+            // 替換原句中的空格為正確答案
+            const filledQuestion = question.question.replace('____', `<strong style="color: ${isCorrect ? 'var(--success-color)' : 'var(--danger-color)'}">${question.answer}</strong>`);
 
             const feedbackItem = document.createElement('div');
             feedbackItem.className = `feedback-item ${feedbackClass}`;
+            
+            // 輸出只包含題目、結果、正確單字和中文解釋的精簡內容
             feedbackItem.innerHTML = `
-                <p><strong>Q${question.id}. 題目:</strong> ${question.question.replace('____', '<strong>____</strong>')}</p>
+                <p><strong>Q${question.id}. 題目:</strong> ${filledQuestion}</p>
                 <div class="feedback-info">
-                    <p>您的選擇: <strong>${userAnswer || '未作答'}</strong></p>
+                    <p>您的選擇: <strong>${userAnswer}</strong></p>
                     <p class="correct-answer">正確答案: <strong>${question.answer}</strong></p>
                     <div class="meaning-explanation">
                         <strong>核心單字 & 中文解釋:</strong> ${question.answer} - **${question.meaning}**
@@ -400,6 +306,9 @@
             `;
             feedbackList.appendChild(feedbackItem);
         });
+        
+        // 滾動到結果區
+        resultDiv.scrollIntoView({ behavior: 'smooth' });
     }
 
     // 初始化
