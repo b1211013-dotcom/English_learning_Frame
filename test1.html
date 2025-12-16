@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOEIC 550 核心單字測驗 (含中文解釋)</title>
+    <title>TOEIC 核心單字測驗 (15題新版)</title>
     <style>
         :root {
             --primary-color: #007bff;
@@ -113,6 +113,7 @@
             border: 2px dashed var(--primary-color);
             border-radius: 8px;
             background-color: #f1f7fe;
+            display: none; /* 初始隱藏結果區 */
         }
 
         #result h2 {
@@ -169,7 +170,7 @@
 <body>
 
 <div class="container">
-    <h1>TOEIC 550 核心單字測驗</h1>
+    <h1>TOEIC 核心單字測驗</h1>
 
     <div id="quiz-container">
         </div>
@@ -178,7 +179,7 @@
         <button id="submit-btn">提交並查看分數 (15題)</button>
     </div>
 
-    <div id="result" style="display: none;">
+    <div id="result">
         <h2>測驗結果</h2>
         <div id="score-summary"></div>
         <div id="feedback-list"></div>
@@ -186,7 +187,7 @@
 </div>
 
 <script>
-    // *** 已更新的題目與答案 (quizData) ***
+    // *** 新的 15 題多益詞彙數據 ***
     const quizData = [
         {
             id: 1,
@@ -322,7 +323,7 @@
             const block = document.createElement('div');
             block.className = 'question-block';
             block.innerHTML = `
-                <div class="question-text">${question.id}. ${question.question.replace('____', `<u>${question.word}</u>`)}</div>
+                <div class="question-text">${question.id}. ${question.question}</div>
                 <div class="options-group" id="q${question.id}">
                     ${question.options.map(option => `
                         <div>
@@ -334,6 +335,8 @@
             `;
             quizContainer.appendChild(block);
         });
+        // 初始隱藏結果區
+        resultDiv.style.display = 'none';
     }
 
     // 提交測驗並計算分數
@@ -345,7 +348,7 @@
         const userAnswers = {};
 
         quizData.forEach(question => {
-            // 注意: 這裡修正了原程式碼中的選取器錯誤 (少了引號)
+            // 正確獲取選中的選項
             const selectedOption = document.querySelector(\`input[name="q\${question.id}"]:checked\`);
             
             if (!selectedOption) {
@@ -361,27 +364,29 @@
             }
         });
 
-        // 檢查是否有未作答的題目
+        // 檢查是否有未作答的題目 (如果用戶想強制提交，可以註釋掉這段)
         if (unansweredCount > 0) {
             alert(\`您還有 \${unansweredCount} 題未作答，請完成所有題目後再提交！\`);
             return;
         }
 
         // 隱藏測驗，顯示結果
-        // 由於您之前遇到提交問題，這裡加入了重新渲染和滾動的功能
         quizContainer.style.display = 'none';
         submitBtn.style.display = 'none';
         resultDiv.style.display = 'block';
         
         // 顯示總結分數
+        const totalQuestions = quizData.length;
+        const finalScore = (score / totalQuestions) * 100;
+
         scoreSummary.innerHTML = `
-            <h3>總分: ${score} / ${quizData.length} 題</h3>
-            <p style="font-size: 1.2em; color: ${score >= quizData.length * 0.7 ? 'var(--success-color)' : 'var(--danger-color)'};">
-                ${score >= quizData.length * 0.7 ? '表現優秀！請繼續保持！' : '請再加強核心單字，並仔細查看以下解析。'}
+            <h3>總分: ${score} / ${totalQuestions} 題 (${finalScore.toFixed(0)}%)</h3>
+            <p style="font-size: 1.2em; color: ${finalScore >= 70 ? 'var(--success-color)' : 'var(--danger-color)'};">
+                ${finalScore >= 70 ? '表現優秀！請繼續保持！' : '請再加強核心單字，並仔細查看以下解析。'}
             </p>
         `;
 
-        // 顯示每題的詳細反饋 (新增中文解釋)
+        // 顯示每題的詳細反饋
         quizData.forEach(question => {
             const userAnswer = userAnswers[question.id];
             const isCorrect = (userAnswer === question.answer);
@@ -391,9 +396,9 @@
             feedbackItem.className = \`feedback-item \${feedbackClass}\`;
             feedbackItem.innerHTML = `
                 <p><strong>Q${question.id}. 題目單字:</strong> ${question.answer}</p>
-                <p>原句: ${question.question}</p>
+                <p>原句: ${question.question.replace('____', \`<u>${question.answer}</u>\`)}</p>
                 <div class="feedback-info">
-                    <p>您的選擇: <strong>${userAnswer}</strong></p>
+                    <p>您的選擇: <strong>${userAnswer || '未作答'}</strong></p>
                     <p class="correct-answer">正確答案: <strong>${question.answer}</strong></p>
                     <div class="meaning-explanation">
                         <strong>中文解釋:</strong> ${question.answer} - *${question.meaning}*
@@ -411,12 +416,6 @@
     document.addEventListener('DOMContentLoaded', () => {
         renderQuiz();
         submitBtn.addEventListener('click', submitQuiz);
-        
-        // **修正潛在的提交問題**
-        // 由於您先前遇到提交問題，這裡增加一個檢查，確保提交按鈕的事件監聽器成功附加。
-        if (!submitBtn.onclick) {
-            console.log("Submit listener attached successfully.");
-        }
     });
 
 </script>
