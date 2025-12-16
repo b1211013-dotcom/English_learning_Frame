@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <title>文法測驗</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOEIC 核心文法測驗</title>
   <style>
-    /* --- 樣式美化 (CSS) --- */
+    /* --- 基礎樣式 --- */
     body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; background-color: #f4f7f6; }
-    h2 { color: #2C3E50; border-bottom: 2px solid #3498DB; padding-bottom: 10px; }
-    h3 { color: #34495E; margin-top: 30px; }
+    h2 { color: #2C3E50; border-bottom: 2px solid #3498DB; padding-bottom: 10px; text-align: center; margin-top: 30px;}
     ol { counter-reset: item; padding-left: 0; }
+    
+    /* --- 題目樣式 --- */
     li { 
       margin-bottom: 25px; 
       border: 1px solid #ddd; 
@@ -24,18 +26,25 @@
       margin-right: 8px; 
       color: #3498DB;
     }
+    label { cursor: pointer; display: inline-block; margin-right: 20px; }
+    input[type="radio"] { margin-right: 5px; } 
+
+    /* --- 按鈕樣式 --- */
     button { 
+      display: block; 
+      margin: 15px auto 0; 
       padding: 12px 25px; 
-      background-color: #3498DB; 
+      background-color: #2ECC71; 
       color: white; 
       border: none; 
       border-radius: 6px; 
       cursor: pointer; 
       font-size: 17px; 
-      margin-top: 15px;
       transition: background-color 0.3s;
     }
-    button:hover { background-color: #2980B9; }
+    button:hover { background-color: #27AE60; }
+    
+    /* --- 結果區塊樣式 --- */
     #grammarResult { 
       margin-top: 30px; 
       padding: 20px; 
@@ -43,229 +52,219 @@
       border-radius: 8px; 
       font-size: 18px; 
       background-color: #FFFDEE;
-      display: none;
+      display: none; /* 初始隱藏 */
     }
-    .correct-answer { color: green; font-weight: bold; }
-    .user-incorrect { color: red; font-weight: bold; }
-    .result-item { margin-bottom: 10px; }
+    #grammarResult h2 { color: #2980b9; margin-top: 0; text-align: center; }
+    
+    /* 答題結果列表樣式 */
+    .result-list { list-style-type: none; padding-left: 0; }
+    .result-list li { margin-bottom: 15px; padding: 5px 0; border: none; background: none; }
+    .correct-word { font-weight: bold; color: #27AE60; }
   </style>
 </head>
 <body>
-<h2>文法測驗</h2>
+
+<h2>📝 TOEIC 核心文法測驗 (15 題)</h2>
+
 <form id="grammarQuiz">
-  <h3>I. Tense – 時態 (1–3)</h3>
-  <ol start="1">
-    <li>By the time the audit is completed, the finance department _ all related documents.<br>
-      <input type="radio" name="q1" value="0"> A. reviews<br>
-      <input type="radio" name="q1" value="1"> B. reviewed<br>
-      <input type="radio" name="q1" value="2"> C. will have reviewed<br>
-      <input type="radio" name="q1" value="3"> D. is reviewing<br>
+  <ol>
+    
+        <li>**I. Tense – 時態**<br>By the time the audit is completed, the finance department ___ all related documents.
+      <label><input type="radio" name="g1" value="0"> A. reviews</label>
+      <label><input type="radio" name="g1" value="1"> B. reviewed</label>
+      <label><input type="radio" name="g1" value="2"> C. will have reviewed</label>
+      <label><input type="radio" name="g1" value="3"> D. is reviewing</label>
     </li>
-    <li>The company _ steadily since it entered the Southeast Asian market.<br>
-      <input type="radio" name="q2" value="0"> A. grows<br>
-      <input type="radio" name="q2" value="1"> B. has grown<br>
-      <input type="radio" name="q2" value="2"> C. grew<br>
-      <input type="radio" name="q2" value="3"> D. is growing<br>
+
+        <li>The company ___ steadily since it entered the Southeast Asian market.
+      <label><input type="radio" name="g2" value="0"> A. grows</label>
+      <label><input type="radio" name="g2" value="1"> B. has grown</label>
+      <label><input type="radio" name="g2" value="2"> C. grew</label>
+      <label><input type="radio" name="g2" value="3"> D. is growing</label>
     </li>
-    <li>While the manager _ the proposal, the staff prepared supporting data.<br>
-      <input type="radio" name="q3" value="0"> A. examines<br>
-      <input type="radio" name="q3" value="1"> B. examined<br>
-      <input type="radio" name="q3" value="2"> C. was examining<br>
-      <input type="radio" name="q3" value="3"> D. has examined<br>
+
+        <li>While the manager ___ the proposal, the staff prepared supporting data.
+      <label><input type="radio" name="g3" value="0"> A. examines</label>
+      <label><input type="radio" name="g3" value="1"> B. examined</label>
+      <label><input type="radio" name="g3" value="2"> C. was examining</label>
+      <label><input type="radio" name="g3" value="3"> D. has examined</label>
+    </li>
+    
+        <li>**II. Relative Clause – 關係子句**<br>The consultant ___ recommendations were adopted helped improve productivity.
+      <label><input type="radio" name="g4" value="0"> A. which</label>
+      <label><input type="radio" name="g4" value="1"> B. whose</label>
+      <label><input type="radio" name="g4" value="2"> C. where</label>
+      <label><input type="radio" name="g4" value="3"> D. whom</label>
+    </li>
+    
+        <li>The software ___ we installed last quarter increased operational efficiency.
+      <label><input type="radio" name="g5" value="0"> A. where</label>
+      <label><input type="radio" name="g5" value="1"> B. who</label>
+      <label><input type="radio" name="g5" value="2"> C. which</label>
+      <label><input type="radio" name="g5" value="3"> D. whose</label>
+    </li>
+    
+        <li>Employees ___ perform consistently well will be considered for promotion.
+      <label><input type="radio" name="g6" value="0"> A. whom</label>
+      <label><input type="radio" name="g6" value="1"> B. whose</label>
+      <label><input type="radio" name="g6" value="2"> C. which</label>
+      <label><input type="radio" name="g6" value="3"> D. who</label>
+    </li>
+
+        <li>**III. Conditional Sentence – 條件句**<br>If the shipment ___ on schedule, production delays could have been avoided.
+      <label><input type="radio" name="g7" value="0"> A. arrives</label>
+      <label><input type="radio" name="g7" value="1"> B. arrived</label>
+      <label><input type="radio" name="g7" value="2"> C. had arrived</label>
+      <label><input type="radio" name="g7" value="3"> D. will arrive</label>
+    </li>
+    
+        <li>Unless the contract is revised, the company ___ significant financial risks.
+      <label><input type="radio" name="g8" value="0"> A. faces</label>
+      <label><input type="radio" name="g8" value="1"> B. faced</label>
+      <label><input type="radio" name="g8" value="2"> C. will face</label>
+      <label><input type="radio" name="g8" value="3"> D. would face</label>
+    </li>
+    
+        <li>If the marketing team were more proactive, customer satisfaction ___ higher.
+      <label><input type="radio" name="g9" value="0"> A. is</label>
+      <label><input type="radio" name="g9" value="1"> B. was</label>
+      <label><input type="radio" name="g9" value="2"> C. will be</label>
+      <label><input type="radio" name="g9" value="3"> D. would be</label>
+    </li>
+
+        <li>**IV. Passive Voice – 被動語態**<br>The annual report ___ by the board of directors next week.
+      <label><input type="radio" name="g10" value="0"> A. approves</label>
+      <label><input type="radio" name="g10" value="1"> B. approved</label>
+      <label><input type="radio" name="g10" value="2"> C. will approve</label>
+      <label><input type="radio" name="g10" value="3"> D. will be approved</label>
+    </li>
+    
+        <li>Several cost-cutting measures ___ to enhance profitability.
+      <label><input type="radio" name="g11" value="0"> A. implemented</label>
+      <label><input type="radio" name="g11" value="1"> B. are implementing</label>
+      <label><input type="radio" name="g11" value="2"> C. have been implemented</label>
+      <label><input type="radio" name="g11" value="3"> D. have implemented</label>
+    </li>
+    
+        <li>Confidential information must not ___ without authorization.
+      <label><input type="radio" name="g12" value="0"> A. disclose</label>
+      <label><input type="radio" name="g12" value="1"> B. disclosed</label>
+      <label><input type="radio" name="g12" value="2"> C. be disclosed</label>
+      <label><input type="radio" name="g12" value="3"> D. be disclosing</label>
+    </li>
+
+        <li>**V. Collocation – 固定詞組**<br>The company plans to ___ a strategic partnership with a global supplier.
+      <label><input type="radio" name="g13" value="0"> A. make</label>
+      <label><input type="radio" name="g13" value="1"> B. conduct</label>
+      <label><input type="radio" name="g13" value="2"> C. establish</label>
+      <label><input type="radio" name="g13" value="3"> D. operate</label>
+    </li>
+    
+        <li>Managers are expected to ___ responsibility for their team’s performance.
+      <label><input type="radio" name="g14" value="0"> A. do</label>
+      <label><input type="radio" name="g14" value="1"> B. take</label>
+      <label><input type="radio" name="g14" value="2"> C. give</label>
+      <label><input type="radio" name="g14" value="3"> D. hold</label>
+    </li>
+    
+        <li>The proposal failed due to a lack of ___ planning and coordination.
+      <label><input type="radio" name="g15" value="0"> A. effective</label>
+      <label><input type="radio" name="g15" value="1"> B. efficient</label>
+      <label><input type="radio" name="g15" value="2"> C. potential</label>
+      <label><input type="radio" name="g15" value="3"> D. eventual</label>
     </li>
   </ol>
 
-  <h3>II. Relative Clause – 關係子句 (4–6)</h3>
-  <ol start="4">
-    <li>The consultant _ recommendations were adopted helped improve productivity.<br>
-      <input type="radio" name="q4" value="0"> A. which<br>
-      <input type="radio" name="q4" value="1"> B. whose<br>
-      <input type="radio" name="q4" value="2"> C. where<br>
-      <input type="radio" name="q4" value="3"> D. whom<br>
-    </li>
-    <li>The software _ we installed last quarter increased operational efficiency.<br>
-      <input type="radio" name="q5" value="0"> A. where<br>
-      <input type="radio" name="q5" value="1"> B. who<br>
-      <input type="radio" name="q5" value="2"> C. which<br>
-      <input type="radio" name="q5" value="3"> D. whose<br>
-    </li>
-    <li>Employees _ perform consistently well will be considered for promotion.<br>
-      <input type="radio" name="q6" value="0"> A. whom<br>
-      <input type="radio" name="q6" value="1"> B. whose<br>
-      <input type="radio" name="q6" value="2"> C. which<br>
-      <input type="radio" name="q6" value="3"> D. who<br>
-    </li>
-  </ol>
-
-  <h3>III. Conditional Sentence – 條件句 (7–9)</h3>
-  <ol start="7">
-    <li>If the shipment _ on schedule, production delays could have been avoided.<br>
-      <input type="radio" name="q7" value="0"> A. arrives<br>
-      <input type="radio" name="q7" value="1"> B. arrived<br>
-      <input type="radio" name="q7" value="2"> C. had arrived<br>
-      <input type="radio" name="q7" value="3"> D. will arrive<br>
-    </li>
-    <li>Unless the contract is revised, the company _ significant financial risks.<br>
-      <input type="radio" name="q8" value="0"> A. faces<br>
-      <input type="radio" name="q8" value="1"> B. faced<br>
-      <input type="radio" name="q8" value="2"> C. will face<br>
-      <input type="radio" name="q8" value="3"> D. would face<br>
-    </li>
-    <li>If the marketing team were more proactive, customer satisfaction _ higher.<br>
-      <input type="radio" name="q9" value="0"> A. is<br>
-      <input type="radio" name="q9" value="1"> B. was<br>
-      <input type="radio" name="q9" value="2"> C. will be<br>
-      <input type="radio" name="q9" value="3"> D. would be<br>
-    </li>
-  </ol>
-
-  <h3>IV. Passive Voice – 被動語態 (10–12)</h3>
-  <ol start="10">
-    <li>The annual report _ by the board of directors next week.<br>
-      <input type="radio" name="q10" value="0"> A. approves<br>
-      <input type="radio" name="q10" value="1"> B. approved<br>
-      <input type="radio" name="q10" value="2"> C. will approve<br>
-      <input type="radio" name="q10" value="3"> D. will be approved<br>
-    </li>
-    <li>Several cost-cutting measures _ to enhance profitability.<br>
-      <input type="radio" name="q11" value="0"> A. implemented<br>
-      <input type="radio" name="q11" value="1"> B. are implementing<br>
-      <input type="radio" name="q11" value="2"> C. have been implemented<br>
-      <input type="radio" name="q11" value="3"> D. have implemented<br>
-    </li>
-    <li>Confidential information must not _ without authorization.<br>
-      <input type="radio" name="q12" value="0"> A. disclose<br>
-      <input type="radio" name="q12" value="1"> B. disclosed<br>
-      <input type="radio" name="q12" value="2"> C. be disclosed<br>
-      <input type="radio" name="q12" value="3"> D. be disclosing<br>
-    </li>
-  </ol>
-
-  <h3>V. Collocation – 固定詞組 (13–15)</h3>
-  <ol start="13">
-    <li>The company plans to _ a strategic partnership with a global supplier.<br>
-      <input type="radio" name="q13" value="0"> A. make<br>
-      <input type="radio" name="q13" value="1"> B. conduct<br>
-      <input type="radio" name="q13" value="2"> C. establish<br>
-      <input type="radio" name="q13" value="3"> D. operate<br>
-    </li>
-    <li>Managers are expected to _ responsibility for their team’s performance.<br>
-      <input type="radio" name="q14" value="0"> A. do<br>
-      <input type="radio" name="q14" value="1"> B. take<br>
-      <input type="radio" name="q14" value="2"> C. give<br>
-      <input type="radio" name="q14" value="3"> D. hold<br>
-    </li>
-    <li>The proposal failed due to a lack of _ planning and coordination.<br>
-      <input type="radio" name="q15" value="0"> A. effective<br>
-      <input type="radio" name="q15" value="1"> B. efficient<br>
-      <input type="radio" name="q15" value="2"> C. potential<br>
-      <input type="radio" name="q15" value="3"> D. eventual<br>
-    </li>
-  </ol>
+  <button type="button" onclick="checkGrammarAnswers()">提交文法答案並查看結果</button> 
 </form>
-
-<button id="submitGrammar" type="button">提交答案</button>
 <div id="grammarResult"></div>
 
+
 <script>
-  // 1. 正確答案索引 (0=A, 1=B, 2=C, 3=D)
-  const grammarAnswers = [
-    2, // Q1: will have reviewed (未來完成式)
-    1, // Q2: has grown (現在完成式 + since)
-    2, // Q3: was examining (過去進行式 + while)
-    1, // Q4: whose (所有格關係代名詞)
-    2, // Q5: which (關係代名詞指物)
-    3, // Q6: who (關係代名詞指人)
-    2, // Q7: had arrived (第三條件句：過去事實相反)
-    2, // Q8: will face (第一條件句：現在事實可能)
-    3, // Q9: would be (第二條件句：現在事實相反)
-    3, // Q10: will be approved (未來被動語態)
-    2, // Q11: have been implemented (現在完成被動語態)
-    2, // Q12: be disclosed (助動詞後被動語態)
-    2, // Q13: establish (establish a partnership)
-    1, // Q14: take (take responsibility)
-    0  // Q15: effective (effective planning)
-  ];
+  // --- 文法測驗數據與邏輯 (g1 - g15) ---
 
-  // 2. 所有選項的文字內容 (用於在結果中顯示)
+  // 1. 文法選項與答案定義
   const grammarOptions = [
-    ["reviews","reviewed","will have reviewed","is reviewing"],
-    ["grows","has grown","grew","is growing"],
-    ["examines","examined","was examining","has examined"],
-    ["which","whose","where","whom"],
-    ["where","who","which","whose"],
-    ["whom","whose","which","who"],
-    ["arrives","arrived","had arrived","will arrive"],
-    ["faces","faced","will face","would face"],
-    ["is","was","will be","would be"],
-    ["approves","approved","will approve","will be approved"],
-    ["implemented","are implementing","have been implemented","have implemented"],
-    ["disclose","disclosed","be disclosed","be disclosing"],
-    ["make","conduct","establish","operate"],
-    ["do","take","give","hold"],
-    ["effective","efficient","potential","eventual"]
+    ["reviews", "reviewed", "will have reviewed", "is reviewing"],
+    ["grows", "has grown", "grew", "is growing"],
+    ["examines", "examined", "was examining", "has examined"],
+    ["which", "whose", "where", "whom"],
+    ["where", "who", "which", "whose"],
+    ["whom", "whose", "which", "who"],
+    ["arrives", "arrived", "had arrived", "will arrive"],
+    ["faces", "faced", "will face", "would face"],
+    ["is", "was", "will be", "would be"],
+    ["approves", "approved", "will approve", "will be approved"],
+    ["implemented", "are implementing", "have been implemented", "have implemented"],
+    ["disclose", "disclosed", "be disclosed", "be disclosing"],
+    ["make", "conduct", "establish", "operate"],
+    ["do", "take", "give", "hold"],
+    ["effective", "efficient", "potential", "eventual"]
   ];
 
-  /** 這是計算答案的函式 **/
-  function checkGrammar() {
-    const form = document.getElementById('grammarQuiz');
-    const resultDiv = document.getElementById('grammarResult');
-    let score = 0;
+  // 2. 文法正確答案索引 (0=A, 1=B, 2=C, 3=D)
+  const grammarAnswers = [
+    2, 1, 2, 1, 2, 3, 2, 2, 3, 3, 2, 2, 2, 1, 0
+  ];
+
+  function checkGrammarAnswers() {
     const totalQuestions = grammarAnswers.length;
-    let resultHTML = '<h3>測驗結果總結</h3><ul>';
+    let score = 0;
+    let unansweredCount = 0;
+    let feedback = "<p>文法測驗結果：</p><ul class='result-list'>";
 
+    // 檢查未作答 (名稱 g1, g2...)
     for (let i = 1; i <= totalQuestions; i++) {
-      const questionName = 'q' + i;
-      const selectedElements = form.elements[questionName];
-      let selectedOptionIndex = -1;
-      
-      // 找到被選中的選項索引
-      if (selectedElements && selectedElements.length > 0) {
-        for (let j = 0; j < selectedElements.length; j++) {
-          if (selectedElements[j].checked) {
-            selectedOptionIndex = parseInt(selectedElements[j].value);
-            break;
-          }
-        }
+      const selected = document.querySelector(`input[name="g${i}"]:checked`);
+      if (!selected) {
+        unansweredCount++;
       }
-      
-      const correctAnswerIndex = grammarAnswers[i - 1];
-      const correctAnswerText = grammarOptions[i - 1][correctAnswerIndex];
-      let isCorrect = false;
-
-      if (selectedOptionIndex !== -1 && selectedOptionIndex === correctAnswerIndex) {
-        score++;
-        isCorrect = true;
-      }
-
-      const statusText = isCorrect ? '✅ 正確' : '❌ 錯誤';
-      const userSelectedText = selectedOptionIndex !== -1 ? grammarOptions[i - 1][selectedOptionIndex] : '未作答';
-      
-      resultHTML += `<li class="result-item">第 ${i} 題: **${statusText}**。`;
-      if (!isCorrect) {
-        resultHTML += ` (您選了: <span class="user-incorrect">${userSelectedText}</span>)`;
-      }
-      resultHTML += `。 正確答案是: <span class="correct-answer">${correctAnswerText}</span></li>`;
     }
 
-    resultHTML += '</ul>';
-    resultHTML += `<p style="font-size: 24px; font-weight: bold;">🎉 總分: **${score} / ${totalQuestions}**</p>`;
+    if (unansweredCount > 0) {
+      alert(`⚠️ 文法測驗還有 ${unansweredCount} 題未作答，請完成所有題目後再提交！`);
+      return;
+    }
 
-    resultDiv.innerHTML = resultHTML;
-    resultDiv.style.display = 'block';
-    resultDiv.style.borderColor = score >= totalQuestions * 0.8 ? '#2ECC71' : '#E74C3C';
+    // 計算分數並產生結果
+    for (let i = 1; i <= totalQuestions; i++) {
+      const selected = document.querySelector(`input[name="g${i}"]:checked`);
+      const questionIndex = i - 1;
+      const correctIndex = grammarAnswers[questionIndex];
+      const correctAnswer = grammarOptions[questionIndex][correctIndex];
+
+      const selectedValue = parseInt(selected.value);
+      const userChoiceText = grammarOptions[questionIndex][selectedValue];
+
+      let isCorrect = (selectedValue === correctIndex);
+      
+      if (isCorrect) {
+        score++;
+      }
+      
+      const color = isCorrect ? 'green' : 'red';
+      const resultText = isCorrect ? '✔ 正確' : '✘ 錯誤';
+
+      feedback += `
+        <li style="color:${color};">
+          <strong>第 ${i} 題:</strong> ${resultText}<br>
+          &nbsp; &nbsp; 您的答案: ${userChoiceText}<br>
+          &nbsp; &nbsp; 正確答案: <span class='correct-word'>(${correctAnswer})</span>
+        </li>
+      `;
+    }
+
+    feedback += "</ul>";
+    const finalScorePercentage = (score / totalQuestions) * 100;
     
-    // 捲動到結果區
+    // 更新結果顯示
+    const resultDiv = document.getElementById("grammarResult");
+    resultDiv.innerHTML = 
+      `<h2 style="color:#2980b9">文法總分：${score} / ${totalQuestions} (${finalScorePercentage.toFixed(0)}%)</h2><hr>` + feedback;
+    
+    resultDiv.style.display = 'block';
     resultDiv.scrollIntoView({ behavior: 'smooth' });
   }
-
-  // 關鍵修正：使用事件監聽器將 checkGrammar 函式綁定到按鈕上
-  document.addEventListener('DOMContentLoaded', () => {
-    const submitButton = document.getElementById('submitGrammar');
-    if (submitButton) {
-      submitButton.addEventListener('click', checkGrammar);
-    }
-  });
 </script>
 </body>
 </html>
