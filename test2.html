@@ -1,456 +1,271 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOEIC 550 文法測驗 (2/2)</title>
-    <style>
-        :root {
-            --primary-color: #007bff;
-            --secondary-color: #6c757d;
-            --success-color: #28a745;
-            --danger-color: #dc3545;
-            --light-bg: #f8f9fa;
-        }
-
-        body {
-            font-family: 'Arial', 'Microsoft JhengHei', sans-serif;
-            background-color: var(--light-bg);
-            color: #343a40;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .container {
-            max-width: 800px;
-            width: 100%;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-            color: var(--primary-color);
-            margin-bottom: 30px;
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 10px;
-        }
-
-        h3.section-title {
-            color: var(--secondary-color);
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 5px;
-            margin-top: 30px;
-            margin-bottom: 20px;
-        }
-
-        .question-block {
-            margin-bottom: 25px;
-            padding: 15px;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            background-color: #fff;
-        }
-
-        .question-text {
-            font-size: 1.1em;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .options-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .option-label {
-            display: block;
-            padding: 12px 15px;
-            border: 1px solid #ced4da;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.2s, border-color 0.2s;
-        }
-
-        .option-label:hover {
-            background-color: #e9ecef;
-            border-color: var(--primary-color);
-        }
-        
-        /* 隱藏原生 radio 按鈕 */
-        .option-input {
-            display: none;
-        }
-
-        /* 選中狀態 */
-        .option-input:checked + .option-label {
-            background-color: var(--primary-color);
-            color: #fff;
-            border-color: var(--primary-color);
-            font-weight: 500;
-        }
-
-        .controls {
-            text-align: center;
-            margin-top: 30px;
-        }
-
-        #submit-btn {
-            padding: 12px 30px;
-            font-size: 1.1em;
-            background-color: var(--success-color);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        #submit-btn:hover {
-            background-color: #218838;
-        }
-
-        #result {
-            margin-top: 40px;
-            padding: 20px;
-            border: 2px dashed var(--primary-color);
-            border-radius: 8px;
-            background-color: #f1f7fe;
-        }
-
-        #result h2 {
-            text-align: center;
-            color: var(--success-color);
-            margin-bottom: 20px;
-        }
-
-        .feedback-item {
-            margin-bottom: 15px;
-            padding: 10px;
-            border-radius: 4px;
-        }
-
-        .correct {
-            background-color: #d4edda; /* 淺綠 */
-            border: 1px solid var(--success-color);
-        }
-
-        .incorrect {
-            background-color: #f8d7da; /* 淺紅 */
-            border: 1px solid var(--danger-color);
-        }
-
-        .feedback-info {
-            font-size: 0.95em;
-            margin-top: 5px;
-        }
-
-        .correct-answer {
-            color: var(--success-color);
-            font-weight: bold;
-        }
-        
-        .meaning-explanation {
-            margin-top: 8px;
-            padding: 5px;
-            background-color: #fff;
-            border-left: 3px solid var(--primary-color);
-            font-size: 0.9em;
-        }
-
-        .meaning-explanation strong {
-             color: var(--primary-color);
-        }
-        
-        /* 響應式調整 */
-        @media (max-width: 850px) {
-            .container {
-                padding: 15px;
-            }
-            #submit-btn {
-                width: 100%;
-            }
-        }
-
-    </style>
+  <meta charset="UTF-8">
+  <title>文法測驗</title>
+  <style>
+    /* --- 樣式美化 (CSS) --- */
+    body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; background-color: #f4f7f6; }
+    h2 { color: #2C3E50; border-bottom: 2px solid #3498DB; padding-bottom: 10px; }
+    h3 { color: #34495E; margin-top: 30px; }
+    ol { counter-reset: item; padding-left: 0; }
+    li { 
+      margin-bottom: 25px; 
+      border: 1px solid #ddd; 
+      padding: 15px; 
+      border-radius: 8px; 
+      background-color: #ffffff;
+      list-style: none;
+    }
+    li::before { 
+      content: counter(item) ". "; 
+      counter-increment: item; 
+      font-weight: bold; 
+      margin-right: 8px; 
+      color: #3498DB;
+    }
+    button { 
+      padding: 12px 25px; 
+      background-color: #3498DB; 
+      color: white; 
+      border: none; 
+      border-radius: 6px; 
+      cursor: pointer; 
+      font-size: 17px; 
+      margin-top: 15px;
+      transition: background-color 0.3s;
+    }
+    button:hover { background-color: #2980B9; }
+    #grammarResult { 
+      margin-top: 30px; 
+      padding: 20px; 
+      border: 2px solid #E74C3C; 
+      border-radius: 8px; 
+      font-size: 18px; 
+      background-color: #FFFDEE;
+      display: none;
+    }
+    .correct-answer { color: green; font-weight: bold; }
+    .user-incorrect { color: red; font-weight: bold; }
+    .result-item { margin-bottom: 10px; }
+  </style>
 </head>
 <body>
+<h2>文法測驗</h2>
+<form id="grammarQuiz">
+  <h3>I. Tense – 時態 (1–3)</h3>
+  <ol start="1">
+    <li>By the time the audit is completed, the finance department _ all related documents.<br>
+      <input type="radio" name="q1" value="0"> A. reviews<br>
+      <input type="radio" name="q1" value="1"> B. reviewed<br>
+      <input type="radio" name="q1" value="2"> C. will have reviewed<br>
+      <input type="radio" name="q1" value="3"> D. is reviewing<br>
+    </li>
+    <li>The company _ steadily since it entered the Southeast Asian market.<br>
+      <input type="radio" name="q2" value="0"> A. grows<br>
+      <input type="radio" name="q2" value="1"> B. has grown<br>
+      <input type="radio" name="q2" value="2"> C. grew<br>
+      <input type="radio" name="q2" value="3"> D. is growing<br>
+    </li>
+    <li>While the manager _ the proposal, the staff prepared supporting data.<br>
+      <input type="radio" name="q3" value="0"> A. examines<br>
+      <input type="radio" name="q3" value="1"> B. examined<br>
+      <input type="radio" name="q3" value="2"> C. was examining<br>
+      <input type="radio" name="q3" value="3"> D. has examined<br>
+    </li>
+  </ol>
 
-<div class="container">
-    <h1>TOEIC 550 核心文法測驗 (15題)</h1>
-    <p style="text-align: center;"><a href="toeic_vocab_quiz.html">前往單字測驗頁 (1/2)</a></p>
+  <h3>II. Relative Clause – 關係子句 (4–6)</h3>
+  <ol start="4">
+    <li>The consultant _ recommendations were adopted helped improve productivity.<br>
+      <input type="radio" name="q4" value="0"> A. which<br>
+      <input type="radio" name="q4" value="1"> B. whose<br>
+      <input type="radio" name="q4" value="2"> C. where<br>
+      <input type="radio" name="q4" value="3"> D. whom<br>
+    </li>
+    <li>The software _ we installed last quarter increased operational efficiency.<br>
+      <input type="radio" name="q5" value="0"> A. where<br>
+      <input type="radio" name="q5" value="1"> B. who<br>
+      <input type="radio" name="q5" value="2"> C. which<br>
+      <input type="radio" name="q5" value="3"> D. whose<br>
+    </li>
+    <li>Employees _ perform consistently well will be considered for promotion.<br>
+      <input type="radio" name="q6" value="0"> A. whom<br>
+      <input type="radio" name="q6" value="1"> B. whose<br>
+      <input type="radio" name="q6" value="2"> C. which<br>
+      <input type="radio" name="q6" value="3"> D. who<br>
+    </li>
+  </ol>
 
-    <div id="quiz-container">
-        </div>
+  <h3>III. Conditional Sentence – 條件句 (7–9)</h3>
+  <ol start="7">
+    <li>If the shipment _ on schedule, production delays could have been avoided.<br>
+      <input type="radio" name="q7" value="0"> A. arrives<br>
+      <input type="radio" name="q7" value="1"> B. arrived<br>
+      <input type="radio" name="q7" value="2"> C. had arrived<br>
+      <input type="radio" name="q7" value="3"> D. will arrive<br>
+    </li>
+    <li>Unless the contract is revised, the company _ significant financial risks.<br>
+      <input type="radio" name="q8" value="0"> A. faces<br>
+      <input type="radio" name="q8" value="1"> B. faced<br>
+      <input type="radio" name="q8" value="2"> C. will face<br>
+      <input type="radio" name="q8" value="3"> D. would face<br>
+    </li>
+    <li>If the marketing team were more proactive, customer satisfaction _ higher.<br>
+      <input type="radio" name="q9" value="0"> A. is<br>
+      <input type="radio" name="q9" value="1"> B. was<br>
+      <input type="radio" name="q9" value="2"> C. will be<br>
+      <input type="radio" name="q9" value="3"> D. would be<br>
+    </li>
+  </ol>
 
-    <div class="controls">
-        <button id="submit-btn">提交並查看分數 (15題)</button>
-    </div>
+  <h3>IV. Passive Voice – 被動語態 (10–12)</h3>
+  <ol start="10">
+    <li>The annual report _ by the board of directors next week.<br>
+      <input type="radio" name="q10" value="0"> A. approves<br>
+      <input type="radio" name="q10" value="1"> B. approved<br>
+      <input type="radio" name="q10" value="2"> C. will approve<br>
+      <input type="radio" name="q10" value="3"> D. will be approved<br>
+    </li>
+    <li>Several cost-cutting measures _ to enhance profitability.<br>
+      <input type="radio" name="q11" value="0"> A. implemented<br>
+      <input type="radio" name="q11" value="1"> B. are implementing<br>
+      <input type="radio" name="q11" value="2"> C. have been implemented<br>
+      <input type="radio" name="q11" value="3"> D. have implemented<br>
+    </li>
+    <li>Confidential information must not _ without authorization.<br>
+      <input type="radio" name="q12" value="0"> A. disclose<br>
+      <input type="radio" name="q12" value="1"> B. disclosed<br>
+      <input type="radio" name="q12" value="2"> C. be disclosed<br>
+      <input type="radio" name="q12" value="3"> D. be disclosing<br>
+    </li>
+  </ol>
 
-    <div id="result" style="display: none;">
-        <h2>測驗結果</h2>
-        <div id="score-summary"></div>
-        <div id="feedback-list"></div>
-    </div>
-</div>
+  <h3>V. Collocation – 固定詞組 (13–15)</h3>
+  <ol start="13">
+    <li>The company plans to _ a strategic partnership with a global supplier.<br>
+      <input type="radio" name="q13" value="0"> A. make<br>
+      <input type="radio" name="q13" value="1"> B. conduct<br>
+      <input type="radio" name="q13" value="2"> C. establish<br>
+      <input type="radio" name="q13" value="3"> D. operate<br>
+    </li>
+    <li>Managers are expected to _ responsibility for their team’s performance.<br>
+      <input type="radio" name="q14" value="0"> A. do<br>
+      <input type="radio" name="q14" value="1"> B. take<br>
+      <input type="radio" name="q14" value="2"> C. give<br>
+      <input type="radio" name="q14" value="3"> D. hold<br>
+    </li>
+    <li>The proposal failed due to a lack of _ planning and coordination.<br>
+      <input type="radio" name="q15" value="0"> A. effective<br>
+      <input type="radio" name="q15" value="1"> B. efficient<br>
+      <input type="radio" name="q15" value="2"> C. potential<br>
+      <input type="radio" name="q15" value="3"> D. eventual<br>
+    </li>
+  </ol>
+</form>
+
+<button id="submitGrammar" type="button">提交答案</button>
+<div id="grammarResult"></div>
 
 <script>
-    const quizData = [
-        // Tense – 時態 (1–3)
-        {
-            id: 1,
-            word: "Tense: Future Perfect",
-            meaning: "未來完成式：表示在未來某個時間點前將完成的動作。句中 'By the time + 現在式' 是關鍵標誌。",
-            question: "By the time the audit is completed, the finance department __ all related documents.",
-            options: ["reviews", "reviewed", "will have reviewed", "is reviewing"],
-            answer: "will have reviewed"
-        },
-        {
-            id: 2,
-            word: "Tense: Present Perfect",
-            meaning: "現在完成式：表示動作從過去持續到現在。句中 'since' (自從) 是關鍵標誌。",
-            question: "The company __ steadily since it entered the Southeast Asian market.",
-            options: ["grows", "has grown", "grew", "is growing"],
-            answer: "has grown"
-        },
-        {
-            id: 3,
-            word: "Tense: Past Continuous",
-            meaning: "過去進行式：表示過去某段時間內正在進行的動作，與過去簡單式 (prepared) 同時發生。",
-            question: "While the manager __ the proposal, the staff prepared supporting data.",
-            options: ["examines", "examined", "was examining", "has examined"],
-            answer: "was examining"
-        },
-        // Relative Clause – 關係子句 (4–6)
-        {
-            id: 4,
-            word: "Relative Clause: Possessive",
-            meaning: "關係代名詞 whose (所有格)：用於修飾先行詞 (consultant)，表示『某人的』，後方必須接名詞 (recommendations)。",
-            question: "The consultant __ recommendations were adopted helped improve productivity.",
-            options: ["which", "whose", "where", "whom"],
-            answer: "whose"
-        },
-        {
-            id: 5,
-            word: "Relative Clause: Object",
-            meaning: "關係代名詞 which (受格)：用於修飾事物 (software)，並在關係子句中作動詞 installed 的受格。",
-            question: "The software __ we installed last quarter increased operational efficiency.",
-            options: ["where", "who", "which", "whose"],
-            answer: "which"
-        },
-        {
-            id: 6,
-            word: "Relative Clause: Subject",
-            meaning: "關係代名詞 who (主格)：用於修飾人 (Employees)，並在關係子句中作動詞 perform 的主詞。",
-            question: "Employees __ perform consistently well will be considered for promotion.",
-            options: ["whom", "whose", "which", "who"],
-            answer: "who"
-        },
-        // Conditional Sentence – 條件句 (7–9)
-        {
-            id: 7,
-            word: "Conditional: Third (Past)",
-            meaning: "假設語氣 (與過去事實相反)：If 子句使用過去完成式 (had arrived)，主要子句使用 could have Vpp (could have been avoided)。",
-            question: "If the shipment __ on schedule, production delays could have been avoided.",
-            options: ["arrives", "arrived", "had arrived", "will arrive"],
-            answer: "had arrived"
-        },
-        {
-            id: 8,
-            word: "Conditional: First (Future)",
-            meaning: "條件句 (與未來事實相關)：'Unless' (除非/如果不) 引導的條件子句用現在式 (is revised)，主句用未來式 (will face)。",
-            question: "Unless the contract is revised, the company __ significant financial risks.",
-            options: ["faces", "faced", "will face", "would face"],
-            answer: "will face"
-        },
-        {
-            id: 9,
-            word: "Conditional: Second (Present)",
-            meaning: "假設語氣 (與現在事實相反)：If 子句使用過去式 (were)，主句使用 would/could V (would be)。",
-            question: "If the marketing team were more proactive, customer satisfaction __ higher.",
-            options: ["is", "was", "will be", "would be"],
-            answer: "would be"
-        },
-        // Passive Voice – 被動語態 (10–12)
-        {
-            id: 10,
-            word: "Passive Voice: Future",
-            meaning: "未來被動式：'next week' (未來) + 'by the board' (被動執行者) 結構，使用 will be Vpp。",
-            question: "The annual report __ by the board of directors next week.",
-            options: ["approves", "approved", "will approve", "will be approved"],
-            answer: "will be approved"
-        },
-        {
-            id: 11,
-            word: "Passive Voice: Present Perfect",
-            meaning: "現在完成被動式：'measures' (措施) 是被實施者，使用 have/has been Vpp，表示『至今已被實施』。",
-            question: "Several cost-cutting measures __ to enhance profitability.",
-            options: ["implemented", "are implementing", "have been implemented", "have implemented"],
-            answer: "have been implemented"
-        },
-        {
-            id: 12,
-            word: "Passive Voice: Modal",
-            meaning: "助動詞被動式：助動詞 (must not) 後接被動結構 be Vpp，表示『不應被公開』。",
-            question: "Confidential information must not __ without authorization.",
-            options: ["disclose", "disclosed", "be disclosed", "be disclosing"],
-            answer: "be disclosed"
-        },
-        // Collocation – 固定詞組 (13–15)
-        {
-            id: 13,
-            word: "Collocation: Establish",
-            meaning: "固定詞組：與 partnership 搭配的動詞為 'establish'，表示『建立夥伴關係』。",
-            question: "The company plans to __ a strategic partnership with a global supplier.",
-            options: ["make", "conduct", "establish", "operate"],
-            answer: "establish"
-        },
-        {
-            id: 14,
-            word: "Collocation: Take",
-            meaning: "固定詞組：與 responsibility 搭配的動詞為 'take'，表示『承擔/負起責任』。",
-            question: "Managers are expected to __ responsibility for their team’s performance.",
-            options: ["do", "take", "give", "hold"],
-            answer: "take"
-        },
-        {
-            id: 15,
-            word: "Collocation: Effective",
-            meaning: "固定詞組：'effective planning' 為常用搭配，表示『有效的規劃』。",
-            question: "The proposal failed due to a lack of __ planning and coordination.",
-            options: ["effective", "efficient", "potential", "eventual"],
-            answer: "effective"
-        }
-    ];
+  // 1. 正確答案索引 (0=A, 1=B, 2=C, 3=D)
+  const grammarAnswers = [
+    2, // Q1: will have reviewed (未來完成式)
+    1, // Q2: has grown (現在完成式 + since)
+    2, // Q3: was examining (過去進行式 + while)
+    1, // Q4: whose (所有格關係代名詞)
+    2, // Q5: which (關係代名詞指物)
+    3, // Q6: who (關係代名詞指人)
+    2, // Q7: had arrived (第三條件句：過去事實相反)
+    2, // Q8: will face (第一條件句：現在事實可能)
+    3, // Q9: would be (第二條件句：現在事實相反)
+    3, // Q10: will be approved (未來被動語態)
+    2, // Q11: have been implemented (現在完成被動語態)
+    2, // Q12: be disclosed (助動詞後被動語態)
+    2, // Q13: establish (establish a partnership)
+    1, // Q14: take (take responsibility)
+    0  // Q15: effective (effective planning)
+  ];
 
-    const quizContainer = document.getElementById('quiz-container');
-    const submitBtn = document.getElementById('submit-btn');
-    const resultDiv = document.getElementById('result');
-    const scoreSummary = document.getElementById('score-summary');
-    const feedbackList = document.getElementById('feedback-list');
-    const totalQuestions = quizData.length;
+  // 2. 所有選項的文字內容 (用於在結果中顯示)
+  const grammarOptions = [
+    ["reviews","reviewed","will have reviewed","is reviewing"],
+    ["grows","has grown","grew","is growing"],
+    ["examines","examined","was examining","has examined"],
+    ["which","whose","where","whom"],
+    ["where","who","which","whose"],
+    ["whom","whose","which","who"],
+    ["arrives","arrived","had arrived","will arrive"],
+    ["faces","faced","will face","would face"],
+    ["is","was","will be","would be"],
+    ["approves","approved","will approve","will be approved"],
+    ["implemented","are implementing","have been implemented","have implemented"],
+    ["disclose","disclosed","be disclosed","be disclosing"],
+    ["make","conduct","establish","operate"],
+    ["do","take","give","hold"],
+    ["effective","efficient","potential","eventual"]
+  ];
 
-    // 渲染所有題目
-    function renderQuiz() {
-        const grammarTopics = [
-            { start: 1, title: 'I. 時態 (Tense) (1–3)' },
-            { start: 4, title: 'II. 關係子句 (Relative Clause) (4–6)' },
-            { start: 7, title: 'III. 條件句 (Conditional Sentence) (7–9)' },
-            { start: 10, title: 'IV. 被動語態 (Passive Voice) (10–12)' },
-            { start: 13, title: 'V. 固定詞組 (Collocation) (13–15)' }
-        ];
+  /** 這是計算答案的函式 **/
+  function checkGrammar() {
+    const form = document.getElementById('grammarQuiz');
+    const resultDiv = document.getElementById('grammarResult');
+    let score = 0;
+    const totalQuestions = grammarAnswers.length;
+    let resultHTML = '<h3>測驗結果總結</h3><ul>';
 
-        let currentSection = ''; 
+    for (let i = 1; i <= totalQuestions; i++) {
+      const questionName = 'q' + i;
+      const selectedElements = form.elements[questionName];
+      let selectedOptionIndex = -1;
+      
+      // 找到被選中的選項索引
+      if (selectedElements && selectedElements.length > 0) {
+        for (let j = 0; j < selectedElements.length; j++) {
+          if (selectedElements[j].checked) {
+            selectedOptionIndex = parseInt(selectedElements[j].value);
+            break;
+          }
+        }
+      }
+      
+      const correctAnswerIndex = grammarAnswers[i - 1];
+      const correctAnswerText = grammarOptions[i - 1][correctAnswerIndex];
+      let isCorrect = false;
 
-        quizData.forEach((question) => {
-            const currentTopic = grammarTopics.find(t => t.start === question.id);
-            if (currentTopic) {
-                const titleElement = document.createElement('h3');
-                titleElement.className = 'section-title';
-                titleElement.textContent = currentTopic.title;
-                quizContainer.appendChild(titleElement);
-                currentSection = currentTopic.title;
-            }
+      if (selectedOptionIndex !== -1 && selectedOptionIndex === correctAnswerIndex) {
+        score++;
+        isCorrect = true;
+      }
 
-            const block = document.createElement('div');
-            block.className = 'question-block';
-            
-            const questionTextFormatted = question.question.replace('__', '<strong>____</strong>');
+      const statusText = isCorrect ? '✅ 正確' : '❌ 錯誤';
+      const userSelectedText = selectedOptionIndex !== -1 ? grammarOptions[i - 1][selectedOptionIndex] : '未作答';
+      
+      resultHTML += `<li class="result-item">第 ${i} 題: **${statusText}**。`;
+      if (!isCorrect) {
+        resultHTML += ` (您選了: <span class="user-incorrect">${userSelectedText}</span>)`;
+      }
+      resultHTML += `。 正確答案是: <span class="correct-answer">${correctAnswerText}</span></li>`;
+    }
 
-            block.innerHTML = `
-                <div class="question-text">${question.id}. ${questionTextFormatted}</div>
-                <div class="options-group" id="q${question.id}">
-                    ${question.options.map(option => `
-                        <div>
-                            <input type="radio" id="q${question.id}-${option}" name="q${question.id}" class="option-input" value="${option}">
-                            <label for="q${question.id}-${option}" class="option-label">${option}</label>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-            quizContainer.appendChild(block);
-        });
-    }
+    resultHTML += '</ul>';
+    resultHTML += `<p style="font-size: 24px; font-weight: bold;">🎉 總分: **${score} / ${totalQuestions}**</p>`;
 
-    // 提交測驗並計算分數
-    function submitQuiz() {
-        let score = 0;
-        let unansweredCount = 0;
-        feedbackList.innerHTML = '';
+    resultDiv.innerHTML = resultHTML;
+    resultDiv.style.display = 'block';
+    resultDiv.style.borderColor = score >= totalQuestions * 0.8 ? '#2ECC71' : '#E74C3C';
+    
+    // 捲動到結果區
+    resultDiv.scrollIntoView({ behavior: 'smooth' });
+  }
 
-        const userAnswers = {};
-
-        quizData.forEach(question => {
-            const selectedOption = document.querySelector(input[name="q${question.id}"]:checked);
-            
-            if (!selectedOption) {
-                unansweredCount++;
-                userAnswers[question.id] = null;
-            } else {
-                const userAnswer = selectedOption.value;
-                userAnswers[question.id] = userAnswer;
-
-                if (userAnswer === question.answer) {
-                    score++;
-                }
-            }
-        });
-
-        if (unansweredCount > 0) {
-            alert(您還有 ${unansweredCount} 題未作答，請完成所有題目後再提交！);
-            return;
-        }
-
-        quizContainer.style.display = 'none';
-        submitBtn.style.display = 'none';
-        resultDiv.style.display = 'block';
-        
-        scoreSummary.innerHTML = `
-            <h3>總分: ${score} / ${totalQuestions} 題</h3>
-            <p style="font-size: 1.2em; color: ${score / totalQuestions > 0.65 ? 'var(--success-color)' : 'var(--danger-color)'};">
-                ${score / totalQuestions > 0.65 ? '文法表現達標！' : '文法仍需加強，請仔細查看解析！'}
-            </p>
-        `;
-
-        // 顯示每題的詳細反饋 (包含文法解釋)
-        quizData.forEach(question => {
-            const userAnswer = userAnswers[question.id];
-            const isCorrect = (userAnswer === question.answer);
-            const feedbackClass = isCorrect ? 'correct' : 'incorrect';
-
-            const feedbackItem = document.createElement('div');
-            feedbackItem.className = feedback-item ${feedbackClass};
-            
-            const questionTextFormatted = question.question.replace('__', '<strong>____</strong>');
-
-            feedbackItem.innerHTML = `
-                <p><strong>Q${question.id}. 題目:</strong> ${questionTextFormatted}</p>
-                <div class="feedback-info">
-                    <p>您的選擇: <strong>${userAnswer || '未作答'}</strong></p>
-                    <p class="correct-answer">正確答案: <strong>${question.answer}</strong></p>
-                    <div class="meaning-explanation">
-                        <strong>文法/固定詞組解釋：</strong> 
-                        ${question.word} - *${question.meaning}*
-                    </div>
-                </div>
-            `;
-            feedbackList.appendChild(feedbackItem);
-        });
-    }
-
-    // 初始化
-    document.addEventListener('DOMContentLoaded', () => {
-        renderQuiz();
-        submitBtn.addEventListener('click', submitQuiz);
-    });
-
+  // 關鍵修正：使用事件監聽器將 checkGrammar 函式綁定到按鈕上
+  document.addEventListener('DOMContentLoaded', () => {
+    const submitButton = document.getElementById('submitGrammar');
+    if (submitButton) {
+      submitButton.addEventListener('click', checkGrammar);
+    }
+  });
 </script>
-
 </body>
 </html>
-撰寫內容給蘇楷薇
