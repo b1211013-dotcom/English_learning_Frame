@@ -7,7 +7,7 @@
   <style>
     /* --- Style Enhancements (CSS) --- */
     body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; background-color: #f4f7f6; }
-    h2 { color: #2C3E50; border-bottom: 2px solid #3498DB; padding-bottom: 10px; }
+    h2 { color: #2C3E50; border-bottom: 2px solid #3498DB; padding-bottom: 10px; text-align: center; }
     ol { counter-reset: item; padding-left: 0; }
     li { 
       margin-bottom: 25px; 
@@ -24,9 +24,13 @@
       margin-right: 8px; 
       color: #3498DB;
     }
-    input[type="radio"] { margin-right: 5px; }
+    /* 隱藏原生 radio，使用 label 進行樣式控制 (可選，但保持原碼結構不變) */
+    input[type="radio"] { margin-right: 5px; } 
     label { cursor: pointer; display: inline-block; margin-right: 20px; }
+    
     button { 
+      display: block; /* 讓按鈕獨佔一行 */
+      margin: 15px auto 0; /* 置中 */
       padding: 12px 25px; 
       background-color: #2ECC71; 
       color: white; 
@@ -34,10 +38,10 @@
       border-radius: 6px; 
       cursor: pointer; 
       font-size: 17px; 
-      margin-top: 15px;
       transition: background-color 0.3s;
     }
     button:hover { background-color: #27AE60; }
+    
     #result { 
       margin-top: 30px; 
       padding: 20px; 
@@ -47,10 +51,12 @@
       background-color: #FFFDEE;
       display: none;
     }
-    #result h3 { color: #2C3E50; margin-top: 0; }
+    #result h3 { color: #2C3E50; margin-top: 0; text-align: center; }
+    
     .correct { background-color: #D4EDDA; color: #155724; padding: 3px 6px; border-radius: 4px; font-weight: bold; }
     .incorrect { background-color: #F8D7DA; color: #721C24; padding: 3px 6px; border-radius: 4px; font-weight: bold; }
     .unanswered { background-color: #f7f7f7; color: #808080; padding: 3px 6px; border-radius: 4px; font-weight: bold; }
+    
     .explanation { 
       margin-top: 10px; 
       padding: 10px; 
@@ -160,12 +166,12 @@
 <div id="result"></div>
 
 <script>
-    // 1. Correct answer indices (0=A, 1=B, 2=C, 3=D)
+    // 1. 正確答案索引 (0=A, 1=B, 2=C, 3=D)
     const answers = [
       1, 2, 2, 3, 0, 3, 3, 2, 3, 3, 3, 3, 3, 3, 2
     ];
 
-    // 2. Text content of all options
+    // 2. 所有選項文字內容
     const options = [
       ["delay","launch","complain","refuse"],
       ["expect","avoid","complete","remind"],
@@ -184,7 +190,7 @@
       ["prevent","depend","affect","reduce"]
     ];
 
-    // 3. Vocabulary Explanations (中文解釋)
+    // 3. 詞彙解釋
     const explanations = [
       "Launch (v. 推出/發起): 'Launch a strategy' (推出策略) 是常見搭配。",
       "Complete (v. 完成/填寫): 'Complete the form' (填寫表格) 符合語意。",
@@ -213,7 +219,7 @@
       let unansweredCount = 0;
       let resultHTML = '<h3>📊 測驗結果與詳細解析</h3><ol>';
 
-      // 第一階段：檢查是否有未作答的題目
+      // 檢查是否有未作答的題目 (第一階段)
       for (let i = 1; i <= totalQuestions; i++) {
         const questionName = 'q' + i;
         const selectedElement = form.elements[questionName];
@@ -233,21 +239,22 @@
 
       if (unansweredCount > 0) {
         alert(`⚠️ 您還有 ${unansweredCount} 題未作答，請完成所有題目後再提交！`);
-        return; // 阻止繼續執行後面的計算和結果顯示
+        return; // 阻止執行後續的計算和結果顯示
       }
-      
-      // 第二階段：計算分數並生成結果 HTML
+      
+      // 計算分數並生成結果 HTML (第二階段)
       for (let i = 1; i <= totalQuestions; i++) {
         const questionName = 'q' + i;
         const questionIndex = i - 1;
         const selectedElement = form.elements[questionName];
         
+        // 找到使用者選中的值
         let selectedOptionValue = selectedElement ? Array.from(selectedElement).find(radio => radio.checked)?.value : null;
         
         const correctAnswerIndex = answers[questionIndex];
         const correctAnswerText = options[questionIndex][correctAnswerIndex];
         let isCorrect = false;
-        let userSelectedText = '未作答';
+        let userSelectedText = '未作答'; // 實際上這裡不會是未作答，因為前面已檢查
         let statusClass = 'unanswered';
         let statusText = '⚠️ 未作答';
 
