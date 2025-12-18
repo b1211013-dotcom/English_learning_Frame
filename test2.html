@@ -1,270 +1,444 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TOEIC 核心文法測驗</title>
-  <style>
-    /* --- 基礎樣式 --- */
-    body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; background-color: #f4f7f6; }
-    h2 { color: #2C3E50; border-bottom: 2px solid #3498DB; padding-bottom: 10px; text-align: center; margin-top: 30px;}
-    ol { counter-reset: item; padding-left: 0; }
-    
-    /* --- 題目樣式 --- */
-    li { 
-      margin-bottom: 25px; 
-      border: 1px solid #ddd; 
-      padding: 15px; 
-      border-radius: 8px; 
-      background-color: #ffffff;
-      list-style: none;
-    }
-    li::before { 
-      content: counter(item) ". "; 
-      counter-increment: item; 
-      font-weight: bold; 
-      margin-right: 8px; 
-      color: #3498DB;
-    }
-    label { cursor: pointer; display: inline-block; margin-right: 20px; }
-    input[type="radio"] { margin-right: 5px; } 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOEIC 550 // 核心文法測驗</title>
+  <style>
+    /* 全域設定 - 與 Test 1 保持一致的視覺系統 */
+    :root {
+      --primary-blue: #0066cc;
+      --light-bg: #f8fafc;
+      --card-bg: #ffffff;
+      --correct: #27ae60;
+      --wrong: #e74c3c;
+      --text-gray: #64748b;
+      --category-bg: #e2e8f0;
+    }
 
-    /* --- 按鈕樣式 --- */
-    button { 
-      display: block; 
-      margin: 15px auto 0; 
-      padding: 12px 25px; 
-      background-color: #2ECC71; 
-      color: white; 
-      border: none; 
-      border-radius: 6px; 
-      cursor: pointer; 
-      font-size: 17px; 
-      transition: background-color 0.3s;
-    }
-    button:hover { background-color: #27AE60; }
-    
-    /* --- 結果區塊樣式 --- */
-    #grammarResult { 
-      margin-top: 30px; 
-      padding: 20px; 
-      border: 2px solid #E74C3C; 
-      border-radius: 8px; 
-      font-size: 18px; 
-      background-color: #FFFDEE;
-      display: none; /* 初始隱藏 */
-    }
-    #grammarResult h2 { color: #2980b9; margin-top: 0; text-align: center; }
-    
-    /* 答題結果列表樣式 */
-    .result-list { list-style-type: none; padding-left: 0; }
-    .result-list li { margin-bottom: 15px; padding: 5px 0; border: none; background: none; }
-    .correct-word { font-weight: bold; color: #27AE60; }
-  </style>
+    body {
+      font-family: 'Segoe UI', 'Noto Sans TC', sans-serif;
+      background: var(--light-bg);
+      margin: 0;
+      padding: 20px;
+      color: #334155;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      color: var(--primary-blue);
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: var(--text-gray);
+      font-size: 0.95rem;
+    }
+
+    /* 分類標題樣式 */
+    .section-header {
+      background: #1a2a3a;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 8px;
+      margin: 30px 0 15px;
+      font-size: 0.9rem;
+      display: inline-block;
+      letter-spacing: 1px;
+    }
+
+    /* 題目卡片樣式 */
+    #grammarQuiz {
+      counter-reset: question-counter;
+    }
+
+    .question-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e2e8f0;
+      position: relative;
+    }
+
+    .question-card::before {
+      counter-increment: question-counter;
+      content: "Grammar " counter(question-counter);
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      background: var(--primary-blue);
+      color: white;
+      padding: 2px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+    .question-text {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #1e293b;
+      display: block;
+    }
+
+    /* 選項美化 */
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      border: 2px solid #f1f5f9;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .option-item:hover {
+      background-color: #f0f7ff;
+      border-color: #bfdbfe;
+    }
+
+    .option-item input[type="radio"] {
+      margin-right: 12px;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary-blue);
+    }
+
+    /* 提交按鈕 */
+    .submit-btn {
+      display: block;
+      width: 100%;
+      max-width: 300px;
+      margin: 40px auto;
+      padding: 15px;
+      background: #2ecc71; /* 文法使用綠色系按鈕區分 */
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .submit-btn:hover {
+      background: #27ae60;
+      transform: translateY(-2px);
+    }
+
+    /* 結果區塊 */
+    #grammarResult {
+      display: none;
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      margin-top: 30px;
+      border: 2px solid var(--primary-blue);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .result-header {
+      text-align: center;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
+
+    .score-circle {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--primary-blue);
+    }
+
+    .feedback-item {
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      border-left: 5px solid #ddd;
+      background: #f8fafc;
+    }
+
+    .feedback-item.correct { border-left-color: var(--correct); }
+    .feedback-item.wrong { border-left-color: var(--wrong); }
+
+    .status-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+  </style>
 </head>
 <body>
 
-<h2>📝 TOEIC 核心文法測驗 (15 題)</h2>
+<div class="container">
+  <header>
+    <h2>📝 TOEIC 核心文法測驗</h2>
+    <p class="subtitle">涵蓋時態、關係子句、條件句、被動語態與固定搭配</p>
+  </header>
 
-<form id="grammarQuiz">
-  <ol>
-    
-        <li>**I. Tense – 時態**<br>By the time the audit is completed, the finance department ___ all related documents.
-      <label><input type="radio" name="g1" value="0"> A. reviews</label>
-      <label><input type="radio" name="g1" value="1"> B. reviewed</label>
-      <label><input type="radio" name="g1" value="2"> C. will have reviewed</label>
-      <label><input type="radio" name="g1" value="3"> D. is reviewing</label>
-    </li>
+  <form id="grammarQuiz">
+    
+    <div class="section-header">I. Tense – 時態</div>
 
-        <li>The company ___ steadily since it entered the Southeast Asian market.
-      <label><input type="radio" name="g2" value="0"> A. grows</label>
-      <label><input type="radio" name="g2" value="1"> B. has grown</label>
-      <label><input type="radio" name="g2" value="2"> C. grew</label>
-      <label><input type="radio" name="g2" value="3"> D. is growing</label>
-    </li>
+    <div class="question-card">
+      <span class="question-text">By the time the audit is completed, the finance department ___ all related documents.</span>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="g1" value="0"> A. reviews</label>
+        <label class="option-item"><input type="radio" name="g1" value="1"> B. reviewed</label>
+        <label class="option-item"><input type="radio" name="g1" value="2"> C. will have reviewed</label>
+        <label class="option-item"><input type="radio" name="g1" value="3"> D. is reviewing</label>
+      </div>
+    </div>
 
-        <li>While the manager ___ the proposal, the staff prepared supporting data.
-      <label><input type="radio" name="g3" value="0"> A. examines</label>
-      <label><input type="radio" name="g3" value="1"> B. examined</label>
-      <label><input type="radio" name="g3" value="2"> C. was examining</label>
-      <label><input type="radio" name="g3" value="3"> D. has examined</label>
-    </li>
-    
-        <li>**II. Relative Clause – 關係子句**<br>The consultant ___ recommendations were adopted helped improve productivity.
-      <label><input type="radio" name="g4" value="0"> A. which</label>
-      <label><input type="radio" name="g4" value="1"> B. whose</label>
-      <label><input type="radio" name="g4" value="2"> C. where</label>
-      <label><input type="radio" name="g4" value="3"> D. whom</label>
-    </li>
-    
-        <li>The software ___ we installed last quarter increased operational efficiency.
-      <label><input type="radio" name="g5" value="0"> A. where</label>
-      <label><input type="radio" name="g5" value="1"> B. who</label>
-      <label><input type="radio" name="g5" value="2"> C. which</label>
-      <label><input type="radio" name="g5" value="3"> D. whose</label>
-    </li>
-    
-        <li>Employees ___ perform consistently well will be considered for promotion.
-      <label><input type="radio" name="g6" value="0"> A. whom</label>
-      <label><input type="radio" name="g6" value="1"> B. whose</label>
-      <label><input type="radio" name="g6" value="2"> C. which</label>
-      <label><input type="radio" name="g6" value="3"> D. who</label>
-    </li>
+    <div class="question-card">
+      <span class="question-text">The company ___ steadily since it entered the Southeast Asian market.</span>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="g2" value="0"> A. grows</label>
+        <label class="option-item"><input type="radio" name="g2" value="1"> B. has grown</label>
+        <label class="option-item"><input type="radio" name="g2" value="2"> C. grew</label>
+        <label class="option-item"><input type="radio" name="g2" value="3"> D. is growing</label>
+      </div>
+    </div>
 
-        <li>**III. Conditional Sentence – 條件句**<br>If the shipment ___ on schedule, production delays could have been avoided.
-      <label><input type="radio" name="g7" value="0"> A. arrives</label>
-      <label><input type="radio" name="g7" value="1"> B. arrived</label>
-      <label><input type="radio" name="g7" value="2"> C. had arrived</label>
-      <label><input type="radio" name="g7" value="3"> D. will arrive</label>
-    </li>
-    
-        <li>Unless the contract is revised, the company ___ significant financial risks.
-      <label><input type="radio" name="g8" value="0"> A. faces</label>
-      <label><input type="radio" name="g8" value="1"> B. faced</label>
-      <label><input type="radio" name="g8" value="2"> C. will face</label>
-      <label><input type="radio" name="g8" value="3"> D. would face</label>
-    </li>
-    
-        <li>If the marketing team were more proactive, customer satisfaction ___ higher.
-      <label><input type="radio" name="g9" value="0"> A. is</label>
-      <label><input type="radio" name="g9" value="1"> B. was</label>
-      <label><input type="radio" name="g9" value="2"> C. will be</label>
-      <label><input type="radio" name="g9" value="3"> D. would be</label>
-    </li>
+    <div class="question-card">
+      <span class="question-text">While the manager ___ the proposal, the staff prepared supporting data.</span>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="g3" value="0"> A. examines</label>
+        <label class="option-item"><input type="radio" name="g3" value="1"> B. examined</label>
+        <label class="option-item"><input type="radio" name="g3" value="2"> C. was examining</label>
+        <label class="option-item"><input type="radio" name="g3" value="3"> D. has examined</label>
+      </div>
+    </div>
 
-        <li>**IV. Passive Voice – 被動語態**<br>The annual report ___ by the board of directors next week.
-      <label><input type="radio" name="g10" value="0"> A. approves</label>
-      <label><input type="radio" name="g10" value="1"> B. approved</label>
-      <label><input type="radio" name="g10" value="2"> C. will approve</label>
-      <label><input type="radio" name="g10" value="3"> D. will be approved</label>
-    </li>
-    
-        <li>Several cost-cutting measures ___ to enhance profitability.
-      <label><input type="radio" name="g11" value="0"> A. implemented</label>
-      <label><input type="radio" name="g11" value="1"> B. are implementing</label>
-      <label><input type="radio" name="g11" value="2"> C. have been implemented</label>
-      <label><input type="radio" name="g11" value="3"> D. have implemented</label>
-    </li>
-    
-        <li>Confidential information must not ___ without authorization.
-      <label><input type="radio" name="g12" value="0"> A. disclose</label>
-      <label><input type="radio" name="g12" value="1"> B. disclosed</label>
-      <label><input type="radio" name="g12" value="2"> C. be disclosed</label>
-      <label><input type="radio" name="g12" value="3"> D. be disclosing</label>
-    </li>
+    <div class="section-header">II. Relative Clause – 關係子句</div>
 
-        <li>**V. Collocation – 固定詞組**<br>The company plans to ___ a strategic partnership with a global supplier.
-      <label><input type="radio" name="g13" value="0"> A. make</label>
-      <label><input type="radio" name="g13" value="1"> B. conduct</label>
-      <label><input type="radio" name="g13" value="2"> C. establish</label>
-      <label><input type="radio" name="g13" value="3"> D. operate</label>
-    </li>
-    
-        <li>Managers are expected to ___ responsibility for their team’s performance.
-      <label><input type="radio" name="g14" value="0"> A. do</label>
-      <label><input type="radio" name="g14" value="1"> B. take</label>
-      <label><input type="radio" name="g14" value="2"> C. give</label>
-      <label><input type="radio" name="g14" value="3"> D. hold</label>
-    </li>
-    
-        <li>The proposal failed due to a lack of ___ planning and coordination.
-      <label><input type="radio" name="g15" value="0"> A. effective</label>
-      <label><input type="radio" name="g15" value="1"> B. efficient</label>
-      <label><input type="radio" name="g15" value="2"> C. potential</label>
-      <label><input type="radio" name="g15" value="3"> D. eventual</label>
-    </li>
-  </ol>
+    <div class="question-card">
+      <span class="question-text">The consultant ___ recommendations were adopted helped improve productivity.</span>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="g4" value="0"> A. which</label>
+        <label class="option-item"><input type="radio" name="g4" value="1"> B. whose</label>
+        <label class="option-item"><input type="radio" name="g4" value="2"> C. where</label>
+        <label class="option-item"><input type="radio" name="g4" value="3"> D. whom</label>
+      </div>
+    </div>
 
-  <button type="button" onclick="checkGrammarAnswers()">提交文法答案並查看結果</button> 
-</form>
-<div id="grammarResult"></div>
+    <div class="question-card">
+      <span class="question-text">The software ___ we installed last quarter increased operational efficiency.</span>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="g5" value="0"> A. where</label>
+        <label class="option-item"><input type="radio" name="g5" value="1"> B. who</label>
+        <label class="option-item"><input type="radio" name="g5" value="2"> C. which</label>
+        <label class="option-item"><input type="radio" name="g5" value="3"> D. whose</label>
+      </div>
+    </div>
 
+    <div class="question-card">
+      <span class="question-text">Employees ___ perform consistently well will be considered for promotion.</span>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="g6" value="0"> A. whom</label>
+        <label class="option-item"><input type="radio" name="g6" value="1"> B. whose</label>
+        <label class="option-item"><input type="radio" name="g6" value="2"> C. which</label>
+        <label class="option-item"><input type="radio" name="g6" value="3"> D. who</label>
+      </div>
+    </div>
+
+    <div class="section-header">III. Conditional Sentence – 條件句</div>
+
+    <div class="question-card">
+      <span class="question-text">If the shipment ___ on schedule, production delays could have been avoided.</span>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="g7" value="0"> A. arrives</label>
+        <label class="option-item"><input type="radio" name="g7" value="1"> B. arrived</label>
+        <label class="option-item"><input type="radio" name="g7" value="2"> C. had arrived</label>
+        <label class="option-item"><input type="radio" name="g7" value="3"> D. will arrive</label>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <span class="question-text">Unless the contract is revised, the company ___ significant financial risks.</span>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="g8" value="0"> A. faces</label>
+        <label class="option-item"><input type="radio" name="g8" value="1"> B. faced</label>
+        <label class="option-item"><input type="radio" name="g8" value="2"> C. will face</label>
+        <label class="option-item"><input type="radio" name="g8" value="3"> D. would face</label>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <span class="question-text">If the marketing team were more proactive, customer satisfaction ___ higher.</span>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="g9" value="0"> A. is</label>
+        <label class="option-item"><input type="radio" name="g9" value="1"> B. was</label>
+        <label class="option-item"><input type="radio" name="g9" value="2"> C. will be</label>
+        <label class="option-item"><input type="radio" name="g9" value="3"> D. would be</label>
+      </div>
+    </div>
+
+    <div class="section-header">IV. Passive Voice – 被動語態</div>
+
+    <div class="question-card">
+      <span class="question-text">The annual report ___ by the board of directors next week.</span>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="g10" value="0"> A. approves</label>
+        <label class="option-item"><input type="radio" name="g10" value="1"> B. approved</label>
+        <label class="option-item"><input type="radio" name="g10" value="2"> C. will approve</label>
+        <label class="option-item"><input type="radio" name="g10" value="3"> D. will be approved</label>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <span class="question-text">Several cost-cutting measures ___ to enhance profitability.</span>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="g11" value="0"> A. implemented</label>
+        <label class="option-item"><input type="radio" name="g11" value="1"> B. are implementing</label>
+        <label class="option-item"><input type="radio" name="g11" value="2"> C. have been implemented</label>
+        <label class="option-item"><input type="radio" name="g11" value="3"> D. have implemented</label>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <span class="question-text">Confidential information must not ___ without authorization.</span>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="g12" value="0"> A. disclose</label>
+        <label class="option-item"><input type="radio" name="g12" value="1"> B. disclosed</label>
+        <label class="option-item"><input type="radio" name="g12" value="2"> C. be disclosed</label>
+        <label class="option-item"><input type="radio" name="g12" value="3"> D. be disclosing</label>
+      </div>
+    </div>
+
+    <div class="section-header">V. Collocation – 固定詞組</div>
+
+    <div class="question-card">
+      <span class="question-text">The company plans to ___ a strategic partnership with a global supplier.</span>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="g13" value="0"> A. make</label>
+        <label class="option-item"><input type="radio" name="g13" value="1"> B. conduct</label>
+        <label class="option-item"><input type="radio" name="g13" value="2"> C. establish</label>
+        <label class="option-item"><input type="radio" name="g13" value="3"> D. operate</label>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <span class="question-text">Managers are expected to ___ responsibility for their team’s performance.</span>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="g14" value="0"> A. do</label>
+        <label class="option-item"><input type="radio" name="g14" value="1"> B. take</label>
+        <label class="option-item"><input type="radio" name="g14" value="2"> C. give</label>
+        <label class="option-item"><input type="radio" name="g14" value="3"> D. hold</label>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <span class="question-text">The proposal failed due to a lack of ___ planning and coordination.</span>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="g15" value="0"> A. effective</label>
+        <label class="option-item"><input type="radio" name="g15" value="1"> B. efficient</label>
+        <label class="option-item"><input type="radio" name="g15" value="2"> C. potential</label>
+        <label class="option-item"><input type="radio" name="g15" value="3"> D. eventual</label>
+      </div>
+    </div>
+
+    <button type="button" class="submit-btn" onclick="checkGrammarAnswers()">提交文法答案</button>
+  </form>
+
+  <div id="grammarResult"></div>
+</div>
 
 <script>
-  // --- 文法測驗數據與邏輯 (g1 - g15) ---
+  const grammarOptions = [
+    ["reviews", "reviewed", "will have reviewed", "is reviewing"],
+    ["grows", "has grown", "grew", "is growing"],
+    ["examines", "examined", "was examining", "has examined"],
+    ["which", "whose", "where", "whom"],
+    ["where", "who", "which", "whose"],
+    ["whom", "whose", "which", "who"],
+    ["arrives", "arrived", "had arrived", "will arrive"],
+    ["faces", "faced", "will face", "would face"],
+    ["is", "was", "will be", "would be"],
+    ["approves", "approved", "will approve", "will be approved"],
+    ["implemented", "are implementing", "have been implemented", "have implemented"],
+    ["disclose", "disclosed", "be disclosed", "be disclosing"],
+    ["make", "conduct", "establish", "operate"],
+    ["do", "take", "give", "hold"],
+    ["effective", "efficient", "potential", "eventual"]
+  ];
 
-  // 1. 文法選項與答案定義
-  const grammarOptions = [
-    ["reviews", "reviewed", "will have reviewed", "is reviewing"],
-    ["grows", "has grown", "grew", "is growing"],
-    ["examines", "examined", "was examining", "has examined"],
-    ["which", "whose", "where", "whom"],
-    ["where", "who", "which", "whose"],
-    ["whom", "whose", "which", "who"],
-    ["arrives", "arrived", "had arrived", "will arrive"],
-    ["faces", "faced", "will face", "would face"],
-    ["is", "was", "will be", "would be"],
-    ["approves", "approved", "will approve", "will be approved"],
-    ["implemented", "are implementing", "have been implemented", "have implemented"],
-    ["disclose", "disclosed", "be disclosed", "be disclosing"],
-    ["make", "conduct", "establish", "operate"],
-    ["do", "take", "give", "hold"],
-    ["effective", "efficient", "potential", "eventual"]
-  ];
+  const grammarAnswers = [2, 1, 2, 1, 2, 3, 2, 2, 3, 3, 2, 2, 2, 1, 0];
 
-  // 2. 文法正確答案索引 (0=A, 1=B, 2=C, 3=D)
-  const grammarAnswers = [
-    2, 1, 2, 1, 2, 3, 2, 2, 3, 3, 2, 2, 2, 1, 0
-  ];
+  function checkGrammarAnswers() {
+    const totalQuestions = grammarAnswers.length;
+    let score = 0;
+    let unanswered = [];
 
-  function checkGrammarAnswers() {
-    const totalQuestions = grammarAnswers.length;
-    let score = 0;
-    let unansweredCount = 0;
-    let feedback = "<p>文法測驗結果：</p><ul class='result-list'>";
+    // 檢查未答 (name 為 g1, g2...)
+    for (let i = 1; i <= totalQuestions; i++) {
+      if (!document.querySelector(`input[name="g${i}"]:checked`)) {
+        unanswered.push(i);
+      }
+    }
 
-    // 檢查未作答 (名稱 g1, g2...)
-    for (let i = 1; i <= totalQuestions; i++) {
-      const selected = document.querySelector(`input[name="g${i}"]:checked`);
-      if (!selected) {
-        unansweredCount++;
-      }
-    }
+    if (unanswered.length > 0) {
+      alert(`⚠️ 文法測驗還有 ${unanswered.length} 題未完成！`);
+      return;
+    }
 
-    if (unansweredCount > 0) {
-      alert(`⚠️ 文法測驗還有 ${unansweredCount} 題未作答，請完成所有題目後再提交！`);
-      return;
-    }
+    let feedbackHTML = "";
+    for (let i = 1; i <= totalQuestions; i++) {
+      const questionIndex = i - 1;
+      const selectedValue = parseInt(document.querySelector(`input[name="g${i}"]:checked`).value);
+      const isCorrect = selectedValue === grammarAnswers[questionIndex];
+      
+      if (isCorrect) score++;
 
-    // 計算分數並產生結果
-    for (let i = 1; i <= totalQuestions; i++) {
-      const selected = document.querySelector(`input[name="g${i}"]:checked`);
-      const questionIndex = i - 1;
-      const correctIndex = grammarAnswers[questionIndex];
-      const correctAnswer = grammarOptions[questionIndex][correctIndex];
+      feedbackHTML += `
+        <div class="feedback-item ${isCorrect ? 'correct' : 'wrong'}">
+          <span class="status-badge" style="background:${isCorrect ? '#dcfce7':'#fee2e2'}; color:${isCorrect ? '#166534':'#991b1b'}">
+            ${isCorrect ? '✓ 正確' : '✗ 錯誤'}
+          </span>
+          <div style="font-weight:600">第 ${i} 題</div>
+          <div style="font-size:0.9rem">您的答案：${grammarOptions[questionIndex][selectedValue]}</div>
+          ${!isCorrect ? `<div style="font-size:0.9rem; color:var(--correct); font-weight:bold">正確答案：${grammarOptions[questionIndex][grammarAnswers[questionIndex]]}</div>` : ''}
+        </div>
+      `;
+    }
 
-      const selectedValue = parseInt(selected.value);
-      const userChoiceText = grammarOptions[questionIndex][selectedValue];
+    const resultDiv = document.getElementById("grammarResult");
+    resultDiv.style.display = "block";
+    resultDiv.innerHTML = `
+      <div class="result-header">
+        <div class="score-circle">${Math.round((score/totalQuestions)*100)}%</div>
+        <p>文法測驗評分：${score} / ${totalQuestions} 題正確。</p>
+      </div>
+      ${feedbackHTML}
+    `;
 
-      let isCorrect = (selectedValue === correctIndex);
-      
-      if (isCorrect) {
-        score++;
-      }
-      
-      const color = isCorrect ? 'green' : 'red';
-      const resultText = isCorrect ? '✔ 正確' : '✘ 錯誤';
-
-      feedback += `
-        <li style="color:${color};">
-          <strong>第 ${i} 題:</strong> ${resultText}<br>
-          &nbsp; &nbsp; 您的答案: ${userChoiceText}<br>
-          &nbsp; &nbsp; 正確答案: <span class='correct-word'>(${correctAnswer})</span>
-        </li>
-      `;
-    }
-
-    feedback += "</ul>";
-    const finalScorePercentage = (score / totalQuestions) * 100;
-    
-    // 更新結果顯示
-    const resultDiv = document.getElementById("grammarResult");
-    resultDiv.innerHTML = 
-      `<h2 style="color:#2980b9">文法總分：${score} / ${totalQuestions} (${finalScorePercentage.toFixed(0)}%)</h2><hr>` + feedback;
-    
-    resultDiv.style.display = 'block';
-    resultDiv.scrollIntoView({ behavior: 'smooth' });
-  }
+    resultDiv.scrollIntoView({ behavior: 'smooth' });
+  }
 </script>
+
 </body>
 </html>
