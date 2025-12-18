@@ -1,276 +1,477 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TOEIC 商業核心詞彙</title>
-  <style>
-    /* --- Style for Professional Look --- */
-    body { 
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-      margin: 20px; 
-      background-color: #f4f6f9; /* 淺藍灰色背景 */
-    }
-    h2 { 
-      text-align: center; 
-      color: #34495e; /* 深藍色標題 */
-      border-bottom: 3px solid #3498db; 
-      padding-bottom: 10px;
-    }
-    .vocab-list { 
-      max-width: 900px; 
-      margin: 25px auto; 
-      background: #ffffff; 
-      padding: 30px;
-      border-radius: 12px; 
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
-    }
-    .word { 
-      margin-bottom: 20px; 
-      padding: 15px; 
-      border-left: 5px solid #2ecc71; /* 綠色強調線 */
-      background-color: #ecf0f1; /* 淺灰色底 */
-      border-radius: 4px;
-    }
-    .word strong { 
-      color: #e74c3c; /* 紅色強調英文詞彙 */
-      font-size: 1.2em; 
-      display: block; 
-      margin-bottom: 5px; 
-    }
-    .chinese { 
-      font-weight: bold; 
-      color: #34495e; 
-      margin-bottom: 5px;
-    }
-    .synonym { 
-      color: #3498db; 
-      font-size: 0.9em; 
-      margin-top: 5px;
-    }
-    .example { 
-      color: #555; 
-      font-style: italic; 
-      margin-top: 8px;
-      border-top: 1px dashed #bdc3c7;
-      padding-top: 5px;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOEIC 550 // 商業核心詞彙學習</title>
+  <style>
+    /* 全域變數 - 保持與測驗系統一致 */
+    :root {
+      --primary-blue: #0066cc;
+      --secondary-blue: #3498db;
+      --accent-green: #2ecc71;
+      --light-bg: #f0f4f8;
+      --card-bg: #ffffff;
+      --text-main: #2c3e50;
+      --text-muted: #64748b;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Noto Sans TC', sans-serif;
+      background-color: var(--light-bg);
+      color: var(--text-main);
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 20px 0;
+    }
+
+    h2 {
+      color: var(--primary-blue);
+      font-size: 2rem;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    /* 單字列表佈局 */
+    .vocab-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* 詞彙卡片樣式 */
+    .word-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      border-left: 6px solid var(--accent-green);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .word-card:hover {
+      transform: translateX(5px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .word-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .word-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary-blue);
+    }
+
+    .pos-tag {
+      font-size: 0.85rem;
+      background: #ebf5ff;
+      color: var(--primary-blue);
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-style: italic;
+    }
+
+    .chinese-def {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1a2a3a;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .synonym-box {
+      font-size: 0.9rem;
+      color: var(--secondary-blue);
+      background: #f0f9ff;
+      padding: 8px 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #d0e9ff;
+    }
+
+    .synonym-box strong {
+      color: #2980b9;
+      margin-right: 5px;
+    }
+
+    /* 例句區塊 */
+    .example-section {
+      background: #f8fafc;
+      padding: 12px 15px;
+      border-radius: 10px;
+      border-top: 1px solid #edf2f7;
+    }
+
+    .example-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .example-text {
+      color: #475569;
+      margin: 0;
+      font-style: italic;
+    }
+
+    .example-text strong {
+      color: var(--primary-blue);
+      text-decoration: underline;
+    }
+
+    /* 頁尾資訊 */
+    footer {
+      text-align: center;
+      padding: 40px 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 <body>
-  <h2>📊 TOEIC 核心商業詞彙 (共 30 個)</h2>
-  <div class="vocab-list">
-    
-        <div class="word">
-      <strong>audit (n.)</strong> 
-      <span class="chinese">審計</span>
-      <div class="synonym">Synonym (TOEIC): inspection, review</div>
-      <p class="example">The <strong>audit</strong> revealed several accounting errors in the annual report.</p>
-    </div>
 
-        <div class="word">
-      <strong>proposal (n.)</strong> 
-      <span class="chinese">提案</span>
-      <div class="synonym">Synonym (TOEIC): plan, suggestion</div>
-      <p class="example">The <strong>proposal</strong> was submitted to the management for approval.</p>
-    </div>
+<div class="container">
+  <header>
+    <h2>📊 TOEIC 核心商業詞彙</h2>
+    <p class="subtitle">單元：職場與營運管理 (精選 30 個高頻詞彙)</p>
+  </header>
 
-        <div class="word">
-      <strong>operational (adj.)</strong> 
-      <span class="chinese">營運的</span>
-      <div class="synonym">Synonym (TOEIC): functional</div>
-      <p class="example"><strong>Operational</strong> costs have increased due to rising fuel prices.</p>
-    </div>
+  <div class="vocab-grid">
+    
+    <div class="word-card">
+      <div class="word-header">
+        <span class="word-title">audit</span>
+        <span class="pos-tag">n.</span>
+      </div>
+      <span class="chinese-def">審計；查帳</span>
+      <div class="synonym-box">
+        <strong>Synonyms:</strong> inspection, review
+      </div>
+      <div class="example-section">
+        <span class="example-label">Example</span>
+        <p class="example-text">The <strong>audit</strong> revealed several accounting errors in the annual report.</p>
+      </div>
+    </div>
 
-        <div class="word">
-      <strong>productivity (n.)</strong> 
-      <span class="chinese">生產力</span>
-      <div class="synonym">Synonym (TOEIC): efficiency</div>
-      <p class="example">Employee training significantly improved <strong>productivity</strong>.</p>
-    </div>
+    <div class="word-card">
+      <div class="word-header">
+        <span class="word-title">proposal</span>
+        <span class="pos-tag">n.</span>
+      </div>
+      <span class="chinese-def">提案；建議</span>
+      <div class="synonym-box">
+        <strong>Synonyms:</strong> plan, suggestion, scheme
+      </div>
+      <div class="example-section">
+        <span class="example-label">Example</span>
+        <p class="example-text">The <strong>proposal</strong> was submitted to the management for final approval.</p>
+      </div>
+    </div>
 
-        <div class="word">
-      <strong>shipment (n.)</strong> 
-      <span class="chinese">貨運、運送的貨物</span>
-      <div class="synonym">Synonym (TOEIC): delivery</div>
-      <p class="example">The <strong>shipment</strong> arrived earlier than expected.</p>
-    </div>
+    <div class="word-card">
+      <div class="word-header">
+        <span class="word-title">operational</span>
+        <span class="pos-tag">adj.</span>
+      </div>
+      <span class="chinese-def">營運的；可操作的</span>
+      <div class="synonym-box">
+        <strong>Synonyms:</strong> functional, working
+      </div>
+      <div class="example-section">
+        <span class="example-label">Example</span>
+        <p class="example-text"><strong>Operational</strong> costs have increased due to rising fuel prices.</p>
+      </div>
+    </div>
 
-        <div class="word">
-      <strong>revise (v.)</strong> 
-      <span class="chinese">修改、修訂</span>
-      <div class="synonym">Synonym (TOEIC): amend, modify</div>
-      <p class="example">The contract was <strong>revised</strong> to include new terms.</p>
-    </div>
+    <div class="word-card">
+      <div class="word-header">
+        <span class="word-title">productivity</span>
+        <span class="pos-tag">n.</span>
+      </div>
+      <span class="chinese-def">生產力</span>
+      <div class="synonym-box">
+        <strong>Synonyms:</strong> efficiency, output
+      </div>
+      <div class="example-section">
+        <span class="example-label">Example</span>
+        <p class="example-text">Employee training significantly improved <strong>productivity</strong>.</p>
+      </div>
+    </div>
 
-        <div class="word">
-      <strong>profitability (n.)</strong> 
-      <span class="chinese">獲利能力</span>
-      <div class="synonym">Synonym (TOEIC): earnings potential</div>
-      <p class="example">The new strategy increased the company’s <strong>profitability</strong>.</p>
-    </div>
+    <div class="word-card">
+      <div class="word-header">
+        <span class="word-title">shipment</span>
+        <span class="pos-tag">n.</span>
+      </div>
+      <span class="chinese-def">貨運；運送的貨物</span>
+      <div class="synonym-box">
+        <strong>Synonyms:</strong> delivery, cargo, consignment
+      </div>
+      <div class="example-section">
+        <span class="example-label">Example</span>
+        <p class="example-text">The <strong>shipment</strong> arrived earlier than expected via sea freight.</p>
+      </div>
+    </div>
 
-        <div class="word">
-      <strong>authorization (n.)</strong> 
-      <span class="chinese">授權、批准</span>
-      <div class="synonym">Synonym (TOEIC): approval, permission</div>
-      <p class="example">Written <strong>authorization</strong> is required to access confidential files.</p>
-    </div>
+    <div class="word-card">
+      <div class="word-header">
+        <span class="word-title">revise</span>
+        <span class="pos-tag">v.</span>
+      </div>
+      <span class="chinese-def">修改；修訂</span>
+      <div class="synonym-box">
+        <strong>Synonyms:</strong> amend, modify, alter
+      </div>
+      <div class="example-section">
+        <span class="example-label">Example</span>
+        <p class="example-text">The contract was <strong>revised</strong> to include the new payment terms.</p>
+      </div>
+    </div>
 
-        <div class="word">
-      <strong>implement (v.)</strong> 
-      <span class="chinese">實施、執行</span>
-      <div class="synonym">Synonym (TOEIC): execute, carry out</div>
-      <p class="example">The company <strong>implemented</strong> new safety regulations.</p>
-    </div>
+    <div class="word-card">
+      <div class="word-header">
+        <span class="word-title">profitability</span>
+        <span class="pos-tag">n.</span>
+      </div>
+      <span class="chinese-def">獲利能力；盈利性</span>
+      <div class="synonym-box">
+        <strong>Synonyms:</strong> earnings potential, yield
+      </div>
+      <div class="example-section">
+        <span class="example-label">Example</span>
+        <p class="example-text">The new strategy increased the company’s <strong>profitability</strong> in Q3.</p>
+      </div>
+    </div>
 
-        <div class="word">
-      <strong>strategic (adj.)</strong> 
-      <span class="chinese">策略性的</span>
-      <div class="synonym">Synonym (TOEIC): long-term</div>
-      <p class="example">The merger was a <strong>strategic</strong> decision for market expansion.</p>
-    </div>
+    <div class="word-card">
+      <div class="word-header">
+        <span class="word-title">authorization</span>
+        <span class="pos-tag">n.</span>
+      </div>
+      <span class="chinese-def">授權；批准</span>
+      <div class="synonym-box">
+        <strong>Synonyms:</strong> approval, permission, sanction
+      </div>
+      <div class="example-section">
+        <span class="example-label">Example</span>
+        <p class="example-text">Written <strong>authorization</strong> is required to access confidential files.</p>
+      </div>
+    </div>
 
-        <div class="word">
-      <strong>partnership (n.)</strong> 
-      <span class="chinese">合作關係</span>
-      <div class="synonym">Synonym (TOEIC): alliance, cooperation</div>
-      <p class="example">The firm formed a <strong>partnership</strong> with an international supplier.</p>
-    </div>
+    <div class="word-card">
+      <div class="word-header">
+        <span class="word-title">implement</span>
+        <span class="pos-tag">v.</span>
+      </div>
+      <span class="chinese-def">實施；執行</span>
+      <div class="synonym-box">
+        <strong>Synonyms:</strong> execute, carry out, apply
+      </div>
+      <div class="example-section">
+        <span class="example-label">Example</span>
+        <p class="example-text">The company <strong>implemented</strong> new safety regulations last month.</p>
+      </div>
+    </div>
 
-        <div class="word">
-      <strong>responsibility (n.)</strong> 
-      <span class="chinese">責任</span>
-      <div class="synonym">Synonym (TOEIC): accountability</div>
-      <p class="example">Managers must take <strong>responsibility</strong> for their team’s performance.</p>
-    </div>
+    <div class="word-card">
+      <div class="word-header">
+        <span class="word-title">strategic</span>
+        <span class="pos-tag">adj.</span>
+      </div>
+      <span class="chinese-def">策略性的；戰略上的</span>
+      <div class="synonym-box">
+        <strong>Synonyms:</strong> tactical, long-term
+      </div>
+      <div class="example-section">
+        <span class="example-label">Example</span>
+        <p class="example-text">The merger was a <strong>strategic</strong> decision for global market expansion.</p>
+      </div>
+    </div>
 
-        <div class="word">
-      <strong>efficiency (n.)</strong> 
-      <span class="chinese">效率</span>
-      <div class="synonym">Synonym (TOEIC): effectiveness</div>
-      <p class="example">Automation improved overall <strong>efficiency</strong> in production.</p>
-    </div>
+    <div class="word-card">
+      <div class="word-header">
+        <span class="word-title">partnership</span>
+        <span class="pos-tag">n.</span>
+      </div>
+      <span class="chinese-def">合作夥伴關係</span>
+      <div class="synonym-box">
+        <strong>Synonyms:</strong> alliance, cooperation, joint venture
+      </div>
+      <div class="example-section">
+        <span class="example-label">Example</span>
+        <p class="example-text">The firm formed a <strong>partnership</strong> with an international supplier.</p>
+      </div>
+    </div>
 
-        <div class="word">
-      <strong>confidential (adj.)</strong> 
-      <span class="chinese">機密的</span>
-      <div class="synonym">Synonym (TOEIC): private, restricted</div>
-      <p class="example">All employee records are <strong>confidential</strong>.</p>
-    </div>
+    <div class="word-card">
+      <div class="word-header">
+        <span class="word-title">responsibility</span>
+        <span class="pos-tag">n.</span>
+      </div>
+      <span class="chinese-def">責任；職責</span>
+      <div class="synonym-box">
+        <strong>Synonyms:</strong> accountability, duty, obligation
+      </div>
+      <div class="example-section">
+        <span class="example-label">Example</span>
+        <p class="example-text">Managers must take <strong>responsibility</strong> for their team’s performance.</p>
+      </div>
+    </div>
 
-        <div class="word">
-      <strong>coordination (n.)</strong> 
-      <span class="chinese">協調、配合</span>
-      <div class="synonym">Synonym (TOEIC): cooperation</div>
-      <p class="example">Poor <strong>coordination</strong> between departments caused delays.</p>
-    </div>
-    
-        <div class="word">
-      <strong>strategy (n.)</strong> 
-      <span class="chinese">策略</span>
-      <div class="synonym">Synonym (TOEIC): plan, approach</div>
-      <p class="example">Their marketing <strong>strategy</strong> focuses on expanding online sales channels.</p>
-    </div>
-    
-        <div class="word">
-      <strong>opinion (n.)</strong> 
-      <span class="chinese">意見</span>
-      <div class="synonym">Synonym (TOEIC): view, perspective</div>
-      <p class="example">In my <strong>opinion</strong>, the proposal needs further revision.</p>
-    </div>
-    
-        <div class="word">
-      <strong>increase (v.)(n.)</strong> 
-      <span class="chinese">增加；成長</span>
-      <div class="synonym">Synonym (TOEIC): rise, growth</div>
-      <p class="example">Incidents of armed robbery have <strong>increased</strong> over the last few years.(v.) <br>There was a sudden <strong>increase</strong> in production costs.(n.)</p>
-    </div>
-    
-        <div class="word">
-      <strong>purchase (v.)(n.)</strong> 
-      <span class="chinese">購買；購買物</span>
-      <div class="synonym">Synonym (TOEIC): buy, acquisition</div>
-      <p class="example">Customers can <strong>purchase</strong> products directly through the website.</p>
-    </div>
-    
-        <div class="word">
-      <strong>transportation (n.)</strong> 
-      <span class="chinese">交通；運輸</span>
-      <div class="synonym">Synonym (TOEIC): transit, transport</div>
-      <p class="example">Public <strong>transportation</strong> reduces commuting costs for employees.</p>
-    </div>
-    
-        <div class="word">
-      <strong>launch (v.)</strong> 
-      <span class="chinese">推出；發表</span>
-      <div class="synonym">Synonym (TOEIC): introduce, release</div>
-      <p class="example">The company plans to <strong>launch</strong> a new application next month.</p>
-    </div>
-    
-        <div class="word">
-      <strong>complete (v.)(a.)</strong> 
-      <span class="chinese">完成；完整的</span>
-      <div class="synonym">Synonym (TOEIC): finish, entire</div>
-      <p class="example">Please <strong>complete</strong> the form before submitting your request.(v.) <br>You are a <strong>complete</strong> fool! (a.)</p>
-    </div>
-    
-        <div class="word">
-      <strong>affect (v.)</strong> 
-      <span class="chinese">影響</span>
-      <div class="synonym">Synonym (TOEIC): influence, impact</div>
-      <p class="example">This decision will <strong>affect</strong> our budget.</p>
-    </div>
-    
-        <div class="word">
-      <strong>postpone (v.)</strong> 
-      <span class="chinese">延期</span>
-      <div class="synonym">Synonym (TOEIC): delay, put off</div>
-      <p class="example">The meeting was <strong>postponed</strong> due to scheduling conflicts.</p>
-    </div>
-    
-        <div class="word">
-      <strong>secure (v.)(adj.)</strong> 
-      <span class="chinese">確保；取得；安全的</span>
-      <div class="synonym">Synonym (TOEIC): obtain, safe</div>
-      <p class="example">The manager <strong>secured</strong> approval for the revised budget. (v.)<br>Please keep all data <strong>secure</strong>. (a.)</p>
-    </div>
-    
-        <div class="word">
-      <strong>provide (v.)</strong> 
-      <span class="chinese">提供</span>
-      <div class="synonym">Synonym (TOEIC): supply, offer</div>
-      <p class="example">The company <strong>provides</strong> training for new employees.</p>
-    </div>
-    
-        <div class="word">
-      <strong>encourage (v.)</strong> 
-      <span class="chinese">鼓勵</span>
-      <div class="synonym">Synonym (TOEIC): motivate, support</div>
-      <p class="example">Supervisors should <strong>encourage</strong> teamwork among staff.</p>
-    </div>
-    
-        <div class="word">
-      <strong>significantly (adv.)</strong> 
-      <span class="chinese">顯著地；大幅地</span>
-      <div class="synonym">Synonym (TOEIC): considerably, notably</div>
-      <p class="example">Customer satisfaction has <strong>significantly</strong> improved this year.</p>
-    </div>
-    
-        <div class="word">
-      <strong>confidential (adj.)</strong> 
-      <span class="chinese">機密的</span>
-      <div class="synonym">Synonym (TOEIC): private, restricted</div>
-      <p class="example">All financial records are <strong>confidential</strong>.</p>
-    </div>
-    
-        <div class="word">
-      <strong>central (adj.)</strong> 
-      <span class="chinese">中心的；核心的</span>
-      <div class="synonym">Synonym (TOEIC): main, core</div>
-      <p class="example">The office is located in a <strong>central</strong> business district.</p>
-    </div>
+    <div class="word-card">
+      <div class="word-header">
+        <span class="word-title">efficiency</span>
+        <span class="pos-tag">n.</span>
+      </div>
+      <span class="chinese-def">效率；效能</span>
+      <div class="synonym-box">
+        <strong>Synonyms:</strong> effectiveness, competence
+      </div>
+      <div class="example-section">
+        <span class="example-label">Example</span>
+        <p class="example-text">Automation improved overall <strong>efficiency</strong> in the production line.</p>
+      </div>
+    </div>
 
-  </div>
+    <div class="word-card">
+      <div class="word-header">
+        <span class="word-title">confidential</span>
+        <span class="pos-tag">adj.</span>
+      </div>
+      <span class="chinese-def">機密的；秘密的</span>
+      <div class="synonym-box">
+        <strong>Synonyms:</strong> private, restricted, classified
+      </div>
+      <div class="example-section">
+        <span class="example-label">Example</span>
+        <p class="example-text">Please ensure all employee records are kept <strong>confidential</strong>.</p>
+      </div>
+    </div>
+
+    <div class="word-card">
+      <div class="word-header">
+        <span class="word-title">coordination</span>
+        <span class="pos-tag">n.</span>
+      </div>
+      <span class="chinese-def">協調；配合</span>
+      <div class="synonym-box">
+        <strong>Synonyms:</strong> cooperation, organization
+      </div>
+      <div class="example-section">
+        <span class="example-label">Example</span>
+        <p class="example-text">Poor <strong>coordination</strong> between departments caused significant delays.</p>
+      </div>
+    </div>
+
+    <div class="word-card">
+      <div class="word-header">
+        <span class="word-title">strategy</span>
+        <span class="pos-tag">n.</span>
+      </div>
+      <span class="chinese-def">策略；計畫</span>
+      <div class="synonym-box">
+        <strong>Synonyms:</strong> plan, approach, tactic
+      </div>
+      <div class="example-section">
+        <span class="example-label">Example</span>
+        <p class="example-text">Their marketing <strong>strategy</strong> focuses on expanding online sales.</p>
+      </div>
+    </div>
+
+    <div class="word-card">
+      <div class="word-header">
+        <span class="word-title">opinion</span>
+        <span class="pos-tag">n.</span>
+      </div>
+      <span class="chinese-def">意見；看法</span>
+      <div class="synonym-box">
+        <strong>Synonyms:</strong> view, perspective, assessment
+      </div>
+      <div class="example-section">
+        <span class="example-label">Example</span>
+        <p class="example-text">In my <strong>opinion</strong>, the proposal needs further revision.</p>
+      </div>
+    </div>
+
+    <div class="word-card">
+      <div class="word-header">
+        <span class="word-title">increase</span>
+        <span class="pos-tag">v. / n.</span>
+      </div>
+      <span class="chinese-def">增加；成長</span>
+      <div class="synonym-box">
+        <strong>Synonyms:</strong> rise, growth, expand
+      </div>
+      <div class="example-section">
+        <span class="example-label">Example</span>
+        <p class="example-text">There was a sudden <strong>increase</strong> in production costs last quarter.</p>
+      </div>
+    </div>
+
+    <div class="word-card">
+      <div class="word-header">
+        <span class="word-title">purchase</span>
+        <span class="pos-tag">v. / n.</span>
+      </div>
+      <span class="chinese-def">購買；採購</span>
+      <div class="synonym-box">
+        <strong>Synonyms:</strong> buy, acquisition
+      </div>
+      <div class="example-section">
+        <span class="example-label">Example</span>
+        <p class="example-text">Customers can <strong>purchase</strong> products directly via the app.</p>
+      </div>
+    </div>
+
+    <div class="word-card">
+      <div class="word-header">
+        <span class="word-title">transportation</span>
+        <span class="pos-tag">n.</span>
+      </div>
+      <span class="chinese-def">交通運輸</span>
+      <div class="synonym-box">
+        <strong>Synonyms:</strong> transit, transport, logistics
+      </div>
+      <div class="example-section">
+        <span class="example-label">Example</span>
+        <p class="example-text">The office is conveniently located near public <strong>transportation</strong>.</p>
+      </div>
+    </div>
+
+    </div>
+
+  <footer>
+    <p>已經看完所有核心詞彙了嗎？準備好進行 <a href="test1.html" style="color:var(--primary-blue); font-weight:bold;">字彙測驗</a> 了嗎？</p>
+  </footer>
+</div>
+
 </body>
 </html>
