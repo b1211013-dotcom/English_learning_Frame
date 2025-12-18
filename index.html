@@ -5,7 +5,6 @@
 <title>TOEIC 550 數位學習系統</title>
 
 <style>
-/* ===== 基本設定 ===== */
 * {
   box-sizing: border-box;
   font-family: Arial, sans-serif;
@@ -49,10 +48,6 @@ body {
   color: #00f5ff;
 }
 
-.cover-card p {
-  letter-spacing: 2px;
-}
-
 .cover-card button {
   margin-top: 25px;
   padding: 14px 36px;
@@ -76,7 +71,6 @@ body {
   flex-direction: column;
 }
 
-/* 上方選單 */
 nav {
   background: linear-gradient(90deg, #00f2fe, #4facfe);
   padding: 15px;
@@ -93,9 +87,15 @@ nav button {
   cursor: pointer;
 }
 
-nav button:hover {
+nav button.locked {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+nav button.primary {
   background: #fff;
   color: #000;
+  font-weight: bold;
 }
 
 /* ===== 進度條 ===== */
@@ -103,7 +103,6 @@ nav button:hover {
   background: #f0f4f8;
   padding: 10px;
   text-align: center;
-  font-size: 0.95rem;
 }
 
 .progress-bar {
@@ -122,7 +121,6 @@ nav button:hover {
   transition: width 0.5s ease;
 }
 
-/* iframe */
 iframe {
   flex: 1;
   border: none;
@@ -138,7 +136,6 @@ iframe {
   <div class="cover-card">
     <h1>TOEIC 550</h1>
     <p>DIGITAL LEARNING SYSTEM</p>
-    <p>Vocabulary ｜ Grammar ｜ Practice</p>
     <button onclick="enterSite()">START LEARNING</button>
   </div>
 </div>
@@ -146,13 +143,12 @@ iframe {
 <!-- ===== 主內容 ===== -->
 <div id="app">
   <nav>
-    <button onclick="loadPage('test1.html')">字彙測驗</button>
-    <button onclick="loadPage('test2.html')">文法測驗</button>
-    <button onclick="loadPage('material1.html')">單字學習</button>
+    <button class="primary" onclick="loadQuiz()">字彙測驗（第一步）</button>
+    <button id="grammarBtn" class="locked" onclick="loadGrammar()">文法測驗</button>
+    <button id="vocabBtn" class="locked" onclick="loadVocab()">單字學習</button>
     <button onclick="loadPage('about.html')">製作團隊</button>
   </nav>
 
-  <!-- 進度條 -->
   <div id="progress-container">
     今日學習進度：<span id="progress-text">0%</span>
     <div class="progress-bar">
@@ -160,15 +156,15 @@ iframe {
     </div>
   </div>
 
-  <!-- 內容框架 -->
-  <iframe id="contentFrame" src="material1.html"></iframe>
+  <!-- 預設先測驗 -->
+  <iframe id="contentFrame" src="test1.html"></iframe>
 </div>
 
 <script>
-/* ===== 頁面載入時 ===== */
 window.onload = function () {
   const entered = localStorage.getItem("entered");
   const progress = localStorage.getItem("progress") || 0;
+  const quizDone = localStorage.getItem("quizDone");
 
   updateProgress(progress);
 
@@ -176,28 +172,58 @@ window.onload = function () {
     document.getElementById("cover").classList.add("hidden");
     document.body.style.overflow = "auto";
   }
+
+  if (quizDone) unlock();
 };
 
-/* ===== 進入系統 ===== */
 function enterSite() {
   localStorage.setItem("entered", "yes");
   document.getElementById("cover").classList.add("hidden");
   document.body.style.overflow = "auto";
 }
 
-/* ===== 載入教材＋更新進度 ===== */
+function loadQuiz() {
+  document.getElementById("contentFrame").src = "test1.html";
+  localStorage.setItem("quizDone", "yes");
+  addProgress();
+  unlock();
+}
+
+function unlock() {
+  document.getElementById("grammarBtn").classList.remove("locked");
+  document.getElementById("vocabBtn").classList.remove("locked");
+}
+
+function loadGrammar() {
+  if (!localStorage.getItem("quizDone")) {
+    alert("請先完成字彙測驗！");
+    return;
+  }
+  loadPage("test2.html");
+}
+
+function loadVocab() {
+  if (!localStorage.getItem("quizDone")) {
+    alert("請先完成字彙測驗！");
+    return;
+  }
+  loadPage("material1.html");
+}
+
 function loadPage(page) {
   document.getElementById("contentFrame").src = page;
+  addProgress();
+}
 
+function addProgress() {
   let progress = Number(localStorage.getItem("progress")) || 0;
   if (progress < 100) {
-    progress += 25; // 每個單元 +25%
+    progress += 25;
     localStorage.setItem("progress", progress);
     updateProgress(progress);
   }
 }
 
-/* ===== 更新進度條 ===== */
 function updateProgress(value) {
   value = Math.min(100, value);
   document.getElementById("progress-fill").style.width = value + "%";
