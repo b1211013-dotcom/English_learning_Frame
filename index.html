@@ -5,6 +5,7 @@
 <title>TOEIC 550 數位學習系統</title>
 
 <style>
+/* ===== 基本設定 ===== */
 * {
   box-sizing: border-box;
   font-family: Arial, sans-serif;
@@ -48,6 +49,10 @@ body {
   color: #00f5ff;
 }
 
+.cover-card p {
+  letter-spacing: 2px;
+}
+
 .cover-card button {
   margin-top: 25px;
   padding: 14px 36px;
@@ -71,6 +76,7 @@ body {
   flex-direction: column;
 }
 
+/* 上方選單 */
 nav {
   background: linear-gradient(90deg, #00f2fe, #4facfe);
   padding: 15px;
@@ -92,6 +98,31 @@ nav button:hover {
   color: #000;
 }
 
+/* ===== 進度條 ===== */
+#progress-container {
+  background: #f0f4f8;
+  padding: 10px;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.progress-bar {
+  width: 70%;
+  height: 16px;
+  background: #ddd;
+  border-radius: 10px;
+  margin: 6px auto;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #00f2fe, #4facfe);
+  transition: width 0.5s ease;
+}
+
+/* iframe */
 iframe {
   flex: 1;
   border: none;
@@ -102,16 +133,17 @@ iframe {
 
 <body>
 
-<!-- 封面 -->
+<!-- ===== 封面 ===== -->
 <div id="cover">
   <div class="cover-card">
     <h1>TOEIC 550</h1>
     <p>DIGITAL LEARNING SYSTEM</p>
+    <p>Vocabulary ｜ Grammar ｜ Practice</p>
     <button onclick="enterSite()">START LEARNING</button>
   </div>
 </div>
 
-<!-- 主內容 -->
+<!-- ===== 主內容 ===== -->
 <div id="app">
   <nav>
     <button onclick="loadPage('test1.html')">字彙測驗</button>
@@ -120,17 +152,56 @@ iframe {
     <button onclick="loadPage('about.html')">製作團隊</button>
   </nav>
 
+  <!-- 進度條 -->
+  <div id="progress-container">
+    今日學習進度：<span id="progress-text">0%</span>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </div>
+
+  <!-- 內容框架 -->
   <iframe id="contentFrame" src="material1.html"></iframe>
 </div>
 
 <script>
+/* ===== 頁面載入時 ===== */
+window.onload = function () {
+  const entered = localStorage.getItem("entered");
+  const progress = localStorage.getItem("progress") || 0;
+
+  updateProgress(progress);
+
+  if (entered) {
+    document.getElementById("cover").classList.add("hidden");
+    document.body.style.overflow = "auto";
+  }
+};
+
+/* ===== 進入系統 ===== */
 function enterSite() {
+  localStorage.setItem("entered", "yes");
   document.getElementById("cover").classList.add("hidden");
   document.body.style.overflow = "auto";
 }
 
+/* ===== 載入教材＋更新進度 ===== */
 function loadPage(page) {
   document.getElementById("contentFrame").src = page;
+
+  let progress = Number(localStorage.getItem("progress")) || 0;
+  if (progress < 100) {
+    progress += 25; // 每個單元 +25%
+    localStorage.setItem("progress", progress);
+    updateProgress(progress);
+  }
+}
+
+/* ===== 更新進度條 ===== */
+function updateProgress(value) {
+  value = Math.min(100, value);
+  document.getElementById("progress-fill").style.width = value + "%";
+  document.getElementById("progress-text").innerText = value + "%";
 }
 </script>
 
