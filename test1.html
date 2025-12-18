@@ -1,272 +1,420 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <title>字彙測驗</title>
-  <style>
-    body {
-      font-family: 'Noto Sans TC', sans-serif;
-      background: #f0f8ff;
-      margin: 20px;
-      color: #333;
-    }
-    h2 {
-      text-align: center;
-      color: #0066cc;
-    }
-    form {
-      max-width: 800px;
-      margin: auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    ol {
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 25px;
-      padding-top: 10px;
-      border-bottom: 1px dashed #ddd;
-    }
-    label {
-      display: inline-block;
-      margin-right: 15px;
-      cursor: pointer;
-    }
-    button {
-      display: block;
-      margin: 20px auto;
-      padding: 10px 20px;
-      background: #0066cc;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #004c99;
-    }
-    /* 結果區塊樣式 */
-    #result {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 18px;
-      padding: 20px;
-      border: 2px solid #E74C3C;
-      border-radius: 8px;
-      background-color: #FFFDEE;
-      display: none; /* 初始隱藏 */
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .result-list { 
-      list-style-type: none; 
-      padding-left: 0; 
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOEIC 550 // 字彙能力測驗</title>
+  <style>
+    /* 全域設定 */
+    :root {
+      --primary-blue: #0066cc;
+      --light-bg: #f8fafc;
+      --card-bg: #ffffff;
+      --correct: #27ae60;
+      --wrong: #e74c3c;
+      --text-gray: #64748b;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Noto Sans TC', sans-serif;
+      background: var(--light-bg);
+      margin: 0;
+      padding: 20px;
+      color: #334155;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      color: var(--primary-blue);
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: var(--text-gray);
+      font-size: 0.95rem;
+    }
+
+    /* 測驗表單樣式 */
+    #vocabQuiz {
+      counter-reset: question-counter; /* 建立自定義編號 */
+    }
+
+    .question-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e2e8f0;
+      position: relative;
+    }
+
+    .question-card::before {
+      counter-increment: question-counter;
+      content: "Question " counter(question-counter);
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      background: var(--primary-blue);
+      color: white;
+      padding: 2px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+    .question-text {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #1e293b;
+      display: block;
+    }
+
+    /* 選項美化 */
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      border: 2px solid #f1f5f9;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .option-item:hover {
+      background-color: #f0f7ff;
+      border-color: #bfdbfe;
+    }
+
+    .option-item input[type="radio"] {
+      margin-right: 12px;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary-blue);
+    }
+
+    /* 提交按鈕 */
+    .submit-btn {
+      display: block;
+      width: 100%;
+      max-width: 300px;
+      margin: 40px auto;
+      padding: 15px;
+      background: var(--primary-blue);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .submit-btn:hover {
+      background: #0052a3;
+      transform: translateY(-2px);
+    }
+
+    /* 結果區塊 */
+    #result {
+      display: none;
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      margin-top: 30px;
+      border: 2px solid var(--primary-blue);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .result-header {
+      text-align: center;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
+
+    .score-circle {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--primary-blue);
+    }
+
+    .feedback-item {
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      border-left: 5px solid #ddd;
+      background: #f8fafc;
+    }
+
+    .feedback-item.correct { border-left-color: var(--correct); }
+    .feedback-item.wrong { border-left-color: var(--wrong); }
+
+    .status-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+  </style>
 </head>
 <body>
-<h2>TOEIC 核心字彙測驗 (15 題)</h2>
-<form id="vocabQuiz">
-  <ol>
-    <li>The company plans to ____ a new marketing strategy next month.<br>
-      <label><input type="radio" name="q1" value="0"> A. delay</label>
-      <label><input type="radio" name="q1" value="1"> B. launch</label>
-      <label><input type="radio" name="q1" value="2"> C. complain</label>
-      <label><input type="radio" name="q1" value="3"> D. refuse</label>
-    </li>
-    <li>Please ____ the form and return it by Friday.<br>
-      <label><input type="radio" name="q2" value="0"> A. expect</label>
-      <label><input type="radio" name="q2" value="1"> B. avoid</label>
-      <label><input type="radio" name="q2" value="2"> C. complete</label>
-      <label><input type="radio" name="q2" value="3"> D. remind</label>
-    </li>
-    <li>The hotel offers free breakfast to all ____.<br>
-      <label><input type="radio" name="q3" value="0"> A. managers</label>
-      <label><input type="radio" name="q3" value="1"> B. employees</label>
-      <label><input type="radio" name="q3" value="2"> C. guests</label>
-      <label><input type="radio" name="q3" value="3"> D. partners</label>
-    </li>
-    <li>Sales have ____ significantly since the new product was released.<br>
-      <label><input type="radio" name="q4" value="0"> A. protected</label>
-      <label><input type="radio" name="q4" value="1"> B. avoided</label>
-      <label><input type="radio" name="q4" value="2"> C. described</label>
-      <label><input type="radio" name="q4" value="3"> D. increased</label>
-    </li>
-    <li>The meeting was ____ because several members were absent.<br>
-      <label><input type="radio" name="q5" value="0"> A. postponed</label>
-      <label><input type="radio" name="q5" value="1"> B. confused</label>
-      <label><input type="radio" name="q5" value="2"> C. damaged</label>
-      <label><input type="radio" name="q5" value="3"> D. promised</label>
-    </li>
-    <li>Employees are encouraged to share their ____ during the discussion.<br>
-      <label><input type="radio" name="q6" value="0"> A. profits</label>
-      <label><input type="radio" name="q6" value="1"> B. schedules</label>
-      <label><input type="radio" name="q6" value="2"> C. salaries</label>
-      <label><input type="radio" name="q6" value="3"> D. opinions</label>
-    </li>
-    <li>The office is located in a very ____ area with convenient transportation.<br>
-      <label><input type="radio" name="q7" value="0"> A. usual</label>
-      <label><input type="radio" name="q7" value="1"> B. simple</label>
-      <label><input type="radio" name="q7" value="2"> C. private</label>
-      <label><input type="radio" name="q7" value="3"> D. central</label>
-    </li>
-    <li>Please keep all customer information ____ and secure.<br>
-      <label><input type="radio" name="q8" value="0"> A. available</label>
-      <label><input type="radio" name="q8" value="1"> B. formal</label>
-      <label><input type="radio" name="q8" value="2"> C. confidential</label>
-      <label><input type="radio" name="q8" value="3"> D. temporary</label>
-    </li>
-    <li>The manager praised the team for their ____ work.<br>
-      <label><input type="radio" name="q9" value="0"> A. nervous</label>
-      <label><input type="radio" name="q9" value="1"> B. careless</label>
-      <label><input type="radio" name="q9" value="2"> C. ordinary</label>
-      <label><input type="radio" name="q9" value="3"> D. efficient</label>
-    </li>
-    <li>The company provides ____ training for new staff members.<br>
-      <label><input type="radio" name="q10" value="0"> A. rare</label>
-      <label><input type="radio" name="q10" value="1"> B. personal</label>
-      <label><input type="radio" name="q10" value="2"> C. equal</label>
-      <label><input type="radio" name="q10" value="3"> D. basic</label>
-    </li>
-    <li>The report contains ____ information about last year’s sales.<br>
-      <label><input type="radio" name="q11" value="0"> A. silent</label>
-      <label><input type="radio" name="q11" value="1"> B. flexible</label>
-      <label><input type="radio" name="q11" value="2"> C. empty</label>
-      <label><input type="radio" name="q11" value="3"> D. detailed</label>
-    </li>
-    <li>Customers can ____ the product online or in the store.<br>
-      <label><input type="radio" name="q12" value="0"> A. imagine</label>
-      <label><input type="radio" name="q12" value="1"> B. repair</label>
-      <label><input type="radio" name="q12" value="2"> C. publish</label>
-      <label><input type="radio" name="q12" value="3"> D. purchase</label>
-    </li>
-    <li>The airline announced a ____ in ticket prices.<br>
-      <label><input type="radio" name="q13" value="0"> A. direction</label>
-      <label><input type="radio" name="q13" value="1"> B. distance</label>
-      <label><input type="radio" name="q13" value="2"> C. pressure</label>
-      <label><input type="radio" name="q13" value="3"> D. increase</label>
-    </li>
-    <li>Please read the instructions ____ before using the machine.<br>
-      <label><input type="radio" name="q14" value="0"> A. suddenly</label>
-      <label><input type="radio" name="q14" value="1"> B. widely</label>
-      <label><input type="radio" name="q14" value="2"> C. closely</label>
-      <label><input type="radio" name="q14" value="3"> D. carefully</label>
-    </li>
-    <li>The new policy will ____ all departments in the company.<br>
-      <label><input type="radio" name="q15" value="0"> A. prevent</label>
-      <label><input type="radio" name="q15" value="1"> B. depend</label>
-      <label><input type="radio" name="q15" value="2"> C. affect</label>
-      <label><input type="radio" name="q15" value="3"> D. reduce</label>
-    </li>
-  </ol>
-  <button type="button" onclick="checkAnswers()">提交答案</button>
-</form>
-<div id="result"></div>
+
+<div class="container">
+  <header>
+    <h2>TOEIC 核心字彙測驗</h2>
+    <p class="subtitle">單元：職場與生活常用詞彙 (共 15 題)</p>
+  </header>
+
+  <form id="vocabQuiz">
+    <div class="question-card">
+      <span class="question-text">The company plans to ____ a new marketing strategy next month.</span>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="q1" value="0"> A. delay</label>
+        <label class="option-item"><input type="radio" name="q1" value="1"> B. launch</label>
+        <label class="option-item"><input type="radio" name="q1" value="2"> C. complain</label>
+        <label class="option-item"><input type="radio" name="q1" value="3"> D. refuse</label>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <span class="question-text">Please ____ the form and return it by Friday.</span>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="q2" value="0"> A. expect</label>
+        <label class="option-item"><input type="radio" name="q2" value="1"> B. avoid</label>
+        <label class="option-item"><input type="radio" name="q2" value="2"> C. complete</label>
+        <label class="option-item"><input type="radio" name="q2" value="3"> D. remind</label>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <span class="question-text">The hotel offers free breakfast to all ____.</span>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="q3" value="0"> A. managers</label>
+        <label class="option-item"><input type="radio" name="q3" value="1"> B. employees</label>
+        <label class="option-item"><input type="radio" name="q3" value="2"> C. guests</label>
+        <label class="option-item"><input type="radio" name="q3" value="3"> D. partners</label>
+      </div>
+    </div>
+
+    <div class="question-card">
+        <span class="question-text">Sales have ____ significantly since the new product was released.</span>
+        <div class="options-list">
+          <label class="option-item"><input type="radio" name="q4" value="0"> A. protected</label>
+          <label class="option-item"><input type="radio" name="q4" value="1"> B. avoided</label>
+          <label class="option-item"><input type="radio" name="q4" value="2"> C. described</label>
+          <label class="option-item"><input type="radio" name="q4" value="3"> D. increased</label>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <span class="question-text">The meeting was ____ because several members were absent.</span>
+        <div class="options-list">
+          <label class="option-item"><input type="radio" name="q5" value="0"> A. postponed</label>
+          <label class="option-item"><input type="radio" name="q5" value="1"> B. confused</label>
+          <label class="option-item"><input type="radio" name="q5" value="2"> C. damaged</label>
+          <label class="option-item"><input type="radio" name="q5" value="3"> D. promised</label>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <span class="question-text">Employees are encouraged to share their ____ during the discussion.</span>
+        <div class="options-list">
+          <label class="option-item"><input type="radio" name="q6" value="0"> A. profits</label>
+          <label class="option-item"><input type="radio" name="q6" value="1"> B. schedules</label>
+          <label class="option-item"><input type="radio" name="q6" value="2"> C. salaries</label>
+          <label class="option-item"><input type="radio" name="q6" value="3"> D. opinions</label>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <span class="question-text">The office is located in a very ____ area with convenient transportation.</span>
+        <div class="options-list">
+          <label class="option-item"><input type="radio" name="q7" value="0"> A. usual</label>
+          <label class="option-item"><input type="radio" name="q7" value="1"> B. simple</label>
+          <label class="option-item"><input type="radio" name="q7" value="2"> C. private</label>
+          <label class="option-item"><input type="radio" name="q7" value="3"> D. central</label>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <span class="question-text">Please keep all customer information ____ and secure.</span>
+        <div class="options-list">
+          <label class="option-item"><input type="radio" name="q8" value="0"> A. available</label>
+          <label class="option-item"><input type="radio" name="q8" value="1"> B. formal</label>
+          <label class="option-item"><input type="radio" name="q8" value="2"> C. confidential</label>
+          <label class="option-item"><input type="radio" name="q8" value="3"> D. temporary</label>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <span class="question-text">The manager praised the team for their ____ work.</span>
+        <div class="options-list">
+          <label class="option-item"><input type="radio" name="q9" value="0"> A. nervous</label>
+          <label class="option-item"><input type="radio" name="q9" value="1"> B. careless</label>
+          <label class="option-item"><input type="radio" name="q9" value="2"> C. ordinary</label>
+          <label class="option-item"><input type="radio" name="q9" value="3"> D. efficient</label>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <span class="question-text">The company provides ____ training for new staff members.</span>
+        <div class="options-list">
+          <label class="option-item"><input type="radio" name="q10" value="0"> A. rare</label>
+          <label class="option-item"><input type="radio" name="q10" value="1"> B. personal</label>
+          <label class="option-item"><input type="radio" name="q10" value="2"> C. equal</label>
+          <label class="option-item"><input type="radio" name="q10" value="3"> D. basic</label>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <span class="question-text">The report contains ____ information about last year’s sales.</span>
+        <div class="options-list">
+          <label class="option-item"><input type="radio" name="q11" value="0"> A. silent</label>
+          <label class="option-item"><input type="radio" name="q11" value="1"> B. flexible</label>
+          <label class="option-item"><input type="radio" name="q11" value="2"> C. empty</label>
+          <label class="option-item"><input type="radio" name="q11" value="3"> D. detailed</label>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <span class="question-text">Customers can ____ the product online or in the store.</span>
+        <div class="options-list">
+          <label class="option-item"><input type="radio" name="q12" value="0"> A. imagine</label>
+          <label class="option-item"><input type="radio" name="q12" value="1"> B. repair</label>
+          <label class="option-item"><input type="radio" name="q12" value="2"> C. publish</label>
+          <label class="option-item"><input type="radio" name="q12" value="3"> D. purchase</label>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <span class="question-text">The airline announced a ____ in ticket prices.</span>
+        <div class="options-list">
+          <label class="option-item"><input type="radio" name="q13" value="0"> A. direction</label>
+          <label class="option-item"><input type="radio" name="q13" value="1"> B. distance</label>
+          <label class="option-item"><input type="radio" name="q13" value="2"> C. pressure</label>
+          <label class="option-item"><input type="radio" name="q13" value="3"> D. increase</label>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <span class="question-text">Please read the instructions ____ before using the machine.</span>
+        <div class="options-list">
+          <label class="option-item"><input type="radio" name="q14" value="0"> A. suddenly</label>
+          <label class="option-item"><input type="radio" name="q14" value="1"> B. widely</label>
+          <label class="option-item"><input type="radio" name="q14" value="2"> C. closely</label>
+          <label class="option-item"><input type="radio" name="q14" value="3"> D. carefully</label>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <span class="question-text">The new policy will ____ all departments in the company.</span>
+        <div class="options-list">
+          <label class="option-item"><input type="radio" name="q15" value="0"> A. prevent</label>
+          <label class="option-item"><input type="radio" name="q15" value="1"> B. depend</label>
+          <label class="option-item"><input type="radio" name="q15" value="2"> C. affect</label>
+          <label class="option-item"><input type="radio" name="q15" value="3"> D. reduce</label>
+        </div>
+    </div>
+
+    <button type="button" class="submit-btn" onclick="checkAnswers()">提交所有答案</button>
+  </form>
+
+  <div id="result"></div>
+</div>
 
 <script>
-  // 1. 詞彙選項陣列
-  // 注意：此處的陣列順序必須與 HTML 中 A, B, C, D 的選項順序一致
-  const options = [
-    ["delay", "launch", "complain", "refuse"], // q1
-    ["expect", "avoid", "complete", "remind"], // q2
-    ["managers", "employees", "guests", "partners"], // q3
-    ["protected", "avoided", "described", "increased"], // q4
-    ["postponed", "confused", "damaged", "promised"], // q5
-    ["profits", "schedules", "salaries", "opinions"], // q6
-    ["usual", "simple", "private", "central"], // q7
-    ["available", "formal", "confidential", "temporary"], // q8
-    ["nervous", "careless", "ordinary", "efficient"], // q9
-    ["rare", "personal", "equal", "basic"], // q10
-    ["silent", "flexible", "empty", "detailed"], // q11
-    ["imagine", "repair", "publish", "purchase"], // q12
-    ["direction", "distance", "pressure", "increase"], // q13
-    ["suddenly", "widely", "closely", "carefully"], // q14
-    ["prevent", "depend", "affect", "reduce"] // q15
-  ];
+  const options = [
+    ["delay", "launch", "complain", "refuse"],
+    ["expect", "avoid", "complete", "remind"],
+    ["managers", "employees", "guests", "partners"],
+    ["protected", "avoided", "described", "increased"],
+    ["postponed", "confused", "damaged", "promised"],
+    ["profits", "schedules", "salaries", "opinions"],
+    ["usual", "simple", "private", "central"],
+    ["available", "formal", "confidential", "temporary"],
+    ["nervous", "careless", "ordinary", "efficient"],
+    ["rare", "personal", "equal", "basic"],
+    ["silent", "flexible", "empty", "detailed"],
+    ["imagine", "repair", "publish", "purchase"],
+    ["direction", "distance", "pressure", "increase"],
+    ["suddenly", "widely", "closely", "carefully"],
+    ["prevent", "depend", "affect", "reduce"]
+  ];
 
-  // 2. 詞彙正確答案索引 (0=A, 1=B, 2=C, 3=D)
-  // 根據 HTML 中的選項順序找到正確答案的索引
-  const answers = [
-    1, // q1: B. launch
-    2, // q2: C. complete
-    2, // q3: C. guests
-    3, // q4: D. increased
-    0, // q5: A. postponed
-    3, // q6: D. opinions
-    3, // q7: D. central
-    2, // q8: C. confidential
-    3, // q9: D. efficient
-    3, // q10: D. basic
-    3, // q11: D. detailed
-    3, // q12: D. purchase
-    3, // q13: D. increase
-    3, // q14: D. carefully
-    2 // q15: C. affect
-  ];
+  const answers = [1, 2, 2, 3, 0, 3, 3, 2, 3, 3, 3, 3, 3, 3, 2];
 
-  function checkAnswers() {
-    const totalQuestions = answers.length;
-    let score = 0;
-    let unansweredCount = 0;
-    let feedback = "<p>詞彙測驗結果：</p><ul style='text-align: left;' class='result-list'>";
-    
-    // 檢查未作答題目
-    for (let i = 1; i <= totalQuestions; i++) {
-      const selected = document.querySelector(`input[name="q${i}"]:checked`);
-      if (!selected) {
-        unansweredCount++;
-      }
-    }
+  function checkAnswers() {
+    const totalQuestions = answers.length;
+    let score = 0;
+    let unanswered = [];
 
-    if (unansweredCount > 0) {
-      alert(`⚠️ 詞彙測驗還有 ${unansweredCount} 題未作答，請完成所有題目後再提交！`);
-      return; 
-    }
+    // 檢查未答
+    for (let i = 1; i <= totalQuestions; i++) {
+      if (!document.querySelector(`input[name="q${i}"]:checked`)) {
+        unanswered.push(i);
+      }
+    }
 
-    // 計算分數並產生結果
-    for (let i = 1; i <= totalQuestions; i++) {
-      const selected = document.querySelector(`input[name="q${i}"]:checked`);
-      const questionIndex = i - 1;
-      const correctIndex = answers[questionIndex];
-      const correctAnswer = options[questionIndex][correctIndex];
-      
-      const selectedValue = parseInt(selected.value);
-      const userChoiceText = options[questionIndex][selectedValue];
-      
-      let isCorrect = (selectedValue === correctIndex);
-      
-      if (isCorrect) {
-        score++;
-      }
-      
-      const color = isCorrect ? '#27AE60' : '#E74C3C'; // 綠色/紅色
-      const resultText = isCorrect ? '✔ 正確' : '✘ 錯誤';
+    if (unanswered.length > 0) {
+      alert(`⚠️ 還有 ${unanswered.length} 題未完成 (題號: ${unanswered.join(", ")})`);
+      return;
+    }
 
-      feedback += `
-        <li style="color:${color}; list-style: none; margin-bottom: 10px; border-bottom: 1px dashed #ccc; padding-bottom: 5px;">
-          <strong>第 ${i} 題:</strong> ${resultText}<br>
-          &nbsp; &nbsp; 您的答案: ${userChoiceText}<br>
-          &nbsp; &nbsp; 正確答案: <span style='font-weight: bold; color: #27AE60;'>(${correctAnswer})</span>
-        </li>
-      `;
-    }
+    let feedbackHTML = "";
+    for (let i = 1; i <= totalQuestions; i++) {
+      const questionIndex = i - 1;
+      const selectedValue = parseInt(document.querySelector(`input[name="q${i}"]:checked`).value);
+      const isCorrect = selectedValue === answers[questionIndex];
+      
+      if (isCorrect) score++;
 
-    feedback += "</ul>";
-    const finalScorePercentage = (score / totalQuestions) * 100;
-    
-    // 更新結果顯示
-    const resultDiv = document.getElementById("result");
-    resultDiv.style.display = 'block';
-    resultDiv.innerHTML = 
-      `<h3 style="color:#0066cc; border-bottom: 1px solid #0066cc; padding-bottom: 10px;">總分：${score} / ${totalQuestions} (${finalScorePercentage.toFixed(0)}%)</h3>` + feedback;
-    
-    resultDiv.scrollIntoView({ behavior: 'smooth' });
-  }
+      feedbackHTML += `
+        <div class="feedback-item ${isCorrect ? 'correct' : 'wrong'}">
+          <span class="status-badge" style="background:${isCorrect ? '#dcfce7':'#fee2e2'}; color:${isCorrect ? '#166534':'#991b1b'}">
+            ${isCorrect ? '✓ 正確' : '✗ 錯誤'}
+          </span>
+          <div style="font-weight:600">第 ${i} 題</div>
+          <div style="font-size:0.9rem">您的答案：${options[questionIndex][selectedValue]}</div>
+          ${!isCorrect ? `<div style="font-size:0.9rem; color:var(--correct); font-weight:bold">正確答案：${options[questionIndex][answers[questionIndex]]}</div>` : ''}
+        </div>
+      `;
+    }
+
+    const resultDiv = document.getElementById("result");
+    resultDiv.style.display = "block";
+    resultDiv.innerHTML = `
+      <div class="result-header">
+        <div class="score-circle">${Math.round((score/totalQuestions)*100)}%</div>
+        <p>測驗完成！您答對了 ${score} / ${totalQuestions} 題。</p>
+      </div>
+      ${feedbackHTML}
+    `;
+
+    resultDiv.scrollIntoView({ behavior: 'smooth' });
+  }
 </script>
+
 </body>
 </html>
