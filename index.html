@@ -44,7 +44,6 @@ body {
 
 .cover-card h1 {
   font-size: 3rem;
-  letter-spacing: 4px;
   color: #00f5ff;
 }
 
@@ -57,11 +56,6 @@ body {
   background: transparent;
   color: #00f5ff;
   cursor: pointer;
-}
-
-.cover-card button:hover {
-  background: #00f5ff;
-  color: #001a22;
 }
 
 /* ===== 主系統 ===== */
@@ -78,7 +72,7 @@ nav {
 }
 
 nav button {
-  margin: 0 10px;
+  margin: 0 8px;
   padding: 10px 20px;
   border: 2px solid #fff;
   background: transparent;
@@ -124,7 +118,41 @@ nav button.primary {
 iframe {
   flex: 1;
   border: none;
-  background: #f4f7f6;
+}
+
+/* ===== 完成畫面 ===== */
+#finish {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+
+.finish-card {
+  background: #001a22;
+  padding: 50px 70px;
+  border-radius: 20px;
+  text-align: center;
+  color: #e0f7ff;
+  box-shadow: 0 0 40px #00f5ff;
+}
+
+.finish-card h2 {
+  font-size: 2.5rem;
+  color: #00f5ff;
+}
+
+.finish-card button {
+  margin-top: 20px;
+  padding: 12px 30px;
+  border-radius: 30px;
+  border: none;
+  background: #00f5ff;
+  font-size: 1rem;
+  cursor: pointer;
 }
 </style>
 </head>
@@ -140,94 +168,90 @@ iframe {
   </div>
 </div>
 
+<!-- ===== 完成畫面 ===== -->
+<div id="finish">
+  <div class="finish-card">
+    <h2>🎉 Congratulations!</h2>
+    <p>你已完成所有學習單元</p>
+    <p>學習進度：100%</p>
+    <button onclick="resetProgress()">重新開始學習</button>
+  </div>
+</div>
+
 <!-- ===== 主內容 ===== -->
 <div id="app">
   <nav>
-    <button class="primary" onclick="loadQuiz()">字彙測驗（第一步）</button>
-    <button id="grammarBtn" class="locked" onclick="loadGrammar()">文法測驗</button>
-    <button id="vocabBtn" class="locked" onclick="loadVocab()">單字學習</button>
+    <button class="primary" onclick="completeUnit('vocabTest','test1.html')">字彙測驗</button>
+    <button id="grammarBtn" class="locked"
+      onclick="completeUnit('grammar','test2.html')">文法測驗</button>
+    <button id="vocabBtn" class="locked"
+      onclick="completeUnit('vocab','material1.html')">單字學習</button>
     <button onclick="loadPage('about.html')">製作團隊</button>
   </nav>
 
   <div id="progress-container">
-    今日學習進度：<span id="progress-text">0%</span>
+    學習進度：<span id="progress-text">0%</span>
     <div class="progress-bar">
       <div class="progress-fill" id="progress-fill"></div>
     </div>
   </div>
 
-  <!-- 預設先測驗 -->
   <iframe id="contentFrame" src="test1.html"></iframe>
 </div>
 
 <script>
-window.onload = function () {
-  const entered = localStorage.getItem("entered");
-  const progress = localStorage.getItem("progress") || 0;
-  const quizDone = localStorage.getItem("quizDone");
+const units = ["vocabTest", "grammar", "vocab"];
 
-  updateProgress(progress);
-
-  if (entered) {
+window.onload = () => {
+  if (localStorage.getItem("entered")) {
     document.getElementById("cover").classList.add("hidden");
     document.body.style.overflow = "auto";
   }
-
-  if (quizDone) unlock();
+  if (localStorage.getItem("vocabTest")) unlock();
+  updateProgress();
 };
 
 function enterSite() {
-  localStorage.setItem("entered", "yes");
+  localStorage.setItem("entered","yes");
   document.getElementById("cover").classList.add("hidden");
   document.body.style.overflow = "auto";
 }
 
-function loadQuiz() {
-  document.getElementById("contentFrame").src = "test1.html";
-  localStorage.setItem("quizDone", "yes");
-  addProgress();
-  unlock();
+function completeUnit(unit, page) {
+  if (unit !== "vocabTest" && !localStorage.getItem("vocabTest")) {
+    alert("請先完成字彙測驗！");
+    return;
+  }
+  document.getElementById("contentFrame").src = page;
+  if (!localStorage.getItem(unit)) {
+    localStorage.setItem(unit,"done");
+    updateProgress();
+  }
+  if (unit === "vocabTest") unlock();
 }
 
 function unlock() {
-  document.getElementById("grammarBtn").classList.remove("locked");
-  document.getElementById("vocabBtn").classList.remove("locked");
+  grammarBtn.classList.remove("locked");
+  vocabBtn.classList.remove("locked");
 }
 
-function loadGrammar() {
-  if (!localStorage.getItem("quizDone")) {
-    alert("請先完成字彙測驗！");
-    return;
+function updateProgress() {
+  let done = units.filter(u => localStorage.getItem(u)).length;
+  let percent = Math.round((done / units.length) * 100);
+  progress-fill.style.width = percent + "%";
+  progress-text.innerText = percent + "%";
+  if (percent === 100) {
+    document.getElementById("finish").style.display = "flex";
   }
-  loadPage("test2.html");
 }
 
-function loadVocab() {
-  if (!localStorage.getItem("quizDone")) {
-    alert("請先完成字彙測驗！");
-    return;
-  }
-  loadPage("material1.html");
+function resetProgress() {
+  localStorage.clear();
+  location.reload();
 }
 
 function loadPage(page) {
-  document.getElementById("contentFrame").src = page;
-  addProgress();
-}
-
-function addProgress() {
-  let progress = Number(localStorage.getItem("progress")) || 0;
-  if (progress < 100) {
-    progress += 25;
-    localStorage.setItem("progress", progress);
-    updateProgress(progress);
-  }
-}
-
-function updateProgress(value) {
-  value = Math.min(100, value);
-  document.getElementById("progress-fill").style.width = value + "%";
-  document.getElementById("progress-text").innerText = value + "%";
+  contentFrame.src = page;
 }
 </script>
 
