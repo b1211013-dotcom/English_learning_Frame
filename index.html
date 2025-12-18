@@ -73,12 +73,12 @@
             box-shadow: 0 4px 15px rgba(0, 102, 204, 0.4);
         }
 
-        /* 鎖定狀態：變灰、半透明、禁止點擊 */
+        /* 鎖定狀態 */
         nav button.locked { 
             opacity: 0.3; 
             cursor: not-allowed; 
             filter: grayscale(1);
-            pointer-events: none; /* 防止被點擊 */
+            pointer-events: none;
         }
 
         /* 進度條區塊 */
@@ -114,7 +114,7 @@
     <button id="step1" class="active" onclick="switchPage('test1.html', 'step1')">Step 1: 字彙測驗</button>
     <button id="step2" class="locked" onclick="checkAndLoad('test2.html', 'step2')">Step 2: 文法測驗</button>
     <button id="step3" class="locked" onclick="checkAndLoad('material1.html', 'step3')">Step 3: 學習清單</button>
-    <button id="step4" class="locked" onclick="checkAndLoad('about.html', 'step3')">Step 4: 製作團隊</button>
+    <button id="step4" onclick="switchPage('about.html', 'step4')">Step 4: 製作團隊</button>
 </nav>
 
 <div id="progress-section">
@@ -129,27 +129,20 @@
 <iframe id="contentFrame" src="test1.html"></iframe>
 
 <script>
-    // 進入系統
     function enterSite() { 
         document.getElementById("cover").classList.add("hidden"); 
     }
 
-    // 切換頁面邏輯
     function switchPage(url, btnId) {
         const targetBtn = document.getElementById(btnId);
-        
-        // 如果是鎖定狀態則不執行跳轉
         if (targetBtn.classList.contains('locked')) return;
 
-        // 更新 iframe 來源
         document.getElementById("contentFrame").src = url;
 
-        // 更新按鈕選中樣式
         document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
         targetBtn.classList.add('active');
     }
 
-    // 檢查鎖定並讀取
     function checkAndLoad(url, btnId) {
         if (document.getElementById(btnId).classList.contains('locked')) {
             alert("🔒 請先完成前一階段測驗以解鎖此單元。");
@@ -158,40 +151,27 @@
         }
     }
 
-    /**
-     * 【核心解鎖函式】
-     * 此函式會被 iframe (test1.html / test2.html) 呼叫
-     */
     function unlockNext(nextId) {
         const nextBtn = document.getElementById(nextId);
         if (nextBtn) {
-            // 1. 移除鎖定類別（燈亮起）
             nextBtn.classList.remove('locked');
-            
-            // 2. 儲存進度到本地瀏覽器（重新整理也不會消失）
             localStorage.setItem(nextId, "unlocked");
-            
-            // 3. 更新進度條
             updateProgress();
-            
             console.log("系統訊息: " + nextId + " 已解鎖。");
         }
     }
 
-    // 更新進度條百分比
     function updateProgress() {
         let unlockedCount = 0;
         if (localStorage.getItem("step2") === "unlocked") unlockedCount++;
         if (localStorage.getItem("step3") === "unlocked") unlockedCount++;
 
-        // 計算百分比 (0, 50, 100)
         let progress = Math.round((unlockedCount / 2) * 100);
         
         document.getElementById("progFill").style.width = progress + "%";
         document.getElementById("progText").innerText = progress;
     }
 
-    // 頁面載入時檢查儲存狀態
     window.onload = function() {
         if (localStorage.getItem("step2") === "unlocked") {
             document.getElementById("step2").classList.remove('locked');
@@ -205,4 +185,3 @@
 
 </body>
 </html>
-
