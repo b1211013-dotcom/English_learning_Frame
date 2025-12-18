@@ -1,224 +1,289 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8">
-<title>TOEIC 550 數位學習系統</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOEIC 550 數位學習系統</title>
 
-<style>
-* {
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
+    <style>
+        /* 全域設定 */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            --accent-color: #1abc9c;
+            --dark-bg: #0f2027;
+            --sidebar-color: #1a2a3a;
+            --text-main: #2c3e50;
+        }
 
-body {
-  margin: 0;
-  background: #0f2027;
-  overflow: hidden;
-}
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+        }
 
-/* ===== 封面 ===== */
-#cover {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle at top, #0f2027, #020b14);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-  transition: opacity 0.8s ease;
-  color: #e0f7ff;
-}
+        body {
+            margin: 0;
+            background: #f4f7f9;
+            overflow: hidden; /* 封面顯示時防止滾動 */
+        }
 
-#cover.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
+        /* ===== 1. 科幻風格封面 (每次顯示) ===== */
+        #cover {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.5s;
+            color: #e0f7ff;
+        }
 
-.cover-card {
-  padding: 60px 80px;
-  text-align: center;
-  background: rgba(0,20,30,0.65);
-  border-radius: 16px;
-  box-shadow: 0 0 40px rgba(0,255,255,0.3);
-}
+        #cover.hidden {
+            transform: translateY(-100%); /* 向上滑動消失 */
+            opacity: 0;
+            pointer-events: none;
+        }
 
-.cover-card h1 {
-  font-size: 3rem;
-  letter-spacing: 4px;
-  color: #00f5ff;
-}
+        .cover-card {
+            padding: 50px 70px;
+            text-align: center;
+            background: rgba(0, 40, 60, 0.4);
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            border-radius: 24px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.15);
+            animation: pulse 4s infinite ease-in-out;
+        }
 
-.cover-card button {
-  margin-top: 25px;
-  padding: 14px 36px;
-  font-size: 1.1rem;
-  border: 2px solid #00f5ff;
-  border-radius: 30px;
-  background: transparent;
-  color: #00f5ff;
-  cursor: pointer;
-}
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.1); }
+            50% { box-shadow: 0 0 60px rgba(0, 255, 255, 0.3); }
+        }
 
-/* ===== 主系統 ===== */
-#app {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
+        .cover-card h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            background: linear-gradient(to bottom, #fff, #00f5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 8px;
+            font-weight: 800;
+        }
 
-nav {
-  background: linear-gradient(90deg, #00f2fe, #4facfe);
-  padding: 15px;
-  text-align: center;
-}
+        .cover-card p {
+            letter-spacing: 2px;
+            opacity: 0.8;
+            margin: 10px 0 30px;
+        }
 
-nav button {
-  margin: 0 10px;
-  padding: 10px 20px;
-  border: 2px solid #fff;
-  background: transparent;
-  color: #fff;
-  border-radius: 30px;
-  cursor: pointer;
-}
+        .btn-start {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #00f5ff;
+            border: 2px solid #00f5ff;
+            border-radius: 40px;
+            background: transparent;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-nav button.locked {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
+        .btn-start:hover {
+            background: #00f5ff;
+            color: #000;
+            box-shadow: 0 0 20px #00f5ff;
+        }
 
-nav button.primary {
-  background: #fff;
-  color: #000;
-  font-weight: bold;
-}
+        /* ===== 2. 主系統儀表板 (Dashboard) ===== */
+        #app {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-/* ===== 進度條 ===== */
-#progress-container {
-  background: #f0f4f8;
-  padding: 10px;
-  text-align: center;
-}
+        nav {
+            background: var(--sidebar-color);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
 
-.progress-bar {
-  width: 70%;
-  height: 16px;
-  background: #ddd;
-  border-radius: 10px;
-  margin: 6px auto;
-  overflow: hidden;
-}
+        nav button {
+            padding: 10px 24px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.05);
+            color: #bdc3c7;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
 
-.progress-fill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #00f2fe, #4facfe);
-  transition: width 0.5s ease;
-}
+        nav button:hover:not(.locked) {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-color: white;
+        }
 
-iframe {
-  flex: 1;
-  border: none;
-  background: #f4f7f6;
-}
-</style>
+        nav button.primary {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+
+        nav button.locked {
+            opacity: 0.3;
+            cursor: not-allowed;
+            filter: grayscale(1);
+        }
+
+        /* ===== 3. 進度條區塊 ===== */
+        #progress-container {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        .progress-label {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 10px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 80%;
+            max-width: 800px;
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--primary-gradient);
+            transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 0 10px rgba(79, 172, 254, 0.4);
+        }
+
+        iframe {
+            flex: 1;
+            border: none;
+            background: #ffffff;
+        }
+
+        /* 響應式微調 */
+        @media (max-width: 768px) {
+            nav { flex-wrap: wrap; gap: 8px; }
+            .cover-card { padding: 40px 30px; width: 90%; }
+            .cover-card h1 { font-size: 2rem; }
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- ===== 封面 ===== -->
 <div id="cover">
-  <div class="cover-card">
-    <h1>TOEIC 550</h1>
-    <p>DIGITAL LEARNING SYSTEM</p>
-    <button onclick="enterSite()">START LEARNING</button>
-  </div>
+    <div class="cover-card">
+        <h1>TOEIC 550</h1>
+        <p>DIGITAL LEARNING SYSTEM // V.1.0</p>
+        <button class="btn-start" onclick="enterSite()">Start Training</button>
+    </div>
 </div>
 
-<!-- ===== 主內容 ===== -->
 <div id="app">
-  <nav>
-    <button class="primary" onclick="completeUnit('vocabTest','test1.html')">
-      字彙測驗（第一步）
-    </button>
-    <button id="grammarBtn" class="locked"
-      onclick="completeUnit('grammar','test2.html')">
-      文法測驗
-    </button>
-    <button id="vocabBtn" class="locked"
-      onclick="completeUnit('vocab','material1.html')">
-      單字學習
-    </button>
-    <button onclick="loadPage('about.html')">製作團隊</button>
-  </nav>
+    <nav>
+        <button class="primary" onclick="completeUnit('vocabTest','test1.html')">
+            Step 1: 字彙測驗
+        </button>
+        <button id="grammarBtn" class="locked" onclick="completeUnit('grammar','test2.html')">
+            Step 2: 文法測驗
+        </button>
+        <button id="vocabBtn" class="locked" onclick="completeUnit('vocab','material1.html')">
+            Step 3: 單字學習
+        </button>
+        <button onclick="loadPage('about.html')">製作團隊</button>
+    </nav>
 
-  <div id="progress-container">
-    今日學習進度：<span id="progress-text">0%</span>
-    <div class="progress-bar">
-      <div class="progress-fill" id="progress-fill"></div>
+    <div id="progress-container">
+        <span class="progress-label">整體學習任務達成率：<span id="progress-text" style="color:#4facfe">0%</span></span>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
     </div>
-  </div>
 
-  <!-- 預設先測驗 -->
-  <iframe id="contentFrame" src="test1.html"></iframe>
+    <iframe id="contentFrame" src="test1.html"></iframe>
 </div>
 
 <script>
 const units = ["vocabTest", "grammar", "vocab"];
 
-/* ===== 初始化 ===== */
+/* ===== 初始化邏輯 ===== */
 window.onload = function () {
-  if (localStorage.getItem("entered")) {
-    document.getElementById("cover").classList.add("hidden");
-    document.body.style.overflow = "auto";
-  }
+    // 每次載入都顯示封面，不檢查 localStorage 的 entered 狀態
+    document.body.style.overflow = "hidden"; 
 
-  if (localStorage.getItem("vocabTest")) unlock();
-  updateProgress();
+    // 檢查已存檔的進度來解鎖按鈕
+    if (localStorage.getItem("vocabTest")) unlockButtons();
+    updateProgress();
 };
 
+/* 點擊 Start Learning */
 function enterSite() {
-  localStorage.setItem("entered", "yes");
-  document.getElementById("cover").classList.add("hidden");
-  document.body.style.overflow = "auto";
+    document.getElementById("cover").classList.add("hidden");
+    document.body.style.overflow = "auto"; // 允許主頁面捲動
 }
 
-/* ===== 完成單元 ===== */
+/* 完成單元與換頁 */
 function completeUnit(unit, page) {
-  if (unit !== "vocabTest" && !localStorage.getItem("vocabTest")) {
-    alert("請先完成字彙測驗！");
-    return;
-  }
+    // 檢查防呆：如果不是第一步且第一步還沒做，不給看
+    if (unit !== "vocabTest" && !localStorage.getItem("vocabTest")) {
+        alert("請先完成 Step 1：字彙測驗！");
+        return;
+    }
 
-  document.getElementById("contentFrame").src = page;
+    document.getElementById("contentFrame").src = page;
 
-  if (!localStorage.getItem(unit)) {
-    localStorage.setItem(unit, "done");
-    updateProgress();
-  }
+    // 紀錄進度
+    if (!localStorage.getItem(unit)) {
+        localStorage.setItem(unit, "done");
+        updateProgress();
+    }
 
-  if (unit === "vocabTest") unlock();
+    // 如果完成第一步，解鎖其他按鈕
+    if (unit === "vocabTest") unlockButtons();
 }
 
-function unlock() {
-  document.getElementById("grammarBtn").classList.remove("locked");
-  document.getElementById("vocabBtn").classList.remove("locked");
+function unlockButtons() {
+    document.getElementById("grammarBtn").classList.remove("locked");
+    document.getElementById("vocabBtn").classList.remove("locked");
 }
 
-/* ===== 計算進度 ===== */
+/* 更新進度條 UI */
 function updateProgress() {
-  let completed = 0;
-  units.forEach(u => {
-    if (localStorage.getItem(u)) completed++;
-  });
+    let completed = 0;
+    units.forEach(u => {
+        if (localStorage.getItem(u)) completed++;
+    });
 
-  let percent = Math.round((completed / units.length) * 100);
-  document.getElementById("progress-fill").style.width = percent + "%";
-  document.getElementById("progress-text").innerText = percent + "%";
+    let percent = Math.round((completed / units.length) * 100);
+    document.getElementById("progress-fill").style.width = percent + "%";
+    document.getElementById("progress-text").innerText = percent + "%";
 }
 
+/* 單純換頁 (不記錄進度) */
 function loadPage(page) {
-  document.getElementById("contentFrame").src = page;
+    document.getElementById("contentFrame").src = page;
 }
 </script>
 
