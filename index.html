@@ -3,187 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOEIC 550 決勝關鍵</title>
+    <title>TOEIC 550 決勝關鍵 // 數位學習系統</title>
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #0066cc 0%, #3498db 100%);
-            --sidebar-color: #1a2a3a;
-            --bg-color: #f4f7f9;
-            --locked-color: #94a3b8;
+            --primary-blue: #007aff;
+            --accent-cyan: #00f5ff;
+            --success-green: #2ecc71;
+            --bg-dark: #0f172a;
+            --nav-bg: rgba(30, 41, 59, 0.9);
+            --text-main: #f1f5f9;
+            --text-dim: #94a3b8;
         }
+
+        * { box-sizing: border-box; transition: all 0.3s ease; }
 
         body { 
             margin: 0; 
-            background: var(--bg-color); 
-            font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif; 
-            overflow: hidden; 
+            background: var(--bg-dark); 
+            font-family: 'Inter', 'SF Pro Display', 'PingFang TC', sans-serif; 
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
-        /* 封面區塊 */
+        /* --- 封面區塊 (決勝關鍵版) --- */
         #cover {
-            position: fixed; inset: 0; 
-            background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
-            display: flex; justify-content: center; align-items: center; 
-            z-index: 1000; transition: 0.8s ease; color: #e0f7ff;
+            position: fixed; 
+            inset: 0; 
+            background: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            z-index: 2000; 
+            transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        #cover.hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
-        
-        .cover-card { 
-            padding: 50px; text-align: center; 
-            background: rgba(255, 255, 255, 0.05); 
-            border: 1px solid rgba(0, 245, 255, 0.2); 
-            border-radius: 24px; backdrop-filter: blur(10px); 
-        }
-        .cover-card h1 { 
-            font-size: 3rem; margin: 0; 
-            background: linear-gradient(to bottom, #fff, #00f5ff); 
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
-            letter-spacing: 5px; 
-        }
-        .btn-start { 
-            margin-top: 30px; padding: 15px 45px; color: #00f5ff; 
-            border: 2px solid #00f5ff; border-radius: 50px; 
-            background: transparent; cursor: pointer; font-weight: bold; transition: 0.3s; 
-        }
-        .btn-start:hover { background: #00f5ff; color: #000; }
 
-        /* 導覽列 */
+        #cover.hidden { 
+            transform: scale(1.1); 
+            opacity: 0; 
+            pointer-events: none; 
+        }
+
+        .cover-card { 
+            padding: 60px 80px; 
+            text-align: center; 
+            background: rgba(255, 255, 255, 0.03); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 40px; 
+            backdrop-filter: blur(25px); 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        }
+
+        .cover-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(0, 122, 255, 0.2);
+            color: var(--accent-cyan);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 245, 255, 0.3);
+        }
+
+        .cover-card h1 { 
+            font-size: 3.5rem; 
+            margin: 0; 
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -1px;
+            line-height: 1.2;
+        }
+
+        .cover-card h1 span {
+            display: block;
+            background: linear-gradient(to bottom, #00f5ff, #007aff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(0, 245, 255, 0.4));
+        }
+
+        .cover-card p {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+            margin-top: 15px;
+            margin-bottom: 40px;
+        }
+
+        .btn-start { 
+            padding: 18px 50px; 
+            color: white; 
+            border: none; 
+            border-radius: 16px; 
+            background: linear-gradient(135deg, #007aff 0%, #0056b3 100%); 
+            cursor: pointer; 
+            font-weight: 800; 
+            font-size: 1.2rem;
+            box-shadow: 0 10px 20px rgba(0, 122, 255, 0.3);
+        }
+
+        .btn-start:hover { 
+            transform: translateY(-3px) scale(1.05); 
+            box-shadow: 0 15px 30px rgba(0, 122, 255, 0.5);
+            filter: brightness(1.1);
+        }
+
+        /* --- 頂部導覽區 --- */
+        .top-nav-container {
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            z-index: 100;
+        }
+
         nav { 
-            background: var(--sidebar-color); 
-            padding: 15px; display: flex; justify-content: center; gap: 15px; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex; justify-content: center; gap: 12px; 
+            padding: 10px 0;
         }
         
         nav button { 
-            padding: 12px 25px; 
+            padding: 10px 20px; 
             border: 1px solid rgba(255,255,255,0.1); 
             background: rgba(255,255,255,0.05); 
-            color: white; 
-            border-radius: 8px; 
+            color: var(--text-dim); 
+            border-radius: 12px; 
             cursor: pointer; 
-            transition: all 0.4s ease; 
-            position: relative;
-            font-weight: 500;
+            font-size: 0.9rem;
+            font-weight: 600;
         }
 
-        /* 啟動/選中狀態 */
         nav button.active { 
-            background: var(--primary-gradient); 
-            border-color: transparent;
-            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.4);
+            background: var(--primary-blue); 
+            color: white;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 20px rgba(0, 122, 255, 0.4);
         }
 
-        /* 鎖定狀態 */
         nav button.locked { 
-            opacity: 0.3; 
-            cursor: not-allowed; 
-            filter: grayscale(1);
-            pointer-events: none;
+            opacity: 0.3; cursor: not-allowed; filter: grayscale(1); pointer-events: none;
         }
 
-        /* 進度條區塊 */
-        #progress-section { 
-            background: white; padding: 12px; text-align: center; 
-            border-bottom: 1px solid #e2e8f0; 
+        /* --- 進度條 --- */
+        .progress-wrapper {
+            max-width: 600px; margin: 10px auto 5px;
+            display: flex; align-items: center; gap: 15px;
         }
-        .progress-bar-container { 
-            width: 60%; max-width: 600px; height: 10px; 
-            background: #edf2f7; border-radius: 10px; 
-            margin: 8px auto; overflow: hidden; 
+        .progress-bar-bg { 
+            flex-grow: 1; height: 6px; 
+            background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; 
         }
         .progress-fill { 
             height: 100%; width: 0%; 
-            background: linear-gradient(90deg, #3498db, #2ecc71); 
-            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); 
+            background: linear-gradient(90deg, var(--primary-blue), var(--success-green)); 
         }
 
-        iframe { width: 100%; height: calc(100vh - 160px); border: none; }
+        /* --- 主畫面 --- */
+        .main-content { flex-grow: 1; position: relative; }
+        iframe { width: 100%; height: 100%; border: none; background: white; }
+
     </style>
 </head>
 <body>
 
 <div id="cover">
     <div class="cover-card">
-        <h1>TOEIC 550</h1>
-        <p>DIGITAL TRAINING SYSTEM</p>
-        <button class="btn-start" onclick="enterSite()">ENTER SYSTEM</button>
+        <div class="cover-badge">MISSION START</div>
+        <h1>TOEIC 550 <span>決勝關鍵</span></h1>
+        <p>掌握核心能力，一舉突破學習門檻</p>
+        <button class="btn-start" onclick="enterSite()">進入學習系統</button>
     </div>
 </div>
 
-<nav id="mainNav">
-    <button id="step1" class="active" onclick="switchPage('test1.html', 'step1')">Step 1: 字彙測驗</button>
-    <button id="step2" class="locked" onclick="checkAndLoad('test2.html', 'step2')">Step 2: 文法測驗</button>
-    <button id="step3" class="locked" onclick="checkAndLoad('material1.html', 'step3')">Step 3: 學術字彙</button>
-    <button id="step4" onclick="switchPage('about.html', 'step4')">Step 4: 製作團隊</button>
-</nav>
+<div class="top-nav-container">
+    <nav id="mainNav">
+        <button id="step1" class="active" onclick="switchPage('test1.html', 'step1')">Step 1: 字彙測驗</button>
+        <button id="step2" class="locked" onclick="checkAndLoad('test2.html', 'step2')">Step 2: 文法測驗</button>
+        <button id="step3" class="locked" onclick="checkAndLoad('material1.html', 'step3')">Step 3: 學習清單</button>
+        <button id="step4" onclick="switchPage('about.html', 'step4')">Step 4: 製作團隊</button>
+    </nav>
 
-<div id="progress-section">
-    <span style="font-size: 0.9rem; color: #64748b; font-weight: bold;">
-        學習完成度：<span id="progText">0</span>%
-    </span>
-    <div class="progress-bar-container">
-        <div class="progress-fill" id="progFill"></div>
+    <div class="progress-wrapper">
+        <span style="font-size: 0.75rem; color: var(--text-dim); font-weight: bold; min-width: 80px;">學習進度 <span id="progText">0</span>%</span>
+        <div class="progress-bar-bg">
+            <div class="progress-fill" id="progFill"></div>
+        </div>
     </div>
 </div>
 
-<iframe id="contentFrame" src="test1.html"></iframe>
+<div class="main-content">
+    <iframe id="contentFrame" src="test1.html"></iframe>
+</div>
 
 <script>
+    // 進入系統
     function enterSite() { 
         document.getElementById("cover").classList.add("hidden"); 
     }
 
+    // 切換頁面
     function switchPage(url, btnId) {
         const targetBtn = document.getElementById(btnId);
         if (targetBtn.classList.contains('locked')) return;
 
         document.getElementById("contentFrame").src = url;
-
         document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
         targetBtn.classList.add('active');
     }
 
+    // 檢查解鎖狀態
     function checkAndLoad(url, btnId) {
         if (document.getElementById(btnId).classList.contains('locked')) {
-            alert("🔒 請先完成前一階段測驗以解鎖此單元。");
+            alert("🔒 請先完成前一階段測驗以解鎖內容。");
         } else {
             switchPage(url, btnId);
         }
     }
 
+    // 解鎖下一關 (由 iframe 呼叫)
     function unlockNext(nextId) {
         const nextBtn = document.getElementById(nextId);
         if (nextBtn) {
             nextBtn.classList.remove('locked');
-            localStorage.setItem(nextId, "unlocked");
+            localStorage.setItem(nextId, "unlocked"); // 儲存進度
             updateProgress();
-            console.log("系統訊息: " + nextId + " 已解鎖。");
         }
     }
 
+    // 更新進度條
     function updateProgress() {
         let unlockedCount = 0;
         if (localStorage.getItem("step2") === "unlocked") unlockedCount++;
         if (localStorage.getItem("step3") === "unlocked") unlockedCount++;
 
         let progress = Math.round((unlockedCount / 2) * 100);
-        
         document.getElementById("progFill").style.width = progress + "%";
         document.getElementById("progText").innerText = progress;
     }
 
+    // 載入時復原進度
     window.onload = function() {
-        if (localStorage.getItem("step2") === "unlocked") {
-            document.getElementById("step2").classList.remove('locked');
-        }
-        if (localStorage.getItem("step3") === "unlocked") {
-            document.getElementById("step3").classList.remove('locked');
-        }
+        if (localStorage.getItem("step2") === "unlocked") document.getElementById("step2").classList.remove('locked');
+        if (localStorage.getItem("step3") === "unlocked") document.getElementById("step3").classList.remove('locked');
         updateProgress();
     };
 </script>
 
 </body>
 </html>
-
-
